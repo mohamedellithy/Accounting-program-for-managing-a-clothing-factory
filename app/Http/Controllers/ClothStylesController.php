@@ -170,7 +170,7 @@ class ClothStylesController extends Controller
         if(!empty($request->supplier_id) && ($request->factory_money == 1)){
             SupplierPayments::create(
                 $request->supplier_id,
-                $request->count_piecies * $request->additional_taxs,
+                $request->count_piecies * $request->additional_taxs
             );
         }
 
