@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+
+    
+    
+    
+    <title>
+                عرض المرتجع            </title>
+
+    
+    
+    
+            <link rel="stylesheet" href="http://127.0.0.1:49928/vendor/fontawesome-free/css/all.min.css">
+        <link rel="stylesheet" href="http://127.0.0.1:49928/vendor/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+        
+        
+        <link rel="stylesheet" href="http://127.0.0.1:49928/vendor/adminlte/dist/css/adminlte.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    
+    
+    
+    
+                <!-- Bootstrap 4 RTL -->
+     <link rel="stylesheet" href="http://127.0.0.1:49928/vendor/adminlte/dist/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="http://127.0.0.1:49928/vendor/adminlte/dist/css/custom.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="http://127.0.0.1:49928/vendor/adminlte/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <style type="text/css">
+      @media  print {
+        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
+        {
+          display:  table-cell;
+        }
+        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
+        {
+          display:  table-cell;
+        }
+
+        table th:nth-child(8) , table th:nth-child(9)
+        {
+          display: none;
+        }
+        table td:nth-child(8) , table td:nth-child(9)
+        {
+          display: none;
+        }
+      }
+    </style>
+
+    
+    
+</head>
+
+<body class="layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-mini-1" >
+
+    
+        <div class="wrapper">
+
+        
+                    <nav class="main-header navbar
+    navbar-expand
+    navbar-white navbar-light">
+
+    
+    <ul class="navbar-nav">
+        
+        <li class="nav-item">
+    <a class="nav-link" data-widget="pushmenu" href="#"
+                        >
+        <i class="fas fa-bars"></i>
+        <span class="sr-only">القائمة الجانبية</span>
+    </a>
+</li>
+        
+        <li class="nav-item">
+
+    
+    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+        <i class="fas fa-search"></i>
+    </a>
+
+    
+    <div class="navbar-search-block">
+        <form class="form-inline" action="#" method="get">
+            <input type="hidden" name="_token" value="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+
+            <div class="input-group">
+
+                
+                <input class="form-control form-control-navbar" type="search"
+                                        name="adminlteSearch"
+                    placeholder="search"
+                    aria-label="search">
+
+                
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</li>
+
+
+        
+            </ul>
+
+    
+    <ul class="navbar-nav ml-auto">
+        
+        
+        
+        
+        
+                                    <li class="nav-item dropdown user-menu">
+
+    
+    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <span >
+            Dr. Clement Roberts
+        </span>
+    </a>
+
+    
+    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+        
+                            
+        
+        
+        
+        
+        
+        <li class="user-footer">
+                        <a class="btn btn-default btn-flat float-right  btn-block "
+               href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fa fa-fw fa-power-off"></i>
+                تسجيل خروج
+            </a>
+            <form id="logout-form" action="http://127.0.0.1:49928/logout" method="POST" style="display: none;">
+                                <input type="hidden" name="_token" value="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+            </form>
+        </li>
+
+    </ul>
+
+</li>
+                    
+        
+            </ul>
+
+</nav>
+        
+        
+                    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    
+            <a href="http://127.0.0.1:49928/home"
+            class="brand-link "
+    >
+
+    
+    <img src="http://127.0.0.1:49928/vendor/adminlte/dist/img/AdminLTELogo.png"
+         alt="AdminLTE"
+         class="brand-image img-circle elevation-3"
+         style="opacity:.8">
+
+    
+    <span class="brand-text font-weight-light ">
+        <b>ادارة المصنع</b>
+    </span>
+
+</a>
+    
+    
+    <div class="sidebar">
+        <nav class="pt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column "
+                data-widget="treeview" role="menu"
+                                >
+                
+                <li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            تجار القماش
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/merchants/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة تجار
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/merchants"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض التجار
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            الاصناف
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/categories/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة صنف
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/categories"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض الاصناف
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            فواتير القماش
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/orders-clothes/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة فواتير القماش
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/orders-clothes"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض فواتير القماش
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            الزبائن / العملاء
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/clients/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة عميل
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/clients"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض العملاء
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            قصات القماش
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/piecies/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة قصات
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/piecies"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض القصات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المنتجات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/products/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة منتج
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/products"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المنتجات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المبيعات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/orders/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة طلب
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/orders"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المبيعات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview menu-open">
+
+    
+    <a class="nav-link active "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المرتجع
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/reactionists/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة مرتجع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link active "
+       href="http://127.0.0.1:49928/reactionists"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المرتجع
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المصانع
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/suppliers/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة مصنع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/suppliers"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المصانع
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المديونات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/show-credit"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            دائن
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/show-debit"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            مدين
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/add-credit-debit"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة دائن / مدين
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            شيكات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/bank-check-clothes"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            شيكات طلبات القماش
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/bank-check-orders"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            شيكات طلبات المبيعات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/Expances"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المصروفات
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/money-safe"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            خزنة المصنع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/inventory"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المخزن
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/sales"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            تقارير البيع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/factory-capital"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            راس المال و الارصدة
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            نسب الشركاء
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/partners/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة شريك
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/partners"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض جميع النسب
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:49928/withdraws"        >
+
+        <i class="far fa-circle text-warning "></i>
+
+        <p>
+            سحب من رأس مال الشركاء
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+            </ul>
+        </nav>
+    </div>
+
+</aside>
+        
+        
+        <div class="content-wrapper ">
+
+            
+                            <div class="content-header">
+                    <div class="container-fluid">
+                            <h1> عرض المرتجع </h1>
+                    </div>
+                </div>
+            
+            
+            <div class="content">
+                <div class="container-fluid">
+                      <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">عدد المرتجع</span>
+                <span class="info-box-number">
+                  0
+
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+      	  <div class="col-12">
+             <form id="form_delete_select" action="http://127.0.0.1:49928/delete-select-reactionist"  method="POST">
+	             <input type="hidden" name="_token" value="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+	        	          		          <div class="card">
+      		            <div class="card-header">
+      		              <h3 class="card-title">عرض المرتجع</h3>
+      		            </div>
+      		                <div class="operations-buttons">
+        			            <div class="btn-group ">
+        		                    <button type="button" class="btn btn-danger">اجراء على الكل</button>
+        		                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+        		                      <span class="sr-only">Toggle Dropdown</span>
+        		                    </button>
+        		                    <div class="dropdown-menu" role="menu">
+                                        <button class="dropdown-item printDiv" type="button"> <i class="fas fa-print"></i> طباعة  الجدول</button>
+        		                        <div class="dropdown-divider"></div>
+                                        <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
+        		                        <div class="dropdown-divider"></div>
+        		                        <a class="dropdown-item delete_all" href="http://127.0.0.1:49928/delete-reactionist"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
+                                    </div>
+        		                </div>
+      			            </div>
+      			            <!-- /.card-header -->
+      			            <div id="merchantsContainer" class="card-body">
+                                <h2 id="heading_print" style="display:none" > جدول المرتجع </h2>
+                                <table id="reactionist" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>اسم المنتج</th>
+                                            <th>رقم الفاتورة</th>
+                                            <th>اسم العميل</th>
+                                            <th>الصنف</th>
+                                            <th>الكمية </th>
+                                            <th>سعر القطعة</th>
+                                            <th>التكلفة الاجمالية</th>
+                                            <th>اجراءات</th>
+                                            <th>عرض</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+      			            </div>
+      				    </div>
+                </form>
+      		</div>
+        </div>
+        <!-- /.row -->
+      </div>
+    </section>
+
+      <div class="modal fade show" id="modal-default"  aria-modal="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">تأكيد حذف الطلب</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>تأكيد حذف المحدد من جدول الطلب</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+
+              <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+        
+        
+        
+    </div>
+
+    
+            <script src="http://127.0.0.1:49928/vendor/jquery/jquery.min.js"></script>
+        <script src="http://127.0.0.1:49928/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="http://127.0.0.1:49928/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+        
+        
+        <script src="http://127.0.0.1:49928/vendor/adminlte/dist/js/adminlte.min.js"></script>
+    
+    
+    
+    
+            	<!-- DataTables -->
+	<script src="http://127.0.0.1:49928/vendor/adminlte/plugins/plugins/datatables/jquery.dataTables.js"></script>
+	<script src="http://127.0.0.1:49928/vendor/adminlte/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script>
+	 jQuery(document).ready( function () {
+	        jQuery('#reactionist').DataTable({
+	           processing: false,
+	           serverSide: false,
+	           ajax: "http://127.0.0.1:49928/datatable-reactionist",
+	           columns: [
+	                    { data: 'select',name:'select' },
+	                    { data: 'product_name', name: 'product_name' },
+                        { data: 'order_number', name: 'order_number' },
+                        { data: 'client_name', name: 'client_name' },
+	                    { data: 'category_name', name: 'category_name' },
+	                    { data: 'Quantity', name: 'Quantity' },
+                        { data: 'reactionist_price', name: 'reactionist_price' },
+                        { data: 'final_cost', name: 'final_cost' },
+	                    { data: 'process', name: 'process' },
+	                    { data: 'show', name: 'show' }
+	                 ]
+	        });
+     });
+    </script>
+    <script>
+      var typeAlert = "";
+      $('.delete').click(function(event){
+          typeAlert = null;
+          event.preventDefault();
+
+      });
+      $('body').on('click','.delete_single',function(event){
+        typeAlert = jQuery(this).attr('href');
+        event.preventDefault();
+      });
+      $('body').on('click','.delete_all',function(event){
+          typeAlert = jQuery(this).attr('href');
+          event.preventDefault();
+      });
+      $('#confirm_delete').click(function(){
+        if(!typeAlert){
+          $('form#form_delete_select').submit();
+        }
+        else
+        {
+          window.location.href=typeAlert;
+        }
+      });
+    </script>
+    <script >
+        jQuery('body').on('click','.printDiv',function(event){
+
+            event.preventDefault();
+
+            var printContents = document.getElementById("merchantsContainer").innerHTML;
+
+             var originalContents = document.body.innerHTML;
+
+             document.body.innerHTML = printContents;
+
+             window.print();
+
+             document.body.innerHTML = originalContents;
+             // window.location.reload();
+        });
+
+
+    </script>
+
+</body>
+
+</html>

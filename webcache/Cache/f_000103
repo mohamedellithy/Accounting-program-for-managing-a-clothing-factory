@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+
+    
+    
+    
+    <title>
+                خزنة المصنع            </title>
+
+    
+    
+    
+            <link rel="stylesheet" href="http://127.0.0.1:54704/vendor/fontawesome-free/css/all.min.css">
+        <link rel="stylesheet" href="http://127.0.0.1:54704/vendor/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+        
+        
+        <link rel="stylesheet" href="http://127.0.0.1:54704/vendor/adminlte/dist/css/adminlte.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    
+    
+    
+    
+                <!-- Bootstrap 4 RTL -->
+     <link rel="stylesheet" href="http://127.0.0.1:54704/vendor/adminlte/dist/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="http://127.0.0.1:54704/vendor/adminlte/dist/css/custom.css">
+
+    
+    
+</head>
+
+<body class="layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-mini-1" >
+
+    
+        <div class="wrapper">
+
+        
+                    <nav class="main-header navbar
+    navbar-expand
+    navbar-white navbar-light">
+
+    
+    <ul class="navbar-nav">
+        
+        <li class="nav-item">
+    <a class="nav-link" data-widget="pushmenu" href="#"
+                        >
+        <i class="fas fa-bars"></i>
+        <span class="sr-only">القائمة الجانبية</span>
+    </a>
+</li>
+        
+        <li class="nav-item">
+
+    
+    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+        <i class="fas fa-search"></i>
+    </a>
+
+    
+    <div class="navbar-search-block">
+        <form class="form-inline" action="#" method="get">
+            <input type="hidden" name="_token" value="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+
+            <div class="input-group">
+
+                
+                <input class="form-control form-control-navbar" type="search"
+                                        name="adminlteSearch"
+                    placeholder="search"
+                    aria-label="search">
+
+                
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</li>
+
+
+        
+            </ul>
+
+    
+    <ul class="navbar-nav ml-auto">
+        
+        
+        
+        
+        
+                                    <li class="nav-item dropdown user-menu">
+
+    
+    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <span >
+            Dr. Clement Roberts
+        </span>
+    </a>
+
+    
+    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+        
+                            
+        
+        
+        
+        
+        
+        <li class="user-footer">
+                        <a class="btn btn-default btn-flat float-right  btn-block "
+               href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fa fa-fw fa-power-off"></i>
+                تسجيل خروج
+            </a>
+            <form id="logout-form" action="http://127.0.0.1:54704/logout" method="POST" style="display: none;">
+                                <input type="hidden" name="_token" value="gAwgA6gEu7m8r9jgeY6mQPnIZ7rEgLjWn66sGAvE">
+            </form>
+        </li>
+
+    </ul>
+
+</li>
+                    
+        
+            </ul>
+
+</nav>
+        
+        
+                    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    
+            <a href="http://127.0.0.1:54704/home"
+            class="brand-link "
+    >
+
+    
+    <img src="http://127.0.0.1:54704/vendor/adminlte/dist/img/AdminLTELogo.png"
+         alt="AdminLTE"
+         class="brand-image img-circle elevation-3"
+         style="opacity:.8">
+
+    
+    <span class="brand-text font-weight-light ">
+        <b>ادارة المصنع</b>
+    </span>
+
+</a>
+    
+    
+    <div class="sidebar">
+        <nav class="pt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column "
+                data-widget="treeview" role="menu"
+                                >
+                
+                <li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            تجار القماش
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/merchants/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة تجار
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/merchants"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض التجار
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            الاصناف
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/categories/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة صنف
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/categories"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض الاصناف
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            فواتير القماش
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/orders-clothes/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة فواتير القماش
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/orders-clothes"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض فواتير القماش
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            الزبائن / العملاء
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/clients/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة عميل
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/clients"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض العملاء
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            قصات القماش
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/piecies/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة قصات
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/piecies"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض القصات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المنتجات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/products/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة منتج
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/products"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المنتجات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المبيعات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/orders/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة طلب
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/orders"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المبيعات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المرتجع
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/reactionists/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة مرتجع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/reactionists"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المرتجع
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المصانع
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/suppliers/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة مصنع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/suppliers"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض المصانع
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المديونات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/show-credit"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            دائن
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/show-debit"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            مدين
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/add-credit-debit"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة دائن / مدين
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            شيكات
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/bank-check-clothes"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            شيكات طلبات القماش
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/bank-check-orders"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            شيكات طلبات المبيعات
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/Expances"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المصروفات
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/money-safe"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            خزنة المصنع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/inventory"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            المخزن
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/sales"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            تقارير البيع
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/factory-capital"        >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            راس المال و الارصدة
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item has-treeview ">
+
+    
+    <a class="nav-link  "
+       href="" >
+
+        <i class="fas fa-tachometer-alt "></i>
+
+        <p>
+            نسب الشركاء
+            <i class="fas fa-angle-left right"></i>
+
+                    </p>
+
+    </a>
+
+    
+    <ul class="nav nav-treeview">
+        <li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/partners/create"        >
+
+        <i class="far fa-circle text-danger "></i>
+
+        <p>
+            اضافة شريك
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/partners"        >
+
+        <i class="far fa-circle text-success "></i>
+
+        <p>
+            عرض جميع النسب
+
+                    </p>
+
+    </a>
+
+</li>
+
+<li  class="nav-item">
+
+    <a class="nav-link  "
+       href="http://127.0.0.1:54704/withdraws"        >
+
+        <i class="far fa-circle text-warning "></i>
+
+        <p>
+            سحب من رأس مال الشركاء
+
+                    </p>
+
+    </a>
+
+</li>
+
+    </ul>
+
+</li>
+
+            </ul>
+        </nav>
+    </div>
+
+</aside>
+        
+        
+        <div class="content-wrapper ">
+
+            
+                            <div class="content-header">
+                    <div class="container-fluid">
+                            <h1> خزنة المصنع </h1>
+                    </div>
+                </div>
+            
+            
+            <div class="content">
+                <div class="container-fluid">
+                        <!-- Main content -->
+    <section class="content">
+	    <div class="container-fluid">
+	        <div class="row">
+	            <div class="side-by-side col-md-12"> 
+	            	
+		            <div class="col-lg-12 col-xs-12">
+                        <span class="alert" style="width: 100%;float: right;background-color: #00BCD4;color:white"> تفاصيل رأس مال خزنة المصنع للسنة المالية 2021-03-05</span>
+	            	</div>
+            	    <div class="table-responsive" style="max-height: 400px;background-color:white">
+	                   
+	                  <table class="table m-0">
+	                    <thead>
+                           <tr>
+	                    	   <th> الرقم </th>
+	                    	   <th> قسم الوارد </th>
+	                    	   <th> المبلغ المدفوع </th>
+	                    	   <th> المتوفر فى الخزنة </th>
+                           </tr>
+	                    </thead>
+	                    <tbody>			
+	                        <tr>
+	                          
+	                    	   <td>#1</td>
+	                    	   <td>رأس مال المصنع قبل عمليات السحب</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                              <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>المسحوب من رأس مال المصنع </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> 0 جنيه  </td>
+	                    	   
+                            </tr>	   
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>رأس مال الشركاء قبل عمليات السحب</td>
+	                    	   <td> 20 جنيه </td>
+	                    	   <td> -  </td>
+	                    	   
+                            </tr>	 
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>المسحوب من رأس مال الشركاء</td>
+	                    	   <td> 100 جنيه </td>
+	                    	   <td> -80 جنيه  </td>
+	                    	   
+                            </tr>	  
+                            <tr>
+                            	 <td colspan="4" style="text-align:center">  المبلغ الاجمالى  : -80 جنيه </td>
+                            </tr>	                                 		                   
+	                    </tbody>
+	                  </table>
+	                </div>
+	            </div>
+	            <!-- start orders clothes -->
+
+	            <div class="side-by-side col-md-12"> 
+	            	
+		            <div class="col-lg-12 col-xs-12">
+                        <span class="alert" style="width: 100%;float: right;background-color: #00BCD4;color:white;margin-top:30px"> تفاصيل صادر خزنة المصنع للسنة المالية 2021-03-05</span>
+	            	</div>
+            	    <div class="table-responsive" style="background-color:white">
+	                  
+	                  <table class="table m-0">
+	                    <thead>
+                           <tr>
+	                    	   <th> الرقم </th>
+	                    	   <th> قسم الصادر </th>
+	                    	   <th> المبلغ المدفوع </th>
+	                    	   <th> المتوفر فى الخزنة </th>
+                           </tr>
+	                    </thead>
+	                    <tbody>			
+	                        <tr>
+	                          
+	                    	   <td>#1</td>
+	                    	   <td>مشتريات المصنع من القماش</td>
+	                    	   <td> 63000 جنيه </td>
+	                    	   <td>  -  </td>
+	                    	   
+                            </tr>	
+                            <tr>
+                            
+	                    	   <td>#1</td>
+	                    	   <td>مشتريات المصنع من القماش غير مدفوعة نقدا للتجار</td>
+	                    	   <td> 63000 جنيه </td>
+	                    	   <td> -  </td>
+	                    	   
+                            </tr>	   
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>مشتريات المصنع من القماش مدفوعة نقدا للتجار</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> -80 جنيه  </td>
+	                    	   
+                            </tr>	   
+                          	  
+                             <tr >
+                              
+	                    	   <td>#1</td>
+	                    	   <td>مصروفات قصات القماش داخل المصنع </td>
+	                    	   <td> 13760 جنيه </td>
+	                    	   <td>  - </td>
+	                    	   
+                            </tr>	   
+                             <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>مصروفات قصات القماش خارج المصنع </td>
+	                    	   <td> 400 جنيه </td>
+	                    	   <td>  - </td>
+	                    	   
+                            </tr>	   
+                              <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>مصروفات قصات القماش خارج المصنع مدفوعة للمصانع</td>
+	                    	   <td> 400 جنيه </td>
+	                    	   <td>  -480 جنيه </td>
+	                    	   
+                            </tr>
+
+                             <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>مشتريات المصنع من المنتجات الجاهزة</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> -480 جنيه  </td>
+	                    	   
+                            </tr>	
+                            
+                               
+                            <tr>
+                            	 <td colspan="4" style="text-align:center">  المبلغ الاجمالى  : -480 جنيه </td>
+                            </tr>	                                 		                   
+	                    </tbody>
+	                  </table>
+	                </div>
+	            </div>
+	            <!-- start orders clothes -->
+
+	             <div class="side-by-side col-md-12"> 
+	            	
+		            <div class="col-lg-12 col-xs-12">
+                        <span class="alert" style="width: 100%;float: right;background-color: #00BCD4;color:white;margin-top:30px"> تفاصيل مديونات خزنة المصنع للسنة المالية 2021-03-05</span>
+	            	</div>
+            	    <div class="table-responsive" style="background-color:white">
+	                  
+	                  <table class="table m-0">
+	                    <thead>
+                           <tr>
+	                    	   <th> الرقم </th>
+	                    	   <th> قسم الصادر </th>
+	                    	   <th> المبلغ المدفوع </th>
+	                    	   <th> المتوفر فى الخزنة </th>
+                           </tr>
+	                    </thead>
+	                    <tbody>			
+	                        	   
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على التجار ( الغير مدفوعة )  </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> -  </td>
+	                    	   
+                            </tr>	   
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على التجار ( مدفوعة )  </td>
+	                    	   <td> 7000 جنيه </td>
+	                    	   <td>  -480 جنيه </td>
+	                    	   
+                            </tr>	  
+                             
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على مصانع قصات القماش ( الغير مدفوعة ) </td>
+	                    	   <td> 120 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على مصانع قصات القماش (مدفوعة )</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  -600 جنيه </td>
+	                    	   
+                            </tr>	
+
+                              <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على العملاء ( الغير مدفوعة) </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على العملاء (مدفوعة)</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  -600 جنيه </td>
+	                    	   
+                            </tr>
+
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون أخرى ( الغير مدفوعة)</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون أخرى ( مدفوعة)</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  -600 جنيه </td>
+	                    	   
+                            </tr>	
+                               
+                            <tr>
+                            	 <td colspan="4" style="text-align:center">  المبلغ الاجمالى  : -600 جنيه </td>
+                            </tr>	                                 		                   
+	                    </tbody>
+	                  </table>
+	                </div>
+	            </div>
+	            <!-- start orders clothes -->
+
+	               <div class="side-by-side col-md-12"> 
+	            	
+		            <div class="col-lg-12 col-xs-12">
+                        <span class="alert" style="width: 100%;float: right;background-color: #00BCD4;color:white;margin-top:30px"> تفاصيل مديونات خزنة المصنع للسنة المالية 2021-03-05</span>
+	            	</div>
+            	    <div class="table-responsive" style="background-color:white">
+	                  
+	                  <table class="table m-0">
+	                    <thead>
+                           <tr>
+	                    	   <th> الرقم </th>
+	                    	   <th> قسم الصادر </th>
+	                    	   <th> المبلغ المدفوع </th>
+	                    	   <th> المتوفر فى الخزنة </th>
+                           </tr>
+	                    </thead>
+	                    <tbody>			
+	                        	   
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على المصنع للتجار ( الغير مدفوعة )  </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> -  </td>
+	                    	   
+                            </tr>	   
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على المصنع للتجار ( مدفوعة )  </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  -600 جنيه </td>
+	                    	   
+                            </tr>	  
+                             
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على المصنع للمصانع قصات القماش ( الغير مدفوعة ) </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على المصنع لمصانع قصات القماش (مدفوعة )</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  -600 جنيه </td>
+	                    	   
+                            </tr>	
+
+                              <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على المصنع للعملاء ( الغير مدفوعة) </td>
+	                    	   <td> 15000 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون على المصنع للعملاء (مدفوعة)</td>
+	                    	   <td> 7520 جنيه </td>
+	                    	   <td>  14400 جنيه </td>
+	                    	   
+                            </tr>
+
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون أخرى على المصنع ( الغير مدفوعة)</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td> - </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td>ديون أخرى على المصنع ( مدفوعة)</td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  14400 جنيه </td>
+	                    	   
+                            </tr>	
+                               
+                            <tr>
+                            	 <td colspan="4" style="text-align:center">  المبلغ الاجمالى  : 14400 جنيه </td>
+                            </tr>	                                 		                   
+	                    </tbody>
+	                  </table>
+	                </div>
+	            </div>
+	            <!-- start orders clothes -->
+
+	               <div class="side-by-side col-md-12"> 
+	            	
+		            <div class="col-lg-12 col-xs-12">
+                        <span class="alert" style="width: 100%;float: right;background-color: #00BCD4;color:white;margin-top:30px"> تفاصيل المبيعات لخزنة المصنع للسنة المالية 2021-03-05</span>
+	            	</div>
+            	    <div class="table-responsive" style="background-color:white">
+	                  
+	                  <table class="table m-0">
+	                    <thead>
+                           <tr>
+	                    	   <th> الرقم </th>
+	                    	   <th> قسم الصادر </th>
+	                    	   <th> المبلغ المدفوع </th>
+	                    	   <th> المتوفر فى الخزنة </th>
+                           </tr>
+	                    </thead>
+	                    <tbody>			
+	                        	   
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td>مبيعات المصنع   </td>
+	                    	   <td> 9400 جنيه </td>
+	                    	   <td> -  </td>
+	                    	   
+                            </tr>
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td> مبيعات المصنع  الغير مدفوعة نقدا من العملاء </td>
+	                    	   <td> -5600 جنيه </td>
+	                    	   <td> 20000 جنيه </td>
+	                    	   
+                            </tr>
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td> مبيعات المصنع المدفوعة نقدا من العملاء </td>
+	                    	   <td> 15000 جنيه </td>
+	                    	   <td>  35000 جنيه </td>
+	                    	   
+                            </tr>	  
+                       
+                           
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td> أرباح المصنع </td>
+	                    	   <td> 900 جنيه </td>
+	                    	   <td>  - </td>
+	                    	   
+                            </tr>
+                            <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td> المسحوب من ارباح المصنع </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  - </td>
+	                    	   
+                            </tr>
+                             <tr>
+                              
+	                    	   <td>#1</td>
+	                    	   <td> المسحوب من ارباح الشركاء </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  - </td>
+	                    	   
+                            </tr>
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td> المسحوب من الارباح </td>
+	                    	   <td> 0 جنيه </td>
+	                    	   <td>  35000 جنيه </td>
+	                    	   
+                            </tr>	
+                            <tr style="background-color: #FFEB3B;">
+                              
+	                    	   <td>#1</td>
+	                    	   <td> مصروفات المصنع </td>
+	                    	   <td> 122 جنيه </td>
+	                    	   <td>  34878 جنيه </td>
+	                    	   
+                            </tr>	
+                               
+                            <tr>
+                            	 <td colspan="4" style="text-align:center">  المبلغ الاجمالى  : 34878 جنيه </td>
+                            </tr>	                                 		                   
+	                    </tbody>
+	                  </table>
+	                </div>
+	            </div>
+	            <!-- start orders clothes -->
+
+
+
+			 </div>
+			 <!-- end row -->
+		</div>
+    </section>
+
+
+
+      <div class="modal fade show" id="modal-default"  aria-modal="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">تأكيد حذف تاجر</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>تأكيد حذف المحدد من جدول التجار</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              
+              <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+        
+        
+        
+    </div>
+
+    
+            <script src="http://127.0.0.1:54704/vendor/jquery/jquery.min.js"></script>
+        <script src="http://127.0.0.1:54704/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="http://127.0.0.1:54704/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+        
+        
+        <script src="http://127.0.0.1:54704/vendor/adminlte/dist/js/adminlte.min.js"></script>
+    
+    
+    
+    
+              <script type="text/javascript">
+      var typeAlert = "";
+      $('body').on('click','.delete_all',function(event){
+          typeAlert = jQuery(this).attr('href');
+          event.preventDefault();
+      });
+      $('#confirm_delete').click(function(){
+        if(!typeAlert){
+          $('form#form_delete_select').submit();        
+        }
+        else
+        {
+          window.location.href=typeAlert;
+        }
+      });
+  </script>
+
+</body>
+
+</html>
