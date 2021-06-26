@@ -17,10 +17,10 @@ class CreatePartnersTable extends Migration
             $table->id();
             $table->string('partner_name');
             $table->string('partner_phone');
-            $table->string('partner_percentage');
+            $table->string('capital');
             $table->string('partner_percent')->nullable();
             $table->string('partner_status')->default(0);
-            $table->string('partner_ended_at')->nullable();   
+            $table->string('partner_ended_at')->nullable();
             $table->timestamps();
         });
     }

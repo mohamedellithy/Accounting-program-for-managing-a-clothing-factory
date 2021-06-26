@@ -16,7 +16,7 @@
 
           <div class="card-body" style="background-color:white;norder:1px solid gray;">
             <form action="{{ url('get-report-sales') }}" method="GET">
-              
+
               <div class="row">
                 <div class="col-sm-4">
                   <!-- text input -->
@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-               
+
                  <div class="col-sm-12">
                     <div class="form-group">
                        <button type="submit" class="btn  bg-gradient-warning" style="float:left">البحث</button>
@@ -70,10 +70,11 @@
               <table id="merchants" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    
+
                     <th>السنة / الشهر / اليوم </th>
                     <th>عدد الطلبات</th>
                     <th>اجمالى المبيعات </th>
+                    <th>اجمالى المرتجعات </th>
                     <th>أرباح</th>
                   </tr>
                 </thead>
@@ -81,12 +82,13 @@
                   @if(!empty($report_data))
                     @foreach($report_data as $key => $report)
                       <tr>
-                        
+
                         <td> {{ $key }} </td>
                         <td> {{ $report['orders'] }}  </td>
                         <td> {{ $report['sale'] }} جنيه </td>
-                        <td> {{ $report['profit'] }} جنيه </td>
-                        
+                        <td> {{ $report['reaction'] }} جنيه </td>
+                        <td> {{ $report['profit'] - $report['profit_reaction'] }} جنيه </td>
+
                       </tr>
                     @endforeach
                   @endif
@@ -110,27 +112,27 @@
     <!-- Bootstrap 4 RTL -->
        <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/plugins/select2/css/select2.min.css') }}">
      <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-   
+
      <link rel="stylesheet" href="{{  asset('vendor/adminlte/dist/css/bootstrap-rtl.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/custom.css') }}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <style type="text/css">
-      @media print {  
-        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6) 
+      @media print {
+        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
         {
           display:  table-cell;
         }
-        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6) 
+        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
         {
           display:  table-cell;
         }
 
-        table th:nth-child(7) , table th:nth-child(8)  
+        table th:nth-child(7) , table th:nth-child(8)
         {
           display: none;
         }
-        table td:nth-child(7) , table td:nth-child(8) 
+        table td:nth-child(7) , table td:nth-child(8)
         {
           display: none;
         }
@@ -142,13 +144,13 @@
   <!-- DataTables -->
   <script src="{{ asset('vendor/adminlte/plugins/plugins/datatables/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('vendor/adminlte/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-  <script src="{{ asset('vendor/adminlte/plugins/plugins/select2/js/select2.full.min.js') }}"></script> 
+  <script src="{{ asset('vendor/adminlte/plugins/plugins/select2/js/select2.full.min.js') }}"></script>
     <script> console.log('Hi!'); </script>
     <script>
    jQuery(document).ready( function () {
           jQuery('#merchants').DataTable();
 
-         
+
      });
     </script>
     <script>
@@ -171,7 +173,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -185,17 +187,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
              window.location.reload();
         });
-            
-        
+
+
     </script>
 @stop

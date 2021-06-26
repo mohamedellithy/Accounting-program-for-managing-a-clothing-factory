@@ -46,7 +46,7 @@
 	                  <!-- order value  -->
 	                  <div class="form-group col-md-12 col-xs-12">
 	                    <label for="exampleInputPassword1">المبلغ المطلوب سحبه</label>
-	                    <input name="withdraw_value" type="text" class="form-control" id="exampleInputPassword1" placeholder="المبلغ المطلوب سحبه" required>
+	                    <input name="value" type="text" class="form-control" id="exampleInputPassword1" placeholder="المبلغ المطلوب سحبه" required>
 	                  </div>
 	                </div>
 	                <!-- /.card-body -->
@@ -75,27 +75,23 @@
         		                    <div class="dropdown-menu" role="menu">
                                    <button class="dropdown-item printDiv" type="button"> <i class="fas fa-print"></i> طباعة  الجدول</button>
         		                      <div class="dropdown-divider"></div>
-                                  <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
-        		                      <div class="dropdown-divider"></div>
-        		                      <a class="dropdown-item delete_all" href="{{ url('delete-withdraw') }}"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
 
                                 </div>
         		                </div>
       			            </div>
       			            <!-- /.card-header -->
       			            <div id="merchantsContainer" class="card-body">
-                            <h2 id="heading_print" style="display:none" > جدول المرتجع </h2>
+                            <h2 id="heading_print" style="display:none" > جدول عمليات السحب </h2>
       			                <table id="merchants" class="table table-bordered table-hover">
       				                <thead>
       					                <tr>
-      					                  <th></th>
-      					                  <th>اسم الشريك</th>
-                                  <th>المبلغ المسحوب</th>
-                                  <th>المتبقي من المبلغ الاصلي</th>
-                                  <th>نوع السحب</th>
-                                  <th>تاريخ السحب</th>
-                                  <th>اجراءات</th>
-                                  <th>عرض</th>
+      					                    <th></th>
+      					                    <th>اسم الشريك</th>
+                                            <th>المبلغ المسحوب</th>
+                                            <th>نوع السحب</th>
+                                            <th>تاريخ السحب</th>
+                                            <th>اجراءات</th>
+                                            <th>عرض</th>
       					                </tr>
       				                </thead>
       			                </table>
@@ -181,10 +177,9 @@
 	           columns: [
 	                    {data:  'select',name:'select' },
 	                    { data: 'partner_name', name: 'partner_name' },
-                      { data: 'withdraw_value', name: 'withdraw_value' },
-                      { data: 'original_value', name: 'original_value' },
-                      { data: 'withdraw_type', name: 'withdraw_type' },
-                      { data: 'created_at', name: 'created_at' },
+                        { data: 'withdraw_value', name: 'withdraw_value' },
+                        { data: 'withdraw_type', name: 'withdraw_type' },
+                        { data: 'created_at', name: 'created_at' },
 	                    { data: 'process', name: 'process' },
 	                    { data: 'show', name: 'show' }
 	                 ]
@@ -239,7 +234,7 @@
     <script src="{{ asset('vendor/adminlte/plugins/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
       $(function () {
-        //Initialize Select2 Elements
+        // Initialize Select2 Elements
         $('.select2').select2({
           theme: 'bootstrap4'
         });

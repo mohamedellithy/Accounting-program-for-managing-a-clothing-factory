@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('parcode')->nullable();
             $table->string('name_product')->nullable();
             $table->string('cloth_styles_id')->nullable();
             $table->foreign('cloth_styles_id')->references('id')->on('cloth_styles')->onDelete('cascade');
@@ -23,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->string('count_piecies')->nullable();
             $table->string('price_piecies')->nullable();
             $table->string('additional_taxs')->nullable();
-            $table->string('full_price')->nullable();     
+            $table->string('full_price')->nullable();
             $table->timestamps();
         });
     }

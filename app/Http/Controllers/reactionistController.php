@@ -25,51 +25,34 @@ class reactionistController extends Controller
     }
 
     function datatableReactionist(Request $request){
-        $orderClothes = DB::table('reactionists')->get();
-         return datatables()->of($orderClothes)
-        ->addColumn('select', function($row) {
+        $reactionists = reactionist::all();
+        return datatables()->of($reactionists)
+            ->addColumn('select', function($row){
+                    return '<input name="select[]" value="'.$row->id.'" type="checkbox"> #'.$row->id;
+                })
+            ->addColumn('invoice_no', function($row){
+                    return $row->order->invoice_no;
+                })
+            ->addColumn('product_name', function($row) {
+                    return $row->order->product->name_product;
 
-                 return '<input name="select[]" value="'.$row->id.'" type="checkbox"> #'.$row->id;
-            })
-        ->addColumn('order_number', function($row) {
-                if(empty($row->order_id))
-                    return ' طلب غير موجود';
-
-                 $order_id = order::where('order_id',$row->order_id)->pluck('order_follow')[0];
-                 return '#'.($order_id->order_follow?$order_id->order_follow:$row->order_id);
-            })
-        ->addColumn('product_name', function($row) {
-                 if($row->product_id):
-                     return DB::table('products')->where('id',$row->product_id)->pluck('name_product')[0];
-                 else:
-                     return 'بدون';
-                 endif;
-            })
-        ->addColumn('client_name', function($row) {
-                 if($row->client_id):
-                     return DB::table('clients')->where('id',$row->client_id)->pluck('client_name')[0];
-                 else:
-                     return 'بدون';
-                 endif;
-            })
-        ->addColumn('category_name', function($row) {
-                 if(empty($row->product_id))
-                     return 'لايوجد ';
-
-                 $category_id = DB::table('products')->where('id',$row->product_id)->pluck('category_id')[0];
-                 if($category_id):
-                     return DB::table('categories')->where('id',$category_id)->pluck('category')[0];
-                 else:
-                     return 'بدون';
-                 endif;
-            })
-        ->addColumn('reactionist_price', function($row) {
-                 return $row->reactionist_price.' جنية';
-            })
-        ->addColumn('Quantity', function($row) {
-                 return $row->order_count.' قطعة';
-            })
-        ->addColumn('process', function($row) {
+                })
+            ->addColumn('client_name', function($row){
+                    return $row->order->client->client_name ?? 'بدون';
+                })
+            ->addColumn('category_name', function($row){
+                    return $row->order->product->category->category;
+                })
+            ->addColumn('reactionist_price', function($row){
+                    return $row->one_item_price.' جنية';
+                })
+            ->addColumn('Quantity', function($row){
+                    return $row->order_count.' قطعة';
+                })
+             ->addColumn('final_cost', function($row){
+                    return $row->final_cost.' جنية';
+                })
+            ->addColumn('process', function($row){
                  return '<div class="btn-group">
                             <button type="button" class="btn btn-warning">اجراء</button>
                             <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
@@ -83,10 +66,11 @@ class reactionistController extends Controller
                         </div>';
 
             })
-        ->addColumn('show', function($row) {
-                   return '<a href='.url('reactionists/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
+            ->addColumn('show', function($row) {
+                return '<a href='.url('reactionists/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
             })
-        ->rawColumns(['select','Quantity','order_number','reactionist_price','process','show'])->make(true);
+            ->rawColumns(['select','invoice_no','final_cost','product_name','client_name','category_name','reactionist_price','Quantity','process','show'])->make(true);
+
     }
 
     /**
@@ -97,22 +81,23 @@ class reactionistController extends Controller
     public function createReactionists($order_id=null)
     {
         //
-         $get_all_clients = client::all();
-         $get_all_categories = category::all();
-         $get_all_product = product::all();
-         $get_order_info =null;
-         if($order_id!=null):
-            $get_order_info  = order::where('id',$order_id)->get();
-         endif;
-         $last_order_added = reactionist::orderby('created_at','desc')->first();
-         return view('admin.reactionist.create')->with(['order_id'=>$order_id,'get_order_info'=>$get_order_info,'all_products'=>$get_all_product,'last_order'=>$last_order_added,'all_clients'=>$get_all_clients,'get_all_categories'=>$get_all_categories]);
+
+        $order            = order::find($order_id);
+        $last_order_added = reactionist::latest()->first();
+        $Context = [
+             'order'             =>$order,
+             'last_order'        =>$last_order_added,
+        ];
+        return view('admin.reactionist.create')->with($Context);
     }
+
     /**
      * Show all orders for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     function create(){
+
         return view('admin.reactionist.orders');
     }
 
@@ -122,48 +107,36 @@ class reactionistController extends Controller
      * @return \Illuminate\Http\Response
      */
     function datatableReactionistOrders(Request $request){
-         $orderClothes = DB::table('orders')->get();
-         return datatables()->of($orderClothes)
-        ->addColumn('select', function($row) {
-
-                 return '<input name="select[]" value="'.$row->id.'" type="checkbox"> #'.($row->order_follow?$row->order_follow:$row->id);
-            })
-        ->addColumn('product_name', function($row) {
-                 if($row->product_id):
-                     return DB::table('products')->where('id',$row->product_id)->pluck('name_product')[0];
-                 else:
-                     return 'بدون';
-                 endif;
-            })
-        ->addColumn('client_name', function($row) {
-                 if($row->client_id):
-                     return DB::table('clients')->where('id',$row->client_id)->pluck('client_name')[0];
-                 else:
-                     return 'بدون';
-                 endif;
-            })
-        ->addColumn('category_name', function($row) {
-
-                 $category_id = DB::table('products')->where('id',$row->product_id)->pluck('category_id')[0];
-                 if($category_id):
-                     return DB::table('categories')->where('id',$category_id)->pluck('category')[0];
-                 else:
-                     return 'بدون';
-                 endif;
-            })
-        ->addColumn('order_price', function($row) {
-                 return $row->order_price.' جنية';
-            })
-        ->addColumn('Quantity', function($row) {
-                 return $row->order_count.' قطعة';
-            })
-        ->addColumn('process', function($row) {
-                 return '<a href='.url('orders/'.$row->id.'/reactionists/create').' class="btn btn-warning btn-sm">اضافة مرتجع </a>';
-            })
-        ->addColumn('show', function($row) {
-                 return '<a href='.url('orders/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
-            })
-        ->rawColumns(['select','process','show'])->make(true);
+        $orderClothes = order::whereNull('order_follow')->get();
+        return datatables()->of($orderClothes)
+            ->addColumn('select', function($row) {
+                    return '<input name="select[]" value="'.$row->id.'" type="checkbox"> #'.($row->order_follow?$row->order_follow:$row->id);
+                })
+            ->addColumn('invoice_no', function($row) {
+                    return $row->invoice_no;
+                })
+            ->addColumn('product_name', function($row) {
+                    return implode(' - ' , $row->invoices_products_name);
+                })
+            ->addColumn('client_name', function($row) {
+                   return $row->client->client_name ?? 'لم يحدد';
+                })
+            ->addColumn('category_name', function($row) {
+                   return implode(' - ' , $row->invoices_categories_name);
+                })
+            ->addColumn('order_price', function($row) {
+                   return round($row->total_invoices,2).' جنية';
+                })
+            ->addColumn('Quantity', function($row) {
+                    return implode(' قطعة  - ', $row->invoices_quantity).' قطعة ';
+                })
+            ->addColumn('process', function($row) {
+                    return '<a href='.url('orders/'.$row->id.'/reactionists/create').' class="btn btn-warning btn-sm">اضافة مرتجع </a>';
+                })
+            ->addColumn('show', function($row) {
+                    return '<a href='.url('orders/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
+                })
+            ->rawColumns(['select','product_name','client_name','category_name','order_price','Quantity','process','show'])->make(true);
     }
 
     /**
@@ -175,33 +148,18 @@ class reactionistController extends Controller
     public function store(Request $request,$id)
     {
         //
+        $order = order::find($request->order_id);
 
         $this->validate($request,[
-            'product_id'=>'required',
-            'order_id'=>'required',
-            'order_count'=>'required',
-            'reactionist_price'=>'required',
+            'order_id'      =>'required',
+            'order_count'   =>'required|gte:1|lte:'.$order->order_count,
+            'one_item_price'=>'required',
+            'final_cost'    =>'required',
         ]);
-        $data = $request->all();
-        product::where('id', $request->input('product_id') )->increment('count_piecies',$request->input('order_count'));
-        $cloth_style_id = product::where('id', $request->input('product_id') )->pluck('cloth_styles_id')[0];
-        // ClothStyles::where('id', $cloth_style_id )->increment('count_piecies',$request->input('order_count'));
-        $last_insert = new reactionist();
-        $last_insert->product_id = $request->product_id;
-        $last_insert->order_id   = $request->order_id;
-        $last_insert->order_count= $request->order_count;
-        $last_insert->reactionist_price= $request->reactionist_price;
-        $last_insert->client_id  = $request->client_id;
-        $last_insert->payment_type= $request->payment_type;
-        $last_insert->final_cost  = $request->order_count * $request->reactionist_price;
-        $last_insert->save();
-        $orginal_count_pieceis = order::where('id',$id)->pluck('order_count')[0];
-        $orginal_value_of_pieces = order::where('id',$id)->pluck('order_price')[0];
-        $orginal_value_of_order_price = ($orginal_value_of_pieces/$orginal_count_pieceis);
-        order::where('id', $id )->decrement('order_count',$request->input('order_count'));
-        order::where('id', $id )->decrement('final_cost',$last_insert->final_cost);
-        order::where('id', $id )->decrement('order_price',( $orginal_value_of_order_price*$request->order_count ) );
-        return back()->with(['success'=>'تم اضافة المرتجع بنجاح','last_order'=>$last_insert]);
+        $order->product->increment('count_piecies',$request->order_count);
+        $request['profit_order']    = $order->order_taxs * $request->order_count;
+        $reactionist = reactionist::create($request->all());
+        return back()->with(['success'=>'تم اضافة المرتجع بنجاح','last_order'=>$reactionist]);
     }
     /**
      * Display the specified resource.
@@ -212,10 +170,10 @@ class reactionistController extends Controller
       public function show($id)
     {
         //
-        $single_reactionist = reactionist::where('id',$id)->get();
-        $order_id = reactionist::where('id',$id)->pluck('order_id')[0];
-        $order          = order::where('id',$order_id)->get();
-        return view('admin.reactionist.single')->with(['reactionist_id'=>$id,'reactionist_data'=>$single_reactionist,'order'=>$order]);
+        $single_reactionist = reactionist::find($id);
+        return view('admin.reactionist.single')->with([
+            'reactionist_data'=>$single_reactionist,
+        ]);
 
     }
 
@@ -228,11 +186,9 @@ class reactionistController extends Controller
     public function edit($id)
     {
         //
-        $get_all_clients = client::all();
-        $get_all_categories = category::all();
-        $get_all_products = product::all();
-        $order_product_info = reactionist::where('id',$id)->get();
-        return view('admin.reactionist.edite')->with(['get_all_products'=>$get_all_products,'order_product_info'=>$order_product_info,'all_clients'=>$get_all_clients,'get_all_categories'=>$get_all_categories]);
+        $reactionist = reactionist::find($id);
+        $order       = $reactionist->order->parent_order;
+        return view('admin.reactionist.edite')->with(['order'=>$order,'reactionist'=>$reactionist]);
 
     }
 
@@ -243,25 +199,31 @@ class reactionistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id,$order_id)
+    public function update(Request $request, $id)
     {
         //
-         $this->validate($request,[
-            'product_id'=>'required',
-            'order_count'=>'required',
-            'reactionist_price'=>'required',
-            'payment_type'=>'required'
+        $reactionist = reactionist::find($id);
+        $this->validate($request,[
+            'order_id'      =>'required',
+            'order_count'   =>'required|gte:1|lte:'.$reactionist->order->order_count,
+            'one_item_price'=>'required',
+            'final_cost'    =>'required',
         ]);
-         $request['final_cost']  = $request->order_count * $request->reactionist_price;
-         if($request->input('old_order_count') != $request->input('order_count') ):
-              $new_order_count = $request->input('order_count') - $request->input('old_order_count');
-              product::where('id', $request->input('product_id') )->increment('count_piecies',$new_order_count);
-              $cloth_style_id = product::where('id', $request->input('product_id') )->pluck('cloth_styles_id')[0];
-             // ClothStyles::where('id', $cloth_style_id )->increment('count_piecies',$request->input('order_count'));
-              order::where('id', $order_id )->decrement('order_count',$request->input('order_count'));
-              order::where('id', $order_id )->decrement('final_cost',$request['final_cost']);
-         endif;
-        $last_insert = reactionist::where('id',$id)->update($request->only(['product_id','client_id','order_count','reactionist_price','payment_type','final_cost']));
+        if($reactionist->order_count > $request->order_count){
+            $reactionist->order->product->decrement('count_piecies',($reactionist->order_count - $request->order_count));
+        }
+        elseif($reactionist->order_count < $request->order_count){
+            $reactionist->order->product->increment('count_piecies',($request->order_count - $reactionist->order_count));
+        }
+        $order = order::find($request->order_id);
+        $request['profit_order']    = $order->order_taxs * $request->order_count;
+        $reactionist->update([
+            'order_id'       => $request->order_id,
+            'order_count'    => $request->order_count,
+            'one_item_price' => $request->one_item_price,
+            'final_cost'     => $request->final_cost,
+            'profit_order'   => $request->profit_order,
+        ]);
         return back()->with(['success'=>'تم تعديل المرتجع بنجاح']);
 
     }
@@ -272,32 +234,11 @@ class reactionistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,$type_return=null)
+    public function destroy($id)
     {
-        //
-        $count_order = reactionist::where('id',$id)->pluck('order_count')[0];
-        $product_id  = reactionist::where('id',$id)->pluck('product_id')[0];
-        $order_id    = reactionist::where('id',$id)->pluck('order_id')[0];
-        $final_cost  = reactionist::where('id',$id)->pluck('final_cost')[0];
-        product::where('id',$product_id)->decrement('count_piecies',$count_order);
-        $cloth_style_id = product::where('id', $product_id )->pluck('cloth_styles_id')[0];
-        // ClothStyles::where('id', $cloth_style_id )->decrement('count_piecies',$count_order);
-
-        order::where('id', $order_id )->increment('order_count',$count_order);
-        order::where('id', $order_id )->increment('final_cost',$final_cost);
-
-
-        /*$reactionist_price = reactionist::where('id',$id)->pluck('reactionist_price')[0];
-        $order_id          = reactionist::where('id',$id)->pluck('order_id')[0];
-        $cloth_style_id    = product::where('id', $product_id )->pluck('cloth_styles_id')[0];
-        order::where('id',$order_id)->decrement('order_count',$count_order);
-        order::where('id',$order_id)->decrement('final_cost',$reactionist_price*$count_order);
-       */
-
-        reactionist::where('id',$id)->delete();
-        if($type_return!=null){
-             return redirect('show-reactionist')->with(['success'=>'تم حذف المرتجع بنجاح']);
-        }
+        $reactionist = reactionist::find($id);
+        $reactionist->order->product->decrement('count_piecies',$reactionist->order_count);
+        $reactionist->delete();
         return back()->with(['success'=>'تم حذف المرتجع بنجاح']);
     }
 
@@ -311,25 +252,14 @@ class reactionistController extends Controller
         if(!$request->input('select')){
           return back();
         }
-        $count_order = reactionist::whereIn('id',$request->input('select'))->pluck('order_count')->toArray();
-        $final_cost  = reactionist::whereIn('id',$request->input('select'))->pluck('final_cost')->toArray();
-        $order_id    = reactionist::whereIn('id',$request->input('select'))->pluck('order_id')->toArray();
-        $product_id  = reactionist::whereIn('id',$request->input('select'))->pluck('product_id')->toArray();
-        if(!empty($count_order) &&  !empty($product_id) ):
-             foreach ($count_order as $key => $value) :
-                product::where('id',$product_id[$key])->decrement('count_piecies',$value);
-                $cloth_style_id = product::where('id', $product_id[$key] )->pluck('cloth_styles_id')[0];
-             //   ClothStyles::where('id', $cloth_style_id )->decrement('count_piecies',$value);
 
-                order::where('id', $order_id[$key] )->increment('order_count',$value);
-                order::where('id', $order_id[$key] )->increment('final_cost',$final_cost[$key]);
+        $reactionists = reactionist::whereIn('id',$request->input('select'))->get();
 
+        $reactionists->map(function($reactionist,$key){
+            $reactionist->order->product->decrement('count_piecies',$reactionist->order_count);
+            $reactionist->delete();
+        });
 
-
-             endforeach;
-        endif;
-        /*product::where('id',$product_id)->decrement('count_piecies',$count_order);*/
-        reactionist::whereIn('id',$request->input('select'))->delete();
         return back()->with(['success'=>'تم حذف المرتجع بنجاح']);
     }
 
@@ -340,19 +270,12 @@ class reactionistController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function truncated(){
-        $all_count = reactionist::all();
-        if(!empty($all_count)):
-             foreach ($all_count as $key => $value):
-                  product::where('id',$value->product_id)->decrement('count_piecies',$value->order_count);
-                  $cloth_style_id = product::where('id', $value->product_id )->pluck('cloth_styles_id')[0];
-                  // ClothStyles::where('id', $cloth_style_id )->decrement('count_piecies',$value->order_count);
+        $reactionists = reactionist::all();
 
+        $reactionists->map(function($reactionist,$key){
+            $reactionist->order->product->decrement('count_piecies',$reactionist->order_count);
+        });
 
-                 order::where('id', $value->order_id )->increment('order_count',$value->order_count);
-                 order::where('id', $value->order_id )->increment('final_cost' ,$value->final_cost);
-
-             endforeach;
-        endif;
         reactionist::truncate();
         return back()->with(['success'=>'تم حذف المرتجع بنجاح']);
     }

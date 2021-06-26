@@ -12,7 +12,12 @@ class ClothStyles extends Model
         'order_clothes_id','supplier_id','name_piecies','count_piecies','price_piecies' ,'additional_taxs','full_price'
     ];
 
-    public function order_clothes(){
+    public function orders(){
+        #order_clothes
         return $this->belongsTo('App\orderClothes','order_clothes_id','id');
+    }
+
+    public function products(){
+        return $this->hasOne('App\product','cloth_styles_id','id');
     }
 }

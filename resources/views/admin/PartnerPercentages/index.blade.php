@@ -12,37 +12,7 @@
       <div class="container-fluid">
         <!-- Info boxes -->
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">عدد الشركاء</span>
-                <span class="info-box-number">
-                  {{ get_count_partner() }}
-                  <small></small>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">راس مال الشركاء</span>
-                <span class="info-box-number">{{ partners_capitals_after_withdraw() }}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-
-     
       	  <div class="col-12">
              <form id="form_delete_select" action="{{ url('delete-select-partner') }}"  method="POST">
 	             {{ csrf_field() }}
@@ -69,7 +39,7 @@
                                   <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
         		                      <div class="dropdown-divider"></div>
         		                      <a class="dropdown-item delete_all" href="{{ url('delete-partners') }}"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
-        		                      
+
                                 </div>
         		                </div>
       			            </div>
@@ -82,11 +52,12 @@
       					                  <th></th>
       					                  <th>اسم العميل</th>
       					                  <th>مبلغ الشريك</th>
-                                  <th>نسبة الشريك</th>
-                                  <th>رقم التليفون</th>
+                                          <th>نسبة الشريك</th>
+                                          <th>أرباح الشريك</th>
+                                          <th>رقم التليفون</th>
       					                  <th>حالة الشراكة</th>
-                                  <th>تاريخ الشراكة </th>
-                                  <th>اجراءات</th>
+                                          <th>تاريخ الشراكة </th>
+                                          <th>اجراءات</th>
       					                  <th>عرض</th>
       					                </tr>
       				                </thead>
@@ -113,7 +84,7 @@
               <p>تأكيد حذف المحدد من جدول الشركاء</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -124,28 +95,28 @@
 @stop
 
 @section('css')
-   
+
     <!-- Bootstrap 4 RTL -->
      <link rel="stylesheet" href="{{  asset('vendor/adminlte/dist/css/bootstrap-rtl.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/custom.css') }}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
    <style type="text/css">
-      @media print {  
-        table th:nth-child(3) , table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6) 
+      @media print {
+        table th:nth-child(3) , table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
         {
           display:  table-cell;
         }
-        table td:nth-child(3) , table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6) 
+        table td:nth-child(3) , table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
         {
           display:  table-cell;
         }
 
-        table th:nth-child(7) , table th:nth-child(8)  
+        table th:nth-child(7) , table th:nth-child(8)
         {
           display: none;
         }
-        table td:nth-child(7) , table td:nth-child(8) 
+        table td:nth-child(7) , table td:nth-child(8)
         {
           display: none;
         }
@@ -167,11 +138,12 @@
 	           columns: [
 	                    {data:  'select',name:'select' },
 	                    { data: 'partner_name', name: 'partner_name' },
-                      { data: 'partner_percentage', name: 'partner_percentage' },
-                      { data: 'partner_percent', name: 'partner_percent' },
-                      { data: 'partner_phone', name: 'partner_phone' },
-                      { data: 'partner_status', name: 'partner_status' },
-                      { data: 'created_at', name: 'created_at' },
+                        { data: 'partner_percentage', name: 'partner_percentage' },
+                        { data: 'partner_percent', name: 'partner_percent' },
+                        { data: 'partner_profit', name: 'partner_profit' },
+                        { data: 'partner_phone', name: 'partner_phone' },
+                        { data: 'partner_status', name: 'partner_status' },
+                        { data: 'created_at', name: 'created_at' },
 	                    { data: 'process', name: 'process' },
 	                    { data: 'show', name: 'show' }
 	                 ]
@@ -195,7 +167,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -209,17 +181,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
             // window.location.reload();
         });
-            
-        
+
+
     </script>
 @stop

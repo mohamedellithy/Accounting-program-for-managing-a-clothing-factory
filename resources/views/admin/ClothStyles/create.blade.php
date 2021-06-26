@@ -33,16 +33,12 @@
                         {{ csrf_field() }}
 		                <div class="card-body">
 		                    <!-- order_clothes_id hidden ID   -->
-                            <input name="order_clothes_id" type="text" class="form-control" value="{{ (!empty($order_clothes_info) ? $order_clothes_info[0]->id :'') }}" id="exampleInputPassword1" placeholder="اسم قصة القماش" hidden>
+                            <input name="order_clothes_id" type="text" class="form-control" value="{{ $order_clothes_info->id }}" id="exampleInputPassword1" placeholder="اسم قصة القماش" hidden>
 
 	                       <!-- order Category  -->
 		                   <div class="form-group col-md-12 col-xs-12">
 			                   <label for="exampleInputPassword1">الصنف</label>
-			                    @if(!empty($order_clothes_info))
-		              	            @foreach($order_clothes_info as $order_clothes)
-			                           <input value="{{ $order_clothes->category_name->category }}"  name="category" type="text" class="form-control" id="exampleInputPassword1" placeholder="" required readonly>
-                                    @endforeach
-                                @endif
+			                   <input value="{{ $order_clothes_info->category_name->category }}"  name="category" type="text" class="form-control" id="exampleInputPassword1" placeholder="" required readonly>
 			                </div>
 
 			                 <div class="form-group col-md-12 col-xs-12">
@@ -69,42 +65,30 @@
 
 	                       <!-- order Category  -->
 		                   <div class="form-group col-md-12 col-xs-12">
-			                   <label for="exampleInputPassword1">سعر {{ $order_clothes->order_size_type }} من الفاتورة</label>
-			                    @if(!empty($order_clothes_info))
-		              	            @foreach($order_clothes_info as $order_clothes)
-			                           <input value="{{ $order_clothes->price_one_piecies }}"  name="category" type="text" class="form-control" id="exampleInputPassword1" placeholder="" required readonly>
-                                    @endforeach
-                                @endif
+			                   <label for="exampleInputPassword1">سعر {{ $order_clothes_info->order_size_type }} من الفاتورة</label>
+			                   <input value="{{ $order_clothes_info->price_one_piecies }}"  name="category" type="text" class="form-control" id="exampleInputPassword1" placeholder="" required readonly>
 			                </div>
 
 
 	                       <!-- merchant name  -->
 		                   <div class="form-group col-md-12 col-xs-12">
-			                  <label for="exampleInputEmail1">اسم قصات القماش</label>
+			                    <label for="exampleInputEmail1">اسم قصات القماش</label>
+                                <input value="{{ $order_clothes_info->category_name->id }}" name="category_id" type="text" class="form-control" id="exampleInputPassword1" placeholder="اسم قصة القماش" hidden>
 
-		                      	@if(!empty($order_clothes_info))
-		              	            @foreach($order_clothes_info as $order_clothes)
-                                      <input value="{{ $order_clothes->category_name->id }}" name="category_id" type="text" class="form-control" id="exampleInputPassword1" placeholder="اسم قصة القماش" hidden>
-                                    @endforeach
-                                @endif
                               <input name="name_piecies" type="text" class="form-control" id="exampleInputPassword1" placeholder="اسم قصة القماش" required>
 			                </div>
 
 			               <!-- order Category  -->
 		                   <div class="form-group col-md-12 col-xs-12">
 			                   <label for="exampleInputPassword1">عدد القطع</label>
-			                   <input name="count_piecies" type="text" class="form-control count_piecies" order-cost="{{ $order_clothes->order_price }}" id="exampleInputPassword1" placeholder="عدد القطع" required>
+			                   <input name="count_piecies" type="text" class="form-control count_piecies" order-cost="{{ $order_clothes_info->order_price }}" id="exampleInputPassword1" placeholder="عدد القطع" required>
 
 			                </div>
 
 			                <!-- order Category  -->
 		                   <div class="form-group col-md-12 col-xs-12">
-			                   <label for="exampleInputPassword1">سعر القطعة الواحدة</label>
-			                     @if(!empty($order_clothes_info))
-		              	            @foreach($order_clothes_info as $order_clothes)
-			                           <input value="{{ $order_clothes->price_one_piecies }}" name="price_piecies" type="text" class="form-control price_piecies" id="exampleInputPassword1" placeholder="سعر القطعة الواحدة" required>
-                                    @endforeach
-                                 @endif
+			                    <label for="exampleInputPassword1">سعر القطعة الواحدة</label>
+			                    <input value="{{ $order_clothes_info->price_one_piecies }}" name="price_piecies" type="text" class="form-control price_piecies" id="exampleInputPassword1" placeholder="سعر القطعة الواحدة" required>
 			                </div>
 
 			               <!-- order Category  -->
@@ -139,60 +123,58 @@
 		                <h3 class="card-title">بيانات فاتورة القماش </h3>
 		              </div>
 		              <div class="card-body">
-		              	@if(!empty($order_clothes_info))
-		              	    @foreach($order_clothes_info as $order_clothes)
-			                  <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">اسم التاجر</label>
-				                  <label style="color:black;font-size:14px;">{{ $order_clothes->merchant_name->merchant_name }}</label>
-				                </div>
-				                <hr/>
-				                 <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">الصنف</label>
-				                  <label style="color:black;font-size:14px;">{{ $order_clothes->category_name->category }}</label>
-				                </div>
-				                <hr/>
-				                 <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">كمية الطلبية</label>
-				                  <label style="color:black;font-size:14px;">{{ $order_clothes->order_size.' '.$order_clothes->order_size_type }}</label>
-				                </div>
-				                <hr/>
-                                 <!-- merchant name  -->
-			                    <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">سعر القطعة</label>
-				                  <label style="color:black;font-size:14px;">{{ $order_clothes->price_one_piecies }} جنيه </label>
-				                </div>
-				                <hr/>
-				                 <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">خصم على الطلبية </label>
-				                  <label style="color:black;font-size:14px;"> {{ $order_clothes->order_discount }} جنيه</label>
-				                </div>
-				                <hr/>
-				                 <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">سعر الطلبية</label>
-				                  <label style="color:black;font-size:14px;">{{ $order_clothes->order_price.' جنيه ' }}</label>
-				                </div>
-				                <hr/>
-				                 <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">طريقة الدفع</label>
-				                  <label style="color:black;font-size:14px;">{{ $order_clothes->payment_type }} </label>
-				                </div>
-				                <hr/>
-				               <!-- merchant name  -->
-			                   <div class="form-group col-12 col-xs-12">
-				                  <label for="exampleInputEmail1">تاريخ الطلبية </label>
-				                  <label style="color:black;font-size:14px;"> {{ $order_clothes->created_at }} </label>
-				                </div>
-
-				            @endforeach
-				        @endif
-
-
+                            <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">تابعة لفاتورة رقم </label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->invoice_no }}</label>
+                            </div>
+                            <hr/>
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">اسم التاجر</label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->merchant->merchant_name }}</label>
+                            </div>
+                            <hr/>
+                                <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">الصنف</label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->category_name->category }}</label>
+                            </div>
+                            <hr/>
+                                <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">كمية الطلبية</label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->order_size.' '.$order_clothes_info->order_size_type }}</label>
+                            </div>
+                            <hr/>
+                                <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">سعر القطعة</label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->price_one_piecies }} جنيه </label>
+                            </div>
+                            <hr/>
+                                <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">خصم على الطلبية </label>
+                                <label style="color:black;font-size:14px;"> {{ $order_clothes_info->order_discount }} جنيه</label>
+                            </div>
+                            <hr/>
+                                <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">سعر الطلبية</label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->order_price.' جنيه ' }}</label>
+                            </div>
+                            <hr/>
+                                <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">طريقة الدفع</label>
+                                <label style="color:black;font-size:14px;">{{ $order_clothes_info->payment_type }} </label>
+                            </div>
+                            <hr/>
+                            <!-- merchant name  -->
+                            <div class="form-group col-12 col-xs-12">
+                                <label for="exampleInputEmail1">تاريخ الطلبية </label>
+                                <label style="color:black;font-size:14px;"> {{ $order_clothes_info->created_at }} </label>
+                            </div>
 
 		                </div>
 		                <!-- /.card-body -->
@@ -215,7 +197,8 @@
 				          <thead>
 				            <tr>
 				              <th>#</th>
-				              <th>أسم قصة القماش</th>
+				              <th>تابعة لفاتورة رقم</th>
+                              <th>أسم قصة القماش</th>
 				              <th>الصنف</th>
 				              <th>عدد القطع</th>
 				              <th>سعر القطعة الواحدة</th>
@@ -226,16 +209,17 @@
 				            </tr>
 				          </thead>
 				          <tbody>
-	                          @if(!empty($last_ClothSyles))
+	                          @if(!empty($last_insert))
 	                                <tr>
 	                                  <td>1#</td>
-	                                  <td> {{ $last_ClothSyles->name_piecies }} </td>
-	                                  <td> {{ $last_ClothSyles->order_clothes->category_name->category }} </td>
-	                                  <td> {{ $last_ClothSyles->count_piecies}} قطعة </td>
-	                                  <td> {{ $last_ClothSyles->price_piecies }} جنية </td>
-	                                  <td> {{ $last_ClothSyles->additional_taxs }} جنية </td>
-	                                  <td> {{ $last_ClothSyles->full_price }} جنية </td>
-	                                  <td> {{ $last_ClothSyles->created_at }} </td>
+	                                  <td> {{ $last_insert->invoice_no ?? 'بدون' }} </td>
+                                      <td> {{ $last_insert->name_piecies }} </td>
+	                                  <td> {{ ($last_insert->orders->category_name->category ?? '') }} </td>
+	                                  <td> {{ $last_insert->count_piecies}} قطعة </td>
+	                                  <td> {{ $last_insert->price_piecies }} جنية </td>
+	                                  <td> {{ $last_insert->additional_taxs }} جنية </td>
+	                                  <td> {{ $last_insert->full_price }} جنية </td>
+	                                  <td> {{ $last_insert->created_at }} </td>
 	                                </tr>
 	                          @endif
 

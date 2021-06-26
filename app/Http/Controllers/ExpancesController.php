@@ -18,18 +18,24 @@ class ExpancesController extends Controller
 
 
     function datatableExpances(Request $request){
-         $merchants = DB::table('expances')->get();
-         return datatables()->of($merchants)
-        ->addColumn('select', function($row) {
+         $expances = expances::all();
+         return datatables()->of($expances)
+            ->addColumn('select', function($row) {
                  return '<input name="select[]" value="'.$row->id.'" type="checkbox"> #'.$row->id;
             })
-        ->addColumn('expances_value', function($row) {
+            ->addColumn('expances_value', function($row) {
                  return $row->expances_value.' جنيه ';
-            })->addColumn('expances_description', function($row) {
+            })
+            ->addColumn('expances_description', function($row) {
                  return $row->expances_description;
-            })->addColumn('delete', function($row) {
+            })
+            ->addColumn('delete', function($row) {
                    return '<a href='.url('delete-expances/'.$row->id).' class="btn btn-danger btn-sm">حذف </a>';
-            })->rawColumns(['select','expances_value','expances_description','delete'])->make(true);
+            })
+            ->addColumn('created_at', function($row) {
+                   return $row->created_at;
+            })
+            ->rawColumns(['select','expances_value','expances_description','delete','created_at'])->make(true);
 
     }
 
@@ -56,7 +62,7 @@ class ExpancesController extends Controller
     public function destroy($id)
     {
         //
-        expances::where('id',$id)->delete();
+        expances::destroy($id);
         return back()->with(['success'=>'تم حذف المصروف بنجاح']);
     }
 
@@ -71,7 +77,7 @@ class ExpancesController extends Controller
         if(!$request->input('select')){
           return back();
         }
-        expances::whereIn('id',$request->input('select'))->delete();
+        expances::destroy($request->input('select'));
         return back()->with(['success'=>'تم حذف المصروفات بنجاح']);
     }
 
@@ -81,9 +87,7 @@ class ExpancesController extends Controller
         return back()->with(['success'=>'تم حذف المصروفات بنجاح']);
     }
 
-    function moneysafe(){
-          return view('admin.sales.money-safe');
-    }
+
 
 
 }

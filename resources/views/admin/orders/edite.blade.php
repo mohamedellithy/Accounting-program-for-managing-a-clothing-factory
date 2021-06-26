@@ -31,216 +31,103 @@
 		                <h3 class="card-title">تعديل طلب الشراء</h3>
 		              </div>
 		              <!-- /.card-header -->
-		              @foreach($order_product_info as $order_info )
+
 		              <!-- form start -->
 		              <form action="{{ url('orders/'.$order_info->id) }}" role="form" method="POST">
                         @method('PUT')
                         {{ csrf_field() }}
-		                <div class="card-body cardbody">
+                        @foreach($order_info->invoices_items as $order)
+
+                            <div class="card-body  col-md-5" style="display:inline-block;border-left: 2px dashed black;">
+
+                                <h5> المنتج رقم # {{ $loop->index + 1}} </h5>
+                                <!-- merchant name  -->
+                                <input class="invoices_items_ID_{{ $order->id }}" value="{{ $order->id }}" type="hidden" value="{{ $order->id }} ">
+
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="exampleInputEmail1">اسم المنتج</label>
+                                    <select name="product_id[]" class="product_id form-control select2 product_id_{{ $order->id }}" style="width: 100%;" required>
+                                        @if(!empty($get_all_products))
+                                            @foreach($get_all_products as $product)
+                                                <option value="{{ $product->id }}" additional-taxs="{{ $product->additional_taxs }}" data-price="{{ $product->price_piecies }}" {{ (($order->product_id==$product->id)?'selected':'') }} > {{ $product->name_product }} </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+
+
+                                <!-- order Category  -->
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="exampleInputPassword1">الصنف</label>
+                                    <select name="category_id[]" class="form-control select2" style="width: 100%;">
+
+                                    @if(!empty($get_all_categories))
+                                        @foreach($get_all_categories as $category)
+                                            <option value="{{ $category->id }}" {{ (($order->product->category_id==$category->id)?'selected':'') }} > {{ $category->category }} </option>
+                                        @endforeach
+                                    @endif
+
+                                    </select>
+                                </div>
+
+
+                                <!-- order value  -->
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="exampleInputPassword1">كمية الطلبية</label>
+                                    <input name="order_count[]" value="{{ $order->order_count }}" type="text" item-id="{{ $order->id }}" class="order_count form-control order_count_{{ $order->id }}" id="exampleInputPassword1" placeholder="كمية الطلبية" required>
+                                </div>
+
+                                <!-- order price  -->
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="exampleInputPassword1">سعر الطلبية</label>
+                                    <input name="order_price[]" value="{{ round($order->order_price,2) }}" type="text" class="form-control order_price_{{ $order->id }}" id="exampleInputPassword1" placeholder="سعر الطلبية بالجنية" required>
+                                </div>
+
+                                <!-- order discount  -->
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="exampleInputPassword1">تخفيض على الطلبية</label>
+                                    <input name="order_discount[]" value="{{ $order->order_discount }}" type="text" class=" order_discount_{{ $order->id }} form-control" id="exampleInputPassword1" placeholder="تخفيض على الطلبية بالنسبة او بالجنية">
+                                </div>
+
+                                <!-- order discount  -->
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label for="exampleInputPassword1">مصروفات زائدة</label>
+                                    <input name="order_taxs[]" value="{{ $order->order_taxs }}" type="text" item-id="{{ $order->id }}" class="order_taxs order_taxs_{{  $order->id }} form-control" id="exampleInputPassword1" placeholder="مصروفات زائدة على الطلبية">
+                                </div>
+
+
+
+                            </div>
+		                    <!-- /.card-body -->
+                        @endforeach
+                        <div class="card-body  col-md-10" style="display:inline-block;">
 
                             <!-- merchant name  -->
-		                   <div class="form-group col-md-12 col-xs-12">
-			                  <label for="exampleInputEmail1">اسم المنتج</label>
-			                  <select name="product_id" class="product_id form-control select2" style="width: 100%;" required>
-			                   @if(!empty($get_all_products))
-			                       @foreach($get_all_products as $product)
-			                           <option value="{{ $product->id }}" data-price="{{ $product->price_piecies }}" {{ (($order_info->product_id==$product->id)?'selected':'') }} > {{ $order_info->product_name->name_product }} </option>
-			                       @endforeach
-			                   @endif
-			                  </select>
-			                </div>
+                            <div class="form-group col-md-12 col-xs-12">
+                                <label for="exampleInputEmail1">اسم العميل </label>
+                                <select name="client_id" class="form-control select2" style="width: 100%;" >
+                                    <option value="">بدون</option>
+                                    @if(!empty($all_clients))
+                                        @foreach($all_clients as $client)
+                                            <option value="{{ $client->id }}" {{ (($order_info->client_id==$client->id)?'selected':'') }} > {{ $client->client_name }} </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
 
-		                  <!-- merchant name  -->
-		                   <div class="form-group col-md-12 col-xs-12">
-			                  <label for="exampleInputEmail1">اسم العميل </label>
-			                  <select name="client_id" class="form-control select2" style="width: 100%;" >
-			                    <option value="">بدون</option>
-			                   @if(!empty($all_clients))
-			                       @foreach($all_clients as $client)
-			                           <option value="{{ $client->id }}" {{ (($order_info->client_id==$client->id)?'selected':'') }} > {{ $client->client_name }} </option>
-			                       @endforeach
-			                   @endif
-			                  </select>
-			                </div>
-
-			               <!-- order Category  -->
-		                   <div class="form-group col-md-12 col-xs-12">
-			                   <label for="exampleInputPassword1">الصنف</label>
-			                  <select name="category_id" class="form-control select2" style="width: 100%;">
-
-			                   @if(!empty($get_all_categories))
-			                       @foreach($get_all_categories as $category)
-			                           <option value="{{ $category->id }}" {{ (($order_info->product_name->category_id==$category->id)?'selected':'') }} > {{ $order_info->product_name->category_name->category }} </option>
-			                       @endforeach
-			                   @endif
-
-			                  </select>
-			                </div>
-		                  <!-- order value  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">كمية الطلبية</label>
-		                    <input name="order_count" value=" {{ $order_info->order_count }} " type="text" class="form-control order_count" id="exampleInputPassword1" placeholder="كمية الطلبية" required>
-		                  </div>
-
-		                  <!-- order price  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">سعر الطلبية</label>
-		                    <input name="order_price" value=" {{ round($order_info->order_price,2) }} " type="text" class="form-control order_price" id="exampleInputPassword1" placeholder="سعر الطلبية بالجنية" required>
-		                  </div>
-
-		                  <!-- order discount  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">تخفيض على الطلبية</label>
-		                    <input name="order_discount" value="{{ $order_info->order_discount }}" type="text" class="order_discount form-control" id="exampleInputPassword1" placeholder="تخفيض على الطلبية بالنسبة او بالجنية">
-		                  </div>
-
-		                  <!-- order discount  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">مصروفات زائدة</label>
-		                    <input name="order_taxs" value="{{ $order_info->order_taxs }}" type="text" class="order_taxs form-control" id="exampleInputPassword1" placeholder="مصروفات زائدة على الطلبية">
-		                  </div>
-
-		                  <!-- order type payment  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">نوع الدفع</label>
-			                  <select name="payment_type" class="form-control payment_type select2" style="width: 100%;" required>
-			                        <option value="نقدى" {{ (($order_info->payment_type=='نقدى')?'selected':'') }} > نقدى </option>
-			                        <option value="شيك" {{ (($order_info->payment_type=='شيك')?'selected':'') }} > شيك </option>
-			                        <option value="دفعات" {{ (($order_info->payment_type=='دفعات')?'selected':'') }} > دفعات </option>
-
-			                  </select>
-			              </div>
-
-			                @if( ($order_info->bank_check==null) || (count($order_info->bank_check)!=0) )
-                                @foreach($order_info->bank_check as $check_details)
-                                    <input name="check_id[]" value="{{ ($check_details->id?$check_details->id:'') }}" type="text" class="form-control input_ids{{ ($check_details->id?$check_details->id:'') }}" placeholder="شيك باسم ..." hidden>
-					                <div class="checkform col-12" check_id="{{ ($check_details->id?$check_details->id:'') }}" style="display:block">
-					                  	<div class="col-xs-12">
-					                  	     <h4 class="badge bg-danger" style="font-size:14px;color:black"> اضافة شيك </h4>
-					                  	     <i class="fa fa-plus-square" aria-hidden="true"></i>
-					                  	     <i class="far fa-trash-alt form-delete" aria-hidden="true"></i>
-					                  	</div>
-			                            <div class="form-group col-md-12">
-					                      <!-- text input -->
-					                      <div class="form-group">
-					                        <label>شيك باسم</label>
-
-					                        <input name="check_owner[]" value="{{ ($check_details->check_owner?$check_details->check_owner:'') }}" type="text" class="form-control" placeholder="شيك باسم ..." >
-					                      </div>
-					                    </div>
-					                    <div class="form-group col-md-12">
-					                      <!-- text input -->
-					                      <div class="form-group">
-					                        <label>تاريخ تسديد الشيك</label>
-					                        <input name="check_date[]" value="{{ ($check_details->check_date?$check_details->check_date:'') }}" type="date" class="form-control" placeholder="Enter ..." >
-					                      </div>
-					                    </div>
-					                    <div class="form-group col-md-12">
-					                      <!-- text input -->
-					                      <div class="form-group">
-					                        <label>قيمة الشيك</label>
-					                        <input name="check_value[]" value="{{ ($check_details->check_value?$check_details->check_value:'') }}" type="text" class="form-control" placeholder="قيمة الشيك ..." >
-					                      </div>
-					                    </div>
-					                    <div class="form-group col-md-12">
-					                      <!-- text input -->
-					                      <div class="form-group">
-					                        <label>اضافة علي قيمة الشيك</label>
-					                        <input name="increase_value[]" value="{{ ($check_details->increase_value?$check_details->increase_value:'') }}" type="text" class="form-control" placeholder="قيمة اضافية ..." >
-					                      </div>
-				                        </div>
-				                    </div>
-				                @endforeach
-				            @elseif(count($order_info->postponeds_money)!=0)
-				                @foreach($order_info->postponeds_money as $postponeds_money)
-				                  <input name="order_id" value="{{ ($postponeds_money->id?$postponeds_money->id:'') }}" type="text" class="form-control input_ids{{ ($postponeds_money->id?$postponeds_money->id:'') }}" placeholder="شيك باسم ..." hidden>
-				                  <!--  here put form postponed values -->
-				                  <div class="postponedform col-12" order_id="{{ ($postponeds_money->id?$postponeds_money->id:'') }}" style="display:block">
-				                  	<div class="col-xs-12">
-				                  	     <h4 class="badge bg-success" style="font-size:14px;color:black"> اضافة دفعات</h4>
-				                  	     <i class="fa fa-plus-square" aria-hidden="true"></i>
-
-				                  	</div>
-		                            <div class="form-group col-12">
-				                      <!-- text input -->
-				                      <div class="form-group">
-				                        <label>قيمة  الدفعات</label>
-				                        <input name="postponed_value" value="{{ ($postponeds_money->posponed_value?$postponeds_money->posponed_value:'') }}" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." >
-				                      </div>
-				                    </div>
-
-
-
-				                  </div>
-                                  <!--  here put end of form check of Banck -->
-				                @endforeach
-				            @else
-
-					            <div class="checkform col-12">
-				                  	<div class="col-xs-12">
-				                  	     <h4 class="badge bg-danger" style="font-size:14px;color:black"> اضافة شيك </h4>
-				                  	     <i class="fa fa-plus-square" aria-hidden="true"></i>
-				                  	     <i class="far fa-trash-alt" aria-hidden="true"></i>
-				                  	</div>
-		                            <div class="form-group col-md-12">
-				                      <!-- text input -->
-				                      <div class="form-group">
-				                        <label>شيك باسم</label>
-				                        <input name="check_owner[]" type="text" class="form-control" placeholder="شيك باسم ..." >
-				                      </div>
-				                    </div>
-				                    <div class="form-group col-md-12">
-				                      <!-- text input -->
-				                      <div class="form-group">
-				                        <label>تاريخ تسديد الشيك</label>
-				                        <input name="check_date[]" type="date" class="form-control" placeholder="Enter ..." >
-				                      </div>
-				                    </div>
-				                    <div class="form-group col-md-12">
-				                      <!-- text input -->
-				                      <div class="form-group">
-				                        <label>قيمة الشيك</label>
-				                        <input name="check_value[]" type="text" class="form-control" placeholder="قيمة الشيك ..." >
-				                      </div>
-				                    </div>
-				                    <div class="form-group col-md-12">
-				                      <!-- text input -->
-				                      <div class="form-group">
-				                        <label>اضافة علي قيمة الشيك</label>
-				                        <input name="increase_value[]" type="text" class="form-control" placeholder="قيمة اضافية ..." >
-				                      </div>
-				                    </div>
-
-			                     </div>
-			                      <!--  here put form postponed values -->
-				                  <div class="postponedform col-12">
-				                  	<div class="col-xs-12">
-				                  	     <h4 class="badge bg-success" style="font-size:14px;color:black"> اضافة دفعات</h4>
-
-				                  	</div>
-		                            <div class="form-group col-12">
-				                      <!-- text input -->
-				                      <div class="form-group">
-				                        <label>قيمة  الدفعات</label>
-				                        <input name="postponed_value[]" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." >
-				                      </div>
-				                    </div>
-
-
-
-				                  </div>
-                                  <!--  here put end of form check of Banck -->
-
-                            @endif
-
-		                </div>
-		                <!-- /.card-body -->
+                            <!-- order type payment  -->
+                            <div class="form-group col-md-12 col-xs-12">
+                                <label for="exampleInputPassword1">نوع الدفع</label>
+                                <input type="text" name="payment_type" value="{{ $order_info->payment_type }}" class="form-control" id="exampleInputPassword1" readonly>
+                            </div>
+                        </div>
 
 		                <div class="card-footer">
 		                  <button type="submit" class="btn btn-primary"> تعديل الطلبية </button>
 		                </div>
 		              </form>
-		              @endforeach
+
 		            </div>
 		            <!-- /.card -->
 	            </div>
@@ -262,115 +149,26 @@
     <script src="{{ asset('vendor/adminlte/plugins/plugins/select2/js/select2.full.min.js') }}"></script>
      <script>
 		  $(function () {
-		    //Initialize Select2 Elements
+		    // Initialize Select2 Elements
 		    $('.select2').select2({
 		      theme: 'bootstrap4'
 		    });
 
 
-		    $('select.payment_type').change(function(){
-		    	if($(this).val() == 'شيك'){
-		    	   $('.checkform').fadeIn();
-		    	   $('.postponedform').fadeOut();
-		    	   console.log('hi');
-		    	}
-		    	else if($(this).val() == 'دفعات'){
-		    	   $('.postponedform').fadeIn();
-		    	   $('.checkform').fadeOut();
-		    	   console.log('hi');
-		    	}
-		    	else{
-		    	   $('.checkform').fadeOut();
-		    	   $('.postponedform').fadeOut();
-		    	}
-		    });
-		    // here js for form BanckCheck
-		    $('body').on('click','.checkform .fa-plus-square',function(){
-                var html_inputs = $('.checkform').html();
-                var creatContainer = document.createElement('div');
-                $(creatContainer).addClass('checkform col-12');
-                creatContainer.innerHTML = html_inputs;
-                $('.cardbody').append(creatContainer);
-                $(creatContainer).fadeIn();
-		    });
-		    $('body').on('click','.checkform .fa-trash-alt',function(){
 
-                $(this).parents('.checkform').hide();
-		    });
-            // here js for form postponed data
-		     $('body').on('click','.postponedform .fa-plus-square',function(){
-                var html_inputs = $('.postponedform').html();
-                var creatContainer = document.createElement('div');
-                $(creatContainer).addClass('postponedform col-12');
-                creatContainer.innerHTML = html_inputs;
-                $('.cardbody').append(creatContainer);
-                $(creatContainer).fadeIn();
-		    });
-		    $('body').on('click','.postponedform .fa-trash-alt',function(){
-
-                $(this).parents('.postponedform').hide();
-		    });
 		});
     </script>
     <script type="text/javascript">
-         $('body').on('click','.checkform .fa-trash-alt.form-delete',function(){
-              $(this).parents('.checkform').remove();
-              var check_id = $(this).parents('.checkform').attr('check_id');
-              var Banckcheck_id =   $('.input_ids'+check_id).val();
-              if(Banckcheck_id!==undefined){
-                 $.ajaxSetup({
-	                  headers: {
-	                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-	                  }
-                 });
-                 jQuery.ajax({
-	                  url: "{{ url('/ajax-delete-Bankcheck') }}",
-	                  method: 'get',
 
-	                  data: {
-	                     Banckcheck_id:Banckcheck_id,
-	                  },
-	                  success: function(result){
-	                     console.log(result.status);
-	                  }
-                });
-              }
-         });
 
-         // remove or delete postponed
-         $('body').on('click','.postponedform .fa-trash-alt.postponed-delete',function(){
-              $(this).parents('.postponedform').remove();
-              var order_id = $(this).parents('.postponedform').attr('order_id');
-              var postponed_id = $('.input_ids'+order_id).val();
-              console.log(postponed_id);
-              if(postponed_id!==undefined){
-                 $.ajaxSetup({
-	                  headers: {
-	                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-	                  }
-                 });
-                 jQuery.ajax({
-	                  url: "{{ url('/ajax-delete-postponed') }}",
-	                  method: 'get',
+        jQuery('body').on('keyup','.order_count , .order_taxs ',function(){
+            var ID                   =   jQuery(this).attr('item-id');
+            var order_count          =   Number(jQuery('.order_count_'+ID).val());
+            var order_price          =   Number(jQuery('.order_price_'+ID).val());
+            var one_price            =   Number(jQuery('.product_id_'+ID+' option:selected').attr('data-price'));
+            var additional_taxs      =   Number(jQuery('.product_id_'+ID+' option:selected').attr('additional-taxs'));
 
-	                  data: {
-	                     postponed_id:postponed_id,
-	                  },
-	                  success: function(result){
-	                     console.log(result.status);
-	                     console.log(postponed_id);
-	                  }
-                });
-              }
-         });
-
-         	jQuery('body').on('keyup','.order_count , .order_taxs ',function(){
-
-        	    var order_count     =   Number(jQuery('.order_count').val());
-        	    var order_price     =   Number(jQuery('.order_price').val());
-        	    var one_price       =   Number(jQuery('.product_id option:selected').attr('data-price'));
-        	    var additional_taxs      = Number(jQuery('.order_taxs ').val());
-                jQuery('.order_price').val((Number(one_price)+Number(additional_taxs))*Number(order_count) );
-            });
+            jQuery('.order_price_'+ID).val( ( Number(order_count) * Number(additional_taxs) ) + ( Number(order_count) * Number(one_price) ) );
+        });
     </script>
 @stop

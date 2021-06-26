@@ -9,106 +9,134 @@
 
 @section('content')
       <!-- Main content -->
-    
-    <section class="content">
+   <section class="content">
 	    <div class="container-fluid">
 	        <div class="row">
 	            <!-- left column -->
-	            <div class="col-md-12"> 
-	            	@if($message = Session::get('success'))
+	            <div class="col-md-12">
+
+                   @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul style="list-style:none">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+		            @elseif($message = Session::get('success'))
 		            	<div class="alert alert-warning alert-dismissible">
-		                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		                  <h5><i class="icon fas fa-check"></i> تمت</h5>
-		                  {{ $message }}
-		                </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-check"></i> تمت</h5>
+                            {{ $message }}
+                        </div>
 		            @endif
-		             <div class="" style="text-align: left !important;">
-		                 <a href="{{ url('show-orders') }}" class="btn btn-info"> الرجوع </a>
-		            </div>
+
 		            <!-- general form elements -->
 		            <div class="card card-primary">
-		              <div class="card-header">
-		                <h3 class="card-title">تعديل المرتجع</h3>
-		              </div>
-		              <!-- /.card-header -->
-		              @foreach($order_product_info as $order_info )
-		              <!-- form start -->
-		              <form action="{{ url('update-reactionist/'.$order_info->id.'/'.$order_info->order_id) }}" role="form" method="POST">
-                        {{ csrf_field() }}
-		                <div class="card-body">
-		                 
-                            <!-- merchant name  -->		                    
-		                   <div class="form-group col-md-12 col-xs-12">
-			                  <label for="exampleInputEmail1">اسم المنتج</label>
-			                  <select name="product_id" class="form-control select2" style="width: 100%;" required>
-			                   @if(!empty($get_all_products))
-			                       @foreach($get_all_products as $product)
-			                           <option value="{{ $product->id }}" {{ (($order_info->product_id==$product->id)?'selected':'') }} > {{ $order_info->product_name->name_product }} </option>
-			                       @endforeach
-			                   @endif
-			                  </select>
-			                </div>
+                        <div class="card-header">
+                            <h3 class="card-title">اضافة مرتجع نقدى</h3>
+                        </div>
+		                <!-- /.card-header -->
+		                <!-- form start -->
+		                <form action="{{ url('reactionists/'.$reactionist->id) }}" role="form" method="POST">
+                        @method('PUT')
+                            {{ csrf_field() }}
+                            <div class="card-body">
+					              <!-- product name  -->
+				                   <div class="form-group col-md-12 col-xs-12">
+					                  <label for="exampleInputEmail1"> الطلبيات داخل الفاتورة </label>
+					                  <select name="order_id" class="form-control select2 item" style="width: 100%;" required>
+					                    @if(!empty($order->invoices_items))
+					                        @foreach($order->invoices_items as $item)
+					                           <option one-item="{{ $item->final_cost > 0 ? ($item->final_cost / $item->order_count) : 0 }}" value="{{ $item->id }}"  {{ $reactionist->order_id == $item->id ? 'select' : '' }} > # {{  $item->product->name_product  }}  - رقم الطلب ( # {{   $item->id  }} ) - الصنف ( {{ $item->product->category->category }} )  - عدد القطع ( {{ $item->order_count  }} ) - التكلفة الكلية ( {{ $item->final_cost  }} جنيه) </option>
+					                        @endforeach
+					                    @endif
+					                  </select>
+					                </div>
 
-		                  <!-- merchant name  -->		                    
-		                   <div class="form-group col-md-12 col-xs-12">
-			                  <label for="exampleInputEmail1">اسم العميل </label>
-			                  <select name="client_id" class="form-control select2" style="width: 100%;" >
-			                    <option value="">بدون</option>
-			                   @if(!empty($all_clients))
-			                       @foreach($all_clients as $client)
-			                           <option value="{{ $client->id }}" {{ (($order_info->client_id==$client->id)?'selected':'') }} > {{ ($order_info->client_id?$order_info->client_name->client_name:'') }} </option>
-			                       @endforeach
-			                   @endif
-			                  </select>
-			                </div>
+				                  <!-- order value  -->
+				                  <div class="form-group col-md-12 col-xs-12">
+				                    <label for="exampleInputPassword1">عدد القطع المرتجعة </label>
+				                    <input value="{{ $reactionist->order_count ?? 0 }}" name="order_count" type="text" class="form-control order_count" id="exampleInputPassword1" placeholder="عدد القطع المرتجعة " required>
+				                  </div>
 
-			               <!-- order Category  -->
-		                   <div class="form-group col-md-12 col-xs-12">
-			                   <label for="exampleInputPassword1">الصنف</label>
-			                  <select name="category_id" class="form-control select2" style="width: 100%;">
-			                   
-			                   @if(!empty($get_all_categories))
-			                       @foreach($get_all_categories as $category)
-			                           <option value="{{ $category->id }}" {{ (($order_info->product_name->category_id==$category->id)?'selected':'') }} > {{ $order_info->product_name->category_name->category }} </option>
-			                       @endforeach
-			                   @endif
-			                 
-			                  </select>
-			                </div>
-		                  
-		                  <!-- order value  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">كمية الطلبية</label>
-		                    <input name="order_count" value=" {{ $order_info->order_count }} " type="text" class="form-control" id="exampleInputPassword1" placeholder="كمية الطلبية" required>
-		                      <input name="old_order_count" value=" {{ $order_info->order_count }} " type="text" class="form-control" id="exampleInputPassword1" placeholder="كمية الطلبية" hidden>
-		                  </div>
+				                  <!-- order price  -->
+				                  <div class="form-group col-md-12 col-xs-12">
+				                    <label for="exampleInputPassword1">سعر القطعة</label>
+				                    <input name="one_item_price" value="{{ $reactionist->one_item_price ?? 0 }}" type="text" class="form-control reactionist_price" id="exampleInputPassword1" placeholder="سعر القطعة" required readonly>
+				                  </div>
 
-		                  <!-- order price  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">سعر القطعة الواحدة</label>
-		                    <input name="reactionist_price" value=" {{ $order_info->reactionist_price }} " type="text" class="form-control" id="exampleInputPassword1" placeholder="سعر الطلبية بالجنية" required>
-		                  </div>
+                                  <!-- order price  -->
+				                  <div class="form-group col-md-12 col-xs-12">
+				                    <label for="exampleInputPassword1">سعر الاجمالى</label>
+				                    <input name="final_cost" value="{{ $reactionist->final_cost ?? 0 }}" type="text" class="form-control final_cost" id="exampleInputPassword1" placeholder="سعر القطعة" required readonly>
+				                  </div>
 
-		                  <!-- order type payment  -->
-		                  <div class="form-group col-md-12 col-xs-12">
-		                    <label for="exampleInputPassword1">نوع الدفع</label>
-			                  <select name="payment_type" class="form-control select2" style="width: 100%;" required>
-			                        <option value="نقدى" {{ (($order_info->payment_type=='نقدى')?'selected':'') }} > نقدى </option>
-			                        <option value="شيك" {{ (($order_info->payment_type=='شيك')?'selected':'') }} > شيك </option>
-			                 
-			                  </select>
-			              </div>
-		                  
-		                </div>
-		                <!-- /.card-body -->
+				                  <!-- order type payment  -->
+				                  <div class="form-group col-md-12 col-xs-12">
+				                    <label for="exampleInputPassword1">نوع الدفع</label>
+				                       <input name="payment_type" value="{{ $order->payment_type }}" hidden>
+					                  <select name="payment" class="form-control select2" style="width: 100%;" required disabled>
+					                        <option value="نقدى"  {{ (($order->payment_type=='نقدى')?'selected':'') }} > نقدى </option>
+					                        <option value="شيك"   {{ (($order->payment_type=='شيك')?'selected':'') }}> شيك </option>
+					                        <option value="أجل"   {{  (($order->payment_type=='دفعات')?'selected':'') }}> دفعات </option>
 
-		                <div class="card-footer">
-		                  <button type="submit" class="btn btn-primary"> تعديل الطلبية </button>
-		                </div>
-		              </form>
-		              @endforeach
+					                  </select>
+					              </div>
+		                    </div>
+		                    <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary"> اضافة مرتجع نقدى </button>
+                            </div>
+		                 </form>
 		            </div>
 		            <!-- /.card -->
+
+		            {{--  here show table of added last  --}}
+				    <div class="card">
+				      <div class="card-header">
+				        <h3 class="card-title">أخر مرتجع نقدى</h3>
+				      </div>
+				      <!-- /.card-header -->
+				      <div class="card-body">
+				        <table class="table table-bordered">
+				          <thead>
+				            <tr>
+				              <th>#</th>
+				              <th>أسم المنتج</th>
+				              <th>الصنف</th>
+				              <th>الكمية</th>
+				              <th>سعر القطعة</th>
+				              <th>اسم الزبون </th>
+				              <th>نوع الدفع</th>
+                              <th>التكلفة الاجمالية</th>
+				              <th>تاريخ مرتجع</th>
+
+				            </tr>
+				          </thead>
+				          <tbody>
+                              @if(!empty($last_order))
+                                    <tr>
+                                      <td>1#</td>
+                                      <td> {{ $last_order->order->product->name_product }} </td>
+                                      <td> {{ $last_order->order->product->category->category }} </td>
+                                      <td> {{ $last_order->order_count  }}  قطعة </td>
+                                      <td> {{ $last_order->one_item_price }} جنية </td>
+                                      <td> {{ ($last_order->order->client?$last_order->order->client->client_name:'بدون') }} </td>
+                                      <td> {{ $last_order->payment_type }} </td>
+                                      <td> {{ $last_order->final_cost }} جنية </td>
+                                      <td> {{ $last_order->created_at }} </td>
+                                    </tr>
+                              @endif
+
+
+				          </tbody>
+				        </table>
+				      </div>
+
+				    </div>
+				    <!-- /.card -->
 	            </div>
 	        </div>
 	    </div>
@@ -128,10 +156,31 @@
     <script src="{{ asset('vendor/adminlte/plugins/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
 		  $(function () {
-		    //Initialize Select2 Elements
+		    // Initialize Select2 Elements
 		    $('.select2').select2({
 		      theme: 'bootstrap4'
 		    });
 		});
     </script>
+    <script>
+		  $(function () {
+		    // Initialize Select2 Elements
+		    $('.select2').select2({
+		      theme: 'bootstrap4',
+		    });
+            jQuery('.item').change(function(){
+                let one_item_cost        = jQuery('.item option:selected').attr('one-item');
+                let order_count          = jQuery('.order_count').val();
+                jQuery('.reactionist_price').val( one_item_cost);
+                jQuery('.final_cost').val( order_count * one_item_cost);
+            });
+            jQuery('.order_count , .reactionist_price').keyup(function(){
+                let one_item_cost        = jQuery('.reactionist_price').val();
+                let order_count          = jQuery('.order_count').val();
+                jQuery('.final_cost').val( order_count * one_item_cost);
+
+            });
+		});
+    </script>
 @stop
+

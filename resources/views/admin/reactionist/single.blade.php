@@ -9,13 +9,13 @@
 
 @section('content')
     <!-- Main content -->
-    
+
     <section class="content">
 	    <div class="container-fluid">
 	        <!-- start row -->
 	        <div class="row">
 	            <!-- start row orders clothes -->
-	            <div class="side-by-side col-md-8"> 
+	            <div class="side-by-side col-md-8">
 				   <div class="card">
 		              <div class="card-header border-transparent">
 		                <h3 class="card-title">تفاصيل المرتجع</h3>
@@ -29,81 +29,74 @@
 		                    </thead> -->
 		                    <tbody>
 		                    	@if(!empty($reactionist_data))
-				              	    @foreach($reactionist_data as $reactionist_data_info)
-					                    <tr>
-		                                    <th>رقم المرتجع</th>
-		                                     <td><a href="#"> # {{ $reactionist_data_info->id }} </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>اسم المنتج</th>
-		                                     <td><a href="#">  {{ $reactionist_data_info->product_name->name_product }} </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>الصنف</th>
-		                                     <td><a href="#"> {{ $reactionist_data_info->product_name->category_name->category }} </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>كمية</th>
-		                                     <td><a href="#"> {{ $reactionist_data_info->order_count }} قطعة </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>سعر القطعة</th>
-		                                     <td><a href="#"> {{ $reactionist_data_info->reactionist_price .' جنيه ' }} </a></td>
-					                    </tr>
-					                 
-					                    <tr>
-		                                    <th>السعر الكلى</th>
-		                                    <td>{{ ($reactionist_data_info->reactionist_price * $reactionist_data_info->order_count ).' جنيه ' }}</td>
-					                    </tr>
-					                     
-					                    <tr>
-		                                    <th>تاريخ الاضافة</th>
-		                                    <td><span class="badge badge-primary">{{ $reactionist_data_info->created_at }}  </span></td>
-					                    </tr>
-					                    
-					                @endforeach
+                                    <tr>
+                                        <th>رقم المرتجع</th>
+                                            <td><a href="#"> # {{ $reactionist_data->id }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>اسم المنتج</th>
+                                            <td><a href="#">  {{ $reactionist_data->order->product->name_product }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>الصنف</th>
+                                            <td><a href="#"> {{ $reactionist_data->order->product->category->category }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>كمية</th>
+                                            <td><a href="#"> {{ $reactionist_data->order_count }} قطعة </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>سعر القطعة</th>
+                                            <td><a href="#"> {{ $reactionist_data->one_item_price .' جنيه ' }} </a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>السعر الكلى</th>
+                                        <td>{{ ($reactionist_data->final_cost ).' جنيه ' }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>تاريخ الاضافة</th>
+                                        <td><span class="badge badge-primary">{{ $reactionist_data->created_at }}  </span></td>
+                                    </tr>
 					            @else
 					                <tr>
 					                	 <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
 					                </tr>
-					            @endif		                   
+					            @endif
 		                    </tbody>
 		                  </table>
 		                </div>
 		                <!-- /.table-responsive -->
 		              </div>
 		              <!-- /.card-body -->
-		              <div class="card-footer clearfix">
-		                <a href="{{ url('reactionist-delete/'.$reactionist_id.'/single') }}"  class="btn btn-sm btn-info delete_all float-left" data-toggle="modal" data-target="#modal-default"  > <i class="far fa-trash-alt"></i> حذف المرتجع</a>
-		                              
-		              </div>
+
 		              <!-- /.card-footer -->
 		            </div>
-		       
+
 
 	            </div>
 	            <!-- start orders clothes -->
 
 	            <!-- start row orders clothes -->
-	            <div class="side-by-side col-md-4"> 
+	            <div class="side-by-side col-md-4">
 		            <!-- general form elements -->
 				    <div class="card">
 		              <div class="card-header" style="background-color:rgb(253 233 62);">
 		                <h3 class="card-title">تفاضيل الطلبية </h3>
 		              </div>
-		             
-		              @if( (count($order) != 0 ))
-		              	 @foreach($order as $order_info)
+
+		              @if( !empty($reactionist_data->order) )
 			              <!-- /.card-header -->
 			              <div class="card-body p-0">
 			                <ul class="products-list product-list-in-card pl-2 pr-2">
-			              
+
 				                  <!-- /.item -->
 				                  <li class="item">
 				                    <div class="product-info">
 				                      <a href="javascript:void(0)" class="product-title">اسم الزبون </a>
 				                      <span class="product-description">
-				                        {{ $order_info->client_name->client_name }}
+				                        {{ $reactionist_data->order->client->client_name }}
 				                      </span>
 				                    </div>
 				                  </li>
@@ -113,7 +106,7 @@
 				                    <div class="product-info">
 				                      <a href="javascript:void(0)" class="product-title">كمية </a>
 				                      <span class="product-description">
-				                         {{ $order_info->order_count }} قطعة
+				                         {{ $reactionist_data->order->order_count }} قطعة
 				                      </span>
 				                    </div>
 				                  </li>
@@ -123,7 +116,7 @@
 				                    <div class="product-info">
 				                      <a href="javascript:void(0)" class="product-title">سعر الطلبية</a>
 				                      <span class="product-description">
-				                         {{ $order_info->order_price }} جنيه
+				                         {{ $reactionist_data->order->order_price }} جنيه
 				                      </span>
 				                    </div>
 				                  </li>
@@ -133,7 +126,7 @@
 				                    <div class="product-info">
 				                      <a href="javascript:void(0)" class="product-title">خصم علي الطلبية</a>
 				                      <span class="product-description">
-				                         {{ $order_info->order_discount }} جنيه
+				                         {{ $reactionist_data->order->order_discount }} جنيه
 				                      </span>
 				                    </div>
 				                  </li>
@@ -143,7 +136,7 @@
 				                    <div class="product-info">
 				                      <a href="javascript:void(0)" class="product-title">مصاريف اضافية</a>
 				                      <span class="product-description">
-				                         {{ $order_info->order_taxs }} جنيه
+				                         {{ $reactionist_data->order->order_taxs }} جنيه
 				                      </span>
 				                    </div>
 				                  </li>
@@ -153,27 +146,24 @@
 				                    <div class="product-info">
 				                      <a href="javascript:void(0)" class="product-title">طريقة الدفع</a>
 				                      <span class="product-description">
-				                         {{ $order_info->payment_type }}
+				                         {{ $reactionist_data->order->payment_type }}
 				                      </span>
 				                    </div>
 				                  </li>
-				                  
 
-				                  
+
+
 			                </ul>
 			              </div>
 			              <!-- /.card-body -->
-			        
-			              <!-- /.card-footer -->
-			            @endforeach
 			        @else
 			            <div class="card-body p-0">
 			                <ul class="products-list product-list-in-card pl-2 pr-2">
 					             <li class="item">
 				                    <div class="product-info">
-				                    
+
 				                      <span class="product-description">
-				                         غير صادر عن طلبية 
+				                         غير صادر عن طلبية
 				                      </span>
 				                    </div>
 				                  </li>
@@ -203,7 +193,7 @@
               <p>تأكيد حذف المحدد من جدول التجار</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -228,7 +218,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {

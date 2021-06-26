@@ -268,8 +268,8 @@
                               @if(!empty($last_order))
                                     <tr>
                                       <td>1#</td>
-                                      <td> {{ $last_order->product_name->name_product }} </td>
-                                      <td> {{ $last_order->product_name->category_name->category }} </td>
+                                      <td> {{ $last_order->product->name_product }} </td>
+                                      <td> {{ $last_order->product->category->category }} </td>
                                       <td> {{ $last_order->order_count  }} </td>
                                       <td> {{ $last_order->order_price }} جنية </td>
                                       <td> {{ ($last_order->order_discount?$last_order->order_discount:'بدون') }} </td>

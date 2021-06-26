@@ -19,11 +19,17 @@ class orderClothesController extends Controller
     public function index()
     {
         //
-          $orderClothes_all   = orderClothes::count();
-          $orderClothes_cash  = orderClothes::where('payment_type','نقدى')->count();
-          $orderClothes_check  = orderClothes::where('payment_type','شيك')->count();
+          $orderClothes_all        = orderClothes::count();
+          $orderClothes_cash       = orderClothes::where('payment_type','نقدى')->count();
+          $orderClothes_check      = orderClothes::where('payment_type','شيك')->count();
           $orderClothes_postponed  = orderClothes::where('payment_type','دفعات')->count();
-        return view('admin.clothes.index')->with(['orderClothes_check'=>$orderClothes_check,'orderClothes_postponed'=>$orderClothes_postponed,'orderClothes_cash'=>$orderClothes_cash,'orderClothes_all'=>$orderClothes_all]);
+          $Context = [
+            'orderClothes_check'    =>$orderClothes_check,
+            'orderClothes_postponed'=>$orderClothes_postponed,
+            'orderClothes_cash'     =>$orderClothes_cash,
+            'orderClothes_all'      =>$orderClothes_all
+          ];
+          return view('admin.clothes.index')->with($Context);
     }
 
      /**
@@ -32,28 +38,30 @@ class orderClothesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function datatableorderClothes(Request $request){
-        $orderClothes = DB::table('order_clothes')->orderby('created_at','desc')->get();
-         return datatables()->of($orderClothes)
-        ->addColumn('select', function($row) {
-
-                 return '<input name="select[]" value="'.$row->id.'" type="checkbox"> #'.($row->order_follow?$row->order_follow:$row->id);
+        $orderClothes = orderClothes::whereNull('order_follow')->get();
+        return datatables()->of($orderClothes)
+            ->addColumn('select', function($row) {
+                    return '<input name="select[]" value="'.$row->id.'" type="checkbox"> ';
+                })
+            ->addColumn('id',function($row) {
+                    return '#'.($row->order_follow?$row->order_follow:$row->id);
             })
-        ->addColumn('merchant_name', function($row) {
-                 return DB::table('merchants')->where('id',$row->merchant_id)->pluck('merchant_name')[0];
-            })
-        ->addColumn('category_name', function($row) {
-                 return DB::table('categories')->where('id',$row->category_id)->pluck('category')[0];
-            })
-        ->addColumn('order_price', function($row) {
-                 return $row->order_price.' جنية';
-            })
-         ->addColumn('order_discount', function($row) {
-                 return ($row->order_discount?$row->order_discount:'0').' %';
-            })
-        ->addColumn('Quantity', function($row) {
-                 return $row->order_size.' '.$row->order_size_type;
-            })
-        ->addColumn('process', function($row) {
+            ->addColumn('merchant_name', function($row) {
+                    return $row->merchant->merchant_name;
+                })
+            ->addColumn('category_name', function($row) {
+                    return $row->attached_orders_category;
+                })
+            ->addColumn('order_price', function($row) {
+                    return $row->total_invoice.' جنية';
+                })
+            ->addColumn('order_discount', function($row) {
+                    return ($row->attached_orders_discounts ? $row->attached_orders_discounts.'%':' بدون ');
+                })
+            ->addColumn('Quantity', function($row) {
+                    return $row->attached_orders_size.' '.$row->order_size_type;
+                })
+            ->addColumn('process', function($row) {
                  return '<div class="btn-group">
                             <button type="button" class="btn btn-warning">اجراء</button>
                             <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
@@ -65,10 +73,12 @@ class orderClothesController extends Controller
                               <a class="dropdown-item " href="'.url('orders-clothes/'.$row->id.'/edit').'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
                             </div>
                         </div>';
-
-            })->addColumn('show', function($row) {
+            })
+            ->addColumn('show', function($row) {
                    return '<a href='.url('orders-clothes/'.($row->order_follow?$row->order_follow:$row->id)).' class="btn btn-success btn-sm">عرض </a>';
-            })->rawColumns(['select','order_discount','process','show'])->make(true);
+            })
+            ->rawColumns(['select','id','merchant_name','category_name','order_price','Quantity','order_discount','process','show'])->make(true);
+
 
     }
 
@@ -79,12 +89,16 @@ class orderClothesController extends Controller
      */
     public function create()
     {
-        //
 
          $get_all_merchants = merchant::all();
          $get_all_categories = category::all();
-         $last_order_added = orderClothes::orderby('created_at','desc')->first();
-         return view('admin.clothes.create')->with(['last_order'=>$last_order_added,'all_merchants'=>$get_all_merchants,'get_all_categories'=>$get_all_categories]);
+         $last_order_added = orderClothes::latest()->first();
+         $Context = [
+             'last_order'        => $last_order_added,
+             'all_merchants'     => $get_all_merchants,
+             'get_all_categories'=> $get_all_categories
+         ];
+         return view('admin.clothes.create')->with($Context);
     }
 
     /**
@@ -95,10 +109,8 @@ class orderClothesController extends Controller
      */
      public function store(Request $request)
     {
-        $final_cost_of_order = 0;
+        $final_cost          = 0;
         $payed_value         = 0;
-        //
-      //  dd($request->all());
         $this->validate($request,[
             'merchant_id'=>'required',
             'category_id'=>'required',
@@ -108,60 +120,84 @@ class orderClothesController extends Controller
             'price_one_piecies'=>'required',
             'payment_type'=>'required'
         ]);
-        $data = $request->all();
         $last_insert = orderClothes::create($request->all());
-        $final_cost_of_order = $request->order_price;
-        if($request->payment_type=='شيك'){
-            $count_data_check = count($request->check_owner);
-            if( $count_data_check!=0 ){
-                for($input_value=0;$input_value<$count_data_check;$input_value++){
+        $final_cost  = $last_insert->order_price;
+
+        # payment type  شيكات
+        if( !empty($request->check_value)  && ($request->payment_type=='شيك')):
+
+            if( $count_data_check = count($request->check_owner) > 0 ):
+                for($input_value = 0; $input_value < $count_data_check; $input_value++ ):
                     if(!empty($request->input('check_owner')[$input_value])):
-                        $payed_value +=$request->input('check_value')[$input_value]+$request->input('increase_value')[$input_value];
-                        $insert_bankcheck = new BankCheck();
-                        $insert_bankcheck->bank_checkable_id = $last_insert->merchant_id;
-                        $insert_bankcheck->bank_checkable_type = 'merchant';
-                        $insert_bankcheck->check_date  = $request->input('check_date')[$input_value];
-                        $insert_bankcheck->check_value = $request->input('check_value')[$input_value];
-                        $insert_bankcheck->increase_value = $request->input('increase_value')[$input_value];
-                        $insert_bankcheck->check_owner = $request->input('check_owner')[$input_value];
-                        $insert_bankcheck->save();
+                        $payed_value += $request->input('check_value')[$input_value] + $request->input('increase_value')[$input_value];
+                        bankCheckController::Create([
+                           'id'             => $last_insert->merchant_id,
+                           'type'           =>'merchant',
+                           'check_date'     => $request->input('check_date')[$input_value],
+                           'check_value'    => $request->input('check_value')[$input_value],
+                           'increase_value' => $request->input('increase_value')[$input_value],
+                           'check_owner'    => $request->input('check_owner')[$input_value],
+                        ]);
                     endif;
-                }
+                endfor;
+            endif;
+
+        # payment type  دفعات
+        elseif( !empty($request->postponed_value) && ($request->payment_type=='دفعات')):
+            $payed_value =  $last_insert->postponed_value;
+            # add  payments to merchant from
+            MerchantPayments::Create($last_insert->merchant_id,MerchantPayments::PaymentValue($last_insert->merchant_id,$last_insert->postponed_value,'دفعات'));
+        endif;
+
+        # here if attach others order in invoice
+        if( !empty($request->other_category_id) && ($attach_Orders = count($request->other_category_id) > 0) ){
+            for($counter = 0; $counter < $attach_Orders ; $counter++ ){
+                $final_cost += self::CreateOthersOrders($request,$last_insert,$counter);
             }
         }
-        elseif($request->payment_type=='دفعات'){
-                $payed_value =  $request->input('postponed_value');
-                $insert_postponed = new postponed_orderClothes();
-                $insert_postponed->merchant_id = $last_insert->merchant_id;
-                $insert_postponed->posponed_value = $request->input('postponed_value');
-                $insert_postponed->save();
-        }
 
-         $check_if_other_order_find = ($request->other_category_id?count($request->other_category_id):0);
-         if($check_if_other_order_find!=0){
-            for($counter=0;$counter<$check_if_other_order_find;$counter++){
-                $final_cost_of_order += $request->other_order_price[$counter];
-                $insert_other_order = new orderClothes();
-                $insert_other_order->merchant_id   = $last_insert->merchant_id;
-                $insert_other_order->category_id   = $request->other_category_id[$counter];
-                $insert_other_order->order_size    = $request->other_order_size[$counter];
-                $insert_other_order->order_size_type = $request->other_order_size_type[$counter];
-                $insert_other_order->order_price   = $request->other_order_price[$counter];
-                $insert_other_order->payment_type  = $last_insert->payment_type;
-                $insert_other_order->price_one_piecies  = $request->other_price_one_piecies[$counter];
-                $insert_other_order->order_discount     = $request->other_order_discount[$counter];
-                $insert_other_order->order_follow  = $last_insert->id;
-                $insert_other_order->save();
-            }
+        # here payed vales is greater than
+        if( $payed_value > $final_cost ):
+            debitController::insert_debit_data([
+                'debiter_id'     => $last_insert->merchant_id,
+                'section'        => 'merchant',
+                'value'          => 'دائن',
+                'type_debit'     => $payed_value - $final_cost,
+                'type_payment'   => $last_insert->payment_type,
+                'order_id'       => $last_insert->id,
+            ]);
+        endif;
 
-         }
+        # if merchant have debit  decrement it from new order
+        # if($last_insert->merchant->debits()->sum(DB::raw('debit_value - debit_paid')) > 0 ){
+        #     $last_insert->merchant->debits()
+        #     ->where('debit_value','debit_paid')
+        #     ->get()->map(function($value,$key) use($final_cost){
+        #         $rest = $value->debit_value - $value->debit_paid
+        #         if($rest < $final_cost){
+        #             $value->increment('debit_paid',$rest);
+        #         }
+        #     })
+        # }
 
-        // here do any thing
-         if($payed_value>$final_cost_of_order):
-            insert_debit_data($request->merchant_id,'merchant','دائن',($payed_value-$final_cost_of_order),$request->payment_type,$last_insert->id);
-         endif;
         return back()->with(['success'=>'تم اضافة الطلب بنجاح','last_order'=>$last_insert]);
 
+    }
+
+    static function CreateOthersOrders(object $data , $parentOrder , $counter){
+        $insert_other_order = new orderClothes();
+        $insert_other_order->merchant_id        = $parentOrder->merchant_id;
+         $insert_other_order->invoice_no        = $parentOrder->invoice_no;
+        $insert_other_order->category_id        = $data['other_category_id'][$counter];
+        $insert_other_order->order_size         = $data['other_order_size'][$counter];
+        $insert_other_order->order_size_type    = $data['other_order_size_type'][$counter];
+        $insert_other_order->order_price        = $data['other_order_price'][$counter];
+        $insert_other_order->payment_type       = $parentOrder->payment_type;
+        $insert_other_order->price_one_piecies  = $data['other_price_one_piecies'][$counter];
+        $insert_other_order->order_discount     = $data['other_order_discount'][$counter];
+        $insert_other_order->order_follow       = $parentOrder->id;
+        $insert_other_order->save();
+        return $data['other_order_price'][$counter];
     }
 
 
@@ -174,13 +210,11 @@ class orderClothesController extends Controller
     public function show($id)
     {
         //
-        $single_order = orderClothes::where('id',$id)->get();
-        $other_orders_in_order = orderClothes::where('order_follow',$id)->get();
-        $merchant_id  = orderClothes::where('id',$id)->pluck('merchant_id')[0];
-        $merchant_data= merchant::where('id',$merchant_id)->get();
-      /*  $bank_check_info = BankCheck::where(['bank_checkable_id'=>$id,'bank_checkable_type'=>'orderClothes'])->get();
-        $postponed_data  = postponed_orderClothes::where('orderClothes_id',$id)->get();*/
-        return view('admin.clothes.single')->with(['other_orders_in_order'=>$other_orders_in_order,'order_id'=>$id,'order_data'=>$single_order,'merchant_data'=>$merchant_data]);
+        $invoice = orderClothes::find($id);
+        $Context = [
+            'invoice'=>$invoice,
+        ];
+        return view('admin.clothes.single')->with($Context);
 
     }
 
@@ -193,11 +227,15 @@ class orderClothesController extends Controller
     public function edit($id)
     {
         //
-        $get_all_merchants = merchant::all();
-        $get_all_categories = category::all();
-        $order_clothes_info = orderClothes::with('bank_check')->where('id',$id)->get();
-
-        return view('admin.clothes.edite')->with(['order_clothes_info'=>$order_clothes_info,'all_merchants'=>$get_all_merchants,'get_all_categories'=>$get_all_categories]);
+        $merchants     = merchant::all();
+        $categories    = category::all();
+        $order_clothes = orderClothes::find($id);
+        $Content = [
+            'order_clothes'     =>$order_clothes,
+            'merchants'     =>$merchants,
+            'categories'=>$categories
+        ];
+        return view('admin.clothes.edite')->with($Content);
 
     }
 
@@ -218,10 +256,20 @@ class orderClothesController extends Controller
             'order_size'=>'required',
             'order_price'=>'required',
             'price_one_piecies'=>'required',
-            'payment_type'=>'required'
         ]);
-        $last_insert = orderClothes::where('id',$id)->update($request->only(['merchant_id','category_id','order_size_type','order_size','order_price','payment_type','price_one_piecies']));
-
+        $orderClothes = orderClothes::where('id',$id)->orWhere('order_follow',$id)->get();
+        $orderClothes->map(function($value,$key) use($request){
+            orderClothes::where('id',$value->id)->update([
+               'merchant_id'      =>$request->merchant_id,
+               'invoice_no'       =>$request->invoice_no,
+               'payment_type'     =>$request->payment_type,
+               'category_id'      =>$request->category_id[$key],
+               'order_size_type'  =>$request->order_size_type[$key],
+               'order_size'       =>$request->order_size[$key],
+               'order_price'      =>$request->order_price[$key],
+               'price_one_piecies'=>$request->price_one_piecies[$key],
+            ]);
+        });
         return back()->with(['success'=>'تم تعديل الطلبية بنجاح']);
 
     }
@@ -252,15 +300,11 @@ class orderClothesController extends Controller
     public function destroy($id,$type_return=null)
     {
         //
-        orderClothes::where('id',$id)->delete();
-        //BankCheck::where(['bank_checkable_id'=>$id,'bank_checkable_type'=>'orderClothes'])->delete();
-        //postponed_orderClothes::where('orderClothes_id',$id)->delete();
-        if($type_return=='single'){
-            return redirect('show-orders-clothes');
-        }
-        else{
-            return back()->with(['success'=>'تم حذف الطلبية بنجاح']);
-        }
+        orderClothes::where('id',$id)->orWhere('order_follow',$id)->delete();
+        $Context = [
+            'success'=>'تم حذف الطلبية بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     /**
@@ -273,9 +317,7 @@ class orderClothesController extends Controller
         if(!$request->input('select')){
           return back();
         }
-        orderClothes::whereIn('id', $request->input('select') )->delete();
-       // BankCheck::whereIn('bank_checkable_id',$request->input('select'))->where('bank_checkable_type','orderClothes')->delete();
-      //  postponed_orderClothes::whereIn('orderClothes_id',$request->input('select'))->delete();
+        orderClothes::where('id',$request->input('select'))->orWhere('order_follow',$request->input('select'))->delete();
         return back()->with(['success'=>'تم حذف الطلبية بنجاح']);
     }
 
@@ -287,8 +329,6 @@ class orderClothesController extends Controller
      */
     public function truncated(){
         orderClothes::truncate();
-        //BankCheck::where('bank_checkable_type','orderClothes')->delete();
-        //postponed_orderClothes::truncate();
         return back()->with(['success'=>'تم حذف الطلبية بنجاح']);
     }
 

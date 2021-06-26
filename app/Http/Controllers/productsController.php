@@ -21,45 +21,53 @@ class productsController extends Controller
          $product_finished  = product::where('count_piecies',0)->count();
          $product_styles    = product::where('cloth_styles_id','!=',null)->count();
          $product_others    = product::where('cloth_styles_id',null)->count();
+         $Context = [
+             'product_styles'  =>$product_styles,
+             'product_others'  =>$product_others,
+             'product_count'   =>$product_count,
+             'product_finished'=>$product_finished
+        ];
 
-        return view('admin.products.index')->with(['product_styles'=>$product_styles,'product_others'=>$product_others,'product_count'=>$product_count,'product_finished'=>$product_finished,]);
+        return view('admin.products.index')->with( $Context );
     }
+
     public function datatableProducts(Request $request){
-          $clothStyles = DB::table('products')->get();
-         return datatables()->of($clothStyles)
-        ->addColumn('select', function($row) {
-                 return '<input name="select[]" value="'.$row->id.'" type="checkbox">';
-
-            })
-         ->addColumn('category', function($row) {
-                if(!empty($row->category_id)){
-                     return DB::table('categories')->where('id',$row->category_id)->pluck('category')[0];
+        $clothStyles = product::all();
+        return datatables()->of($clothStyles)
+            ->addColumn('select', function($row) {
+                    return '<input name="select[]" value="'.$row->id.'" type="checkbox">';
+                })
+            ->addColumn('category', function($row) {
+                if($row->category->exists){
+                    return $row->category->category;
                 }
-                 return ' - ';
             })
-
-         ->addColumn('full_price_handle',function($row){
-               return $row->full_price.' جنيه ';
-         })
-         ->addColumn('count_piecies_handle',function($row){
-               return $row->count_piecies.' قطعة ';
-         })
-        ->addColumn('process', function($row) {
-                 return '<div class="btn-group">
+            ->addColumn('full_price_handle',function($row){
+                return $row->price_piecies + $row->additional_taxs.' جنيه ';
+            })
+            ->addColumn('count_piecies_handle',function($row){
+                return $row->count_piecies.' قطعة ';
+            })
+            ->addColumn('created_at',function($row){
+                return $row->created_at;
+            })
+            ->addColumn('process', function($row) {
+                return '<div class="btn-group">
                             <button type="button" class="btn btn-warning">اجراء</button>
                             <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                              <span class="sr-only">Toggle Dropdown</span>
+                            <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item delete_single" href="'.url('product-delete/'.$row->id).'"  data-toggle="modal" data-target="#modal-default"> <i class="far fa-trash-alt"></i>  حذف</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item " href="'.url('products/'.$row->id.'/edit').'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
+                            <a class="dropdown-item delete_single" href="'.url('product-delete/'.$row->id).'"  data-toggle="modal" data-target="#modal-default"> <i class="far fa-trash-alt"></i>  حذف</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item " href="'.url('products/'.$row->id.'/edit').'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
                             </div>
                         </div>';
-
-            })->addColumn('show', function($row) {
-                   return '<a href='.url('products/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
-            })->rawColumns(['select','category','full_price_handle','count_piecies_handle','process','show'])->make(true);
+            })
+            ->addColumn('show', function($row) {
+                return '<a href='.url('products/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
+            })
+            ->rawColumns(['select','category','full_price_handle','count_piecies_handle','process','show'])->make(true);
 
     }
 
@@ -71,9 +79,13 @@ class productsController extends Controller
     public function create()
     {
         //
-        $last_order_added = product::orderby('created_at','desc')->first();
+        $last_order_added = product::latest()->first();
         $get_all_categories = category::all();
-        return view('admin.products.create')->with(['get_all_categories'=>$get_all_categories,'last_products'=>$last_order_added]);;
+        $Context = [
+            'get_all_categories'=>$get_all_categories,
+            'last_products'     =>$last_order_added
+        ];
+        return view('admin.products.create')->with($Context);
     }
 
     /**
@@ -85,7 +97,7 @@ class productsController extends Controller
     public function store(Request $request)
     {
         //
-          $this->validate($request,[
+        $this->validate($request,[
                 'name_product'    =>'required',
                 'category_id'     =>'required',
                 'count_piecies'   =>'required',
@@ -93,8 +105,14 @@ class productsController extends Controller
                 'additional_taxs' =>'required',
                 'full_price'      =>'required',
         ]);
+        #here generate parcode
+        $request['parcode']  = strtotime(date('Y-m-d h:i:s')).rand(1,1000);
         $last_insert = product::create($request->all());
-        return back()->with(['success'=>'تم اضافة المنتجات بنجاح','last_products'=>$last_insert]);
+        $Context = [
+            'success'      =>'تم اضافة المنتجات بنجاح',
+            'last_products'=>$last_insert
+        ];
+        return back()->with($Context);
 
     }
 
@@ -108,10 +126,11 @@ class productsController extends Controller
     {
         //
 
-        $single_product = product::where('id',$id)->get();
-        $clothes_style_id = product::where('id',$id)->pluck('cloth_styles_id')[0];
-        $clothes_style  = ClothStyles::where('id',$clothes_style_id)->get();
-        return view('admin.products.single')->with(['product_id'=>$id,'product_data'=>$single_product,'clothes_style'=>$clothes_style]);
+        $single_product = product::find($id);
+        $Context = [
+            'product_data' =>$single_product,
+        ];
+        return view('admin.products.single')->with($Context);
     }
 
      /**
@@ -123,9 +142,13 @@ class productsController extends Controller
     public function edit($id)
     {
         //
-          $product_info    = product::where('id',$id)->get();
+          $product_info       = product::find($id);
           $get_all_categories = category::all();
-         return view('admin.products.edite')->with(['product_info'=>$product_info,'get_all_categories'=>$get_all_categories]);
+          $Context = [
+              'product'           =>$product_info,
+              'get_all_categories'=>$get_all_categories
+          ];
+          return view('admin.products.edite')->with($Context);
 
     }
 
@@ -138,9 +161,7 @@ class productsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-
-          $this->validate($request,[
+        $this->validate($request,[
                 'category_id'     =>'required',
                 'name_product'    =>'required',
                 'count_piecies'   =>'required',
@@ -149,7 +170,11 @@ class productsController extends Controller
                 'full_price'      =>'required',
         ]);
         $last_insert = product::where('id',$id)->update($request->only(['category_id','name_piecies','count_piecies','price_piecies','additional_taxs','full_price']) );
-        return back()->with(['success'=>'تم تعديل المنتجات بنجاح','last_ClothSyles'=>$last_insert]);
+        $Context = [
+            'success'        =>'تم تعديل المنتجات بنجاح',
+            'last_ClothSyles'=>$last_insert
+        ];
+        return back()->with($Context);
 
     }
 
@@ -161,17 +186,8 @@ class productsController extends Controller
      */
     public function destroy($id,$type_return=null)
     {
-        /*$clothes_styles_id = product::where('id',$id)->pluck('cloth_styles_id')[0];
-        if($clothes_styles_id){
-            ClothStyles::where('id',$clothes_styles_id)->update([''=>'']);
-        }*/
-        product::where('id',$id)->delete();
-        if($type_return=='single'){
-            return redirect('show-products');
-        }
-        else{
-            return back()->with(['success'=>'تم حذف المنتجات بنجاح']);
-       }
+        product::destroy($id);
+        return back()->with(['success'=>'تم حذف المنتجات بنجاح']);
     }
 
     /**
@@ -185,7 +201,7 @@ class productsController extends Controller
           return back();
         }
 
-        product::whereIn('id', $request->input('select') )->delete();
+        product::destroy($request->input('select') );
         return back()->with(['success'=>'تم حذف المنتجات بنجاح']);
     }
 
@@ -198,5 +214,19 @@ class productsController extends Controller
     public function truncated(){
         product::truncate();
         return back()->with(['success'=>'تم حذف المنتجات بنجاح']);
+    }
+
+    public static function CreateProduct($data){
+        $insert_product = new product();
+        $insert_product->parcode         = strtotime(date('Y-m-d h:i:s')).rand(1,1000);
+        $insert_product->category_id     = $data['category_id'];
+        $insert_product->name_product    = $data['name_piecies'];
+        $insert_product->price_piecies   = $data['price_piecies'];
+        $insert_product->count_piecies   = $data['count_piecies'];
+        $insert_product->additional_taxs = $data['additional_taxs'];
+        $insert_product->full_price      = $data['full_price'];
+        $insert_product->save();
+        return $insert_product;
+
     }
 }

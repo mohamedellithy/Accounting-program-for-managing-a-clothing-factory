@@ -69,6 +69,13 @@
 			                </div>
 
 
+                          <!-- order invoice no  -->
+		                  <div class="form-group col-md-12 col-xs-12">
+		                    <label for="exampleInputPassword1"> رقم الفاتورة </label>
+		                    <input  name="invoice_no" type="number" class="form-control" id="exampleInputPassword1" placeholder="رقم الفاتورة">
+		                  </div>
+
+
 		                  <!-- order value  -->
 		                  <div class="form-group col-md-12 col-xs-12">
 		                    <label for="exampleInputPassword1">كمية الطلبية</label>
@@ -256,7 +263,7 @@
                               @if(!empty($last_order))
                                     <tr>
                                       <td>1#</td>
-                                      <td> {{ $last_order->merchant_name->merchant_name }} </td>
+                                      <td> {{ $last_order->merchant->merchant_name }} </td>
                                       <td> {{ $last_order->category_name->category }} </td>
                                       <td> {{ $last_order->order_size .' '.$last_order->order_size_type  }} </td>
                                       <td> {{ $last_order->order_price }} جنية </td>
@@ -302,18 +309,6 @@
 		  	 jQuery('body').on('click','.add_new_form',function(){
 		  	 	 var last = order;
 		  	 	 order+=1;
-		  	 	 // var select=order;
-		  	 	// select+=1;
-		  	 /*	 jQuery('.container-orders-form select').removeClass('select3');
-
-		  	 	 jQuery('.container-orders-form select').attr('data-order',order);*/
-
-		  	 	/* jQuery('.container-orders-form select.product_id').addClass('select'+order);
-		  	 	 jQuery('.container-orders-form select.product_id').removeClass('select'+last);*/
-		  	 	 /*jQuery('.container-orders-form select.category_id').removeClass('select'+order);
-		  	 	  jQuery('.container-orders-form select.product_id').removeClass('select'+last);
-		  	 	 jQuery('.container-orders-form select.category_id').addClass('select'+select);
-              */
 
 		  	 	 jQuery('.container-orders-form input.order_size').removeClass('order0');
 		  	 	 jQuery('.container-orders-form input.price_one_piecies').removeClass('order0');
@@ -345,11 +340,8 @@
 
 
                  var content_form = jQuery('.container-orders-form').html();
-                 jQuery('.new-forms').append(content_form);
+                 jQuery('.new-forms').append('<p style="font-size: 17px;color: blue;font-weight: bold;"> اضافة طلبية جديدة داخل الفاتورة </p>'+content_form);
                  console.log('hi');
-	              /*  $('.select'+order).select2({
-		               theme: 'bootstrap4'
-	    		    });*/
 
             });
 

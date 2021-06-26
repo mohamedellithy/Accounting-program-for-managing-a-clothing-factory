@@ -42,7 +42,7 @@
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="exampleInputPassword1">مبلغ الشراكة بالجنيه</label>
-		                    <input name="partner_percentage" type="phone" class="form-control " id="exampleInputPassword1" placeholder="نسبة الشراكة">
+		                    <input name="capital" type="phone" class="form-control " id="exampleInputPassword1" placeholder="نسبة الشراكة">
 		                  </div>
 		                  <br/>
 		                 <!--  <h4 style="font-size:15px;padding: 10px;background-color: #eee;color: blue;"> النسبة المتفق عليها </h4><br/>
@@ -102,10 +102,10 @@
 
 						              </td>
 						              <td>
-						                  {{ $last->partner_percentage }} جنيه
+						                  {{ $last->capital }} جنيه
 						              </td>
 						               <td>
-						                  % {{ calculate_partner_percentage($last->id) }}
+						                  % {{ $last->percent }}
 						              </td>
 						              <td>
 						                  {{ $last->created_at }}

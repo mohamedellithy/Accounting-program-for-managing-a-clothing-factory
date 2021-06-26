@@ -4,21 +4,21 @@
 
 @section('content_header')
     <h1> تفاصيل قصات القماش
-         <a href="#" onclick="printDiv('container-print-frame')" class="btn btn-sm btn-info" style="float: left;margin-left: 15px;">طباعة</a> 
-  
+         <a href="#" onclick="printDiv('container-print-frame')" class="btn btn-sm btn-info" style="float: left;margin-left: 15px;">طباعة</a>
+
      </h1>
 @stop
 
 
 @section('content')
     <!-- Main content -->
-    
+
     <section class="content" id="container-print-frame">
 	    <div class="container-fluid">
 	        <!-- start row -->
 	        <div class="row">
 	            <!-- start row orders clothes -->
-	            <div class="side-by-side col-md-8"> 
+	            <div class="side-by-side col-md-8">
 				   <div class="card" id="card_print_1">
 		              <div class="card-header border-transparent">
 		                <h3 class="card-title">تفاصيل قصات القماش</h3>
@@ -31,52 +31,49 @@
 
 		                    </thead> -->
 		                    <tbody>
-		                    	@if(!empty($ClothStyles_info))
-				              	    @foreach($ClothStyles_info as $product_data_info)
-					                    <tr>
-		                                    <th>رقم المنتج</th>
-		                                     <td><a href="#"> # {{ $product_data_info->id }} </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>اسم المنتج</th>
-		                                     <td><a href="#">  {{ $product_data_info->name_piecies }} </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>الصنف</th>
-		                                     <td><a href="#"> {{ $product_data_info->order_clothes->category_name->category }} </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>كمية</th>
-		                                     <td><a href="#"> {{ $product_data_info->count_piecies }} قطعة </a></td>
-					                    </tr>
-					                    <tr>
-		                                    <th>سعر القطعة</th>
-		                                     <td><a href="#"> {{ $product_data_info->price_piecies .' جنيه ' }} </a></td>
-					                    </tr>
-					                   <tr>
-		                                    <th>مصاريف اضافية على القطعة</th>
-		                                    <td>{{ $product_data_info->additional_taxs.' جنيه ' }}</td>
-					                    </tr>
-					                     <tr>
-		                                    <th>سعر التكلفة</th>
-		                                    <td>{{ round($product_data_info->price_piecies,2) + $product_data_info->additional_taxs .' جنيه ' }}</td>
-					                    </tr>
-					                    <tr>
-		                                    <th>السعر الكلى</th>
-		                                    <td>{{ $product_data_info->full_price.' جنيه ' }}</td>
-					                    </tr>
-					                     
-					                    <tr>
-		                                    <th>تاريخ الاضافة</th>
-		                                    <td><span class="badge badge-primary">{{ $product_data_info->created_at }}  </span></td>
-					                    </tr>
-					                    
-					                @endforeach
-					            @else
-					                <tr>
-					                	 <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
-					                </tr>
-					            @endif		                   
+                                @if($ClothStyles_info->exists )
+                                    <tr>
+                                        <th>رقم المنتج</th>
+                                            <td><a href="#"> # {{ $ClothStyles_info->id }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>اسم المنتج</th>
+                                            <td><a href="#">  {{ $ClothStyles_info->name_piecies }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>الصنف</th>
+                                            <td><a href="#"> {{ $ClothStyles_info->orders->category_name->category }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>كمية</th>
+                                            <td><a href="#"> {{ $ClothStyles_info->count_piecies }} قطعة </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>سعر القطعة</th>
+                                            <td><a href="#"> {{ $ClothStyles_info->price_piecies .' جنيه ' }} </a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>مصاريف اضافية على القطعة</th>
+                                        <td>{{ $ClothStyles_info->additional_taxs.' جنيه ' }}</td>
+                                    </tr>
+                                        <tr>
+                                        <th>سعر التكلفة</th>
+                                        <td>{{ round($ClothStyles_info->price_piecies,2) + $ClothStyles_info->additional_taxs .' جنيه ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>السعر الكلى</th>
+                                        <td>{{ $ClothStyles_info->full_price.' جنيه ' }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>تاريخ الاضافة</th>
+                                        <td><span class="badge badge-primary">{{ $ClothStyles_info->created_at }}  </span></td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
+                                    </tr>
+                                @endif
 		                    </tbody>
 		                  </table>
 		                </div>
@@ -84,111 +81,103 @@
 		              </div>
 		              <!-- /.card-body -->
 		              <div class="card-footer clearfix">
-		                <a href="#" onclick="printDiv('card_print_1')" class="btn btn-sm btn-info float-left">طباعة</a>                 
-		                            
+		                <a href="#" onclick="printDiv('card_print_1')" class="btn btn-sm btn-info float-left">طباعة</a>
+
 		              </div>
 		              <!-- /.card-footer -->
 		            </div>
-		           
-
-
-		           
-
 	            </div>
 	            <!-- start orders clothes -->
 
 	            <!-- start row orders clothes -->
-	            <div class="side-by-side col-md-4"> 
+	            <div class="side-by-side col-md-4">
 		            <!-- general form elements -->
 				    <div class="card">
 		              <div class="card-header" style="background-color:rgb(253 233 62);">
 		                <h3 class="card-title">تفاضيل فاتورة  القماش</h3>
 		              </div>
-		             
-		              @if( !empty($order_clothes_style))
-		              	 @foreach($order_clothes_style as $order_clothes)
-			              <!-- /.card-header -->
-			              <div class="card-body p-0">
-			                <ul class="products-list product-list-in-card pl-2 pr-2">
-			              
-				                  <!-- /.item -->
-				                  <li class="item">
-				                    <div class="product-info">
-				                      <a href="javascript:void(0)" class="product-title">اسم التاجر </a>
-				                      <span class="product-description">
-				                        {{ $order_clothes->merchant_name->merchant_name }}
-				                      </span>
-				                    </div>
-				                  </li>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                            @if($ClothStyles_info->orders->exists)
+                                <!-- /.item -->
+                                <li class="item">
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">تابعة لفاتورة رقم  </a>
+                                        <span class="product-description">
+                                        {{ $ClothStyles_info->orders->invoice_no }}
+                                        </span>
+                                    </div>
+                                </li>
+                                <li class="item">
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">اسم التاجر </a>
+                                        <span class="product-description">
+                                        {{ $ClothStyles_info->orders->merchant->merchant_name }}
+                                        </span>
+                                    </div>
+                                </li>
 
-				                  <!-- /.item -->
-				                  <li class="item">
-				                    <div class="product-info">
-				                      <a href="javascript:void(0)" class="product-title">كمية </a>
-				                      <span class="product-description">
-				                         {{ $order_clothes->order_size }} {{ $order_clothes->order_size_type }}
-				                      </span>
-				                    </div>
-				                  </li>
+                                <!-- /.item -->
+                                <li class="item">
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">كمية </a>
+                                        <span class="product-description">
+                                            {{ $ClothStyles_info->orders->order_size }} {{ $ClothStyles_info->orders->order_size_type }}
+                                        </span>
+                                    </div>
+                                </li>
 
-				                  <!-- /.item -->
-				                  <li class="item">
-				                    <div class="product-info">
-				                      <a href="javascript:void(0)" class="product-title">سعر الطلبية</a>
-				                      <span class="product-description">
-				                         {{ $order_clothes->order_price }} جنيه
-				                      </span>
-				                    </div>
-				                  </li>
+                                <!-- /.item -->
+                                <li class="item">
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">سعر الطلبية</a>
+                                        <span class="product-description">
+                                            {{ $ClothStyles_info->orders->order_price }} جنيه
+                                        </span>
+                                    </div>
+                                </li>
 
-				                   <!-- /.item -->
-				                  <li class="item">
-				                    <div class="product-info">
-				                      <a href="javascript:void(0)" class="product-title">خصم علي الطلبية</a>
-				                      <span class="product-description">
-				                         {{ $order_clothes->order_discount }} جنيه
-				                      </span>
-				                    </div>
-				                  </li>
+                                <!-- /.item -->
+                                <li class="item">
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">خصم علي الطلبية</a>
+                                        <span class="product-description">
+                                            {{ $ClothStyles_info->orders->order_discount }} جنيه
+                                        </span>
+                                    </div>
+                                </li>
 
-				                    <!-- /.item -->
-				                  <li class="item">
-				                    <div class="product-info">
-				                      <a href="javascript:void(0)" class="product-title">طريقة الدفع</a>
-				                      <span class="product-description">
-				                         {{ $order_clothes->payment_type }}
-				                      </span>
-				                    </div>
-				                  </li>
-				                  
+                                <!-- /.item -->
+                                <li class="item">
+                                    <div class="product-info">
+                                        <a href="javascript:void(0)" class="product-title">طريقة الدفع</a>
+                                        <span class="product-description">
+                                            {{ $ClothStyles_info->orders->payment_type }}
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        @else
+                        <div class="card-body p-0">
+                            <ul class="products-list product-list-in-card pl-2 pr-2">
+                                <li class="item">
+                                    <div class="product-info">
 
-				                 
-			                </ul>
-			              </div>
-			              <!-- /.card-body -->
-			            
-			              <!-- /.card-footer -->
-			            @endforeach
-			        @else
-			            <div class="card-body p-0">
-			                <ul class="products-list product-list-in-card pl-2 pr-2">
-					             <li class="item">
-				                    <div class="product-info">
-				                    
-				                      <span class="product-description">
-				                         غير صادر عن طلبية قماش
-				                      </span>
-				                    </div>
-				                  </li>
-				            </ul>
-				        </div>
-			        @endif
+                                    <span class="product-description">
+                                        غير صادر عن طلبية قماش
+                                    </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        @endif
 		            </div>
-			            </div>
-			        </div>
-			        <!-- end row -->
-
 			    </div>
+			</div>
+			<!-- end row -->
+		</div>
     </section>
 
 
@@ -206,7 +195,7 @@
               <p>تأكيد حذف المحدد من جدول التجار</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -222,34 +211,34 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/custom.css') }}">
 
      <style type="text/css">
-      .card-title label 
+      .card-title label
       {
       	display: none;
       }
-      @media print {  
-        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6) 
+      @media print {
+        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
         {
           display:  table-cell;
         }
-        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6) 
+        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
         {
           display:  table-cell;
         }
 
-        table th:nth-child(8) , table th:nth-child(9)  
+        table th:nth-child(8) , table th:nth-child(9)
         {
           display: none;
         }
-        table td:nth-child(8) , table td:nth-child(9) 
+        table td:nth-child(8) , table td:nth-child(9)
         {
           display: none;
         }
 
-        table th:nth-child(7) , table th:nth-child(7)  
+        table th:nth-child(7) , table th:nth-child(7)
         {
           display: none !important;
         }
-        table td:nth-child(7) , table td:nth-child(7) 
+        table td:nth-child(7) , table td:nth-child(7)
         {
           display: none !important;
         }
@@ -257,7 +246,7 @@
 	    {
 	      display: none;
 	    }
-	    .card-title label 
+	    .card-title label
         {
       	  display: block;
         }
@@ -278,7 +267,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -292,17 +281,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById(id_div_container).innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
              //window.location.reload();
         }
-            
-        
+
+
     </script>
 @stop

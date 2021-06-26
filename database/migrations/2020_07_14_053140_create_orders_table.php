@@ -15,17 +15,18 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_no')->nullable();
             $table->integer('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->string('order_discount')->nullable();
-            $table->string('order_taxs')->nullable();    
+            $table->string('order_taxs')->nullable();
             $table->string('order_price')->required();
-            $table->string('payment_type')->required();    
+            $table->string('payment_type')->required();
             $table->string('order_count')->required();
             $table->string('final_cost')->nullable();
-            $table->string('order_follow')->nullable();   
+            $table->string('order_follow')->nullable();
             $table->timestamps();
         });
     }

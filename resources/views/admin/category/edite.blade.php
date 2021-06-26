@@ -33,14 +33,14 @@
 		              <!-- /.card-header -->
 		              <!-- form start -->
 
-		              @foreach($category_data as $category_info)
-		              <form action="{{ url('categories/'.$category_info->id) }}" role="form" method="POST">
+
+		              <form action="{{ url('categories/'.$category_data->id) }}" role="form" method="POST">
                         @method('PUT')
                         {{ csrf_field() }}
 		                <div class="card-body">
 		                  <div class="form-group">
 		                    <label for="exampleInputEmail1">اسم الصنف</label>
-		                    <input name="category" value="{{ $category_info->category }}" type="name" class="form-control" id="exampleInputEmail1" placeholder="اسم الصنف">
+		                    <input name="category" value="{{ $category_data->category }}" type="name" class="form-control" id="exampleInputEmail1" placeholder="اسم الصنف">
 		                  </div>
 
 		                </div>
@@ -50,7 +50,7 @@
 		                  <button type="submit" class="btn btn-primary"> تعديل الصنف </button>
 		                </div>
 		              </form>
-		              @endforeach
+
 		            </div>
 		            <!-- /.card -->
 

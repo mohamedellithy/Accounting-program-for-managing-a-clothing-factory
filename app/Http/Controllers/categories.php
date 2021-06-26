@@ -18,23 +18,20 @@ class categories extends Controller
     public function index()
     {
         //
-          $category_all  = category::all();
-
-          // all merchants count
-          $categories_count   = category::count();
-
-          // all category finished
-          $category_finished_order       = DB::table('order_clothes')->where('order_finished',true)->distinct()->pluck('category_id')->toArray();
-          $category_finished_order_count = count($category_finished_order);
-
-          // all category finished product
-          $category_finished_product       = DB::table('products')->where('count_piecies',0)->distinct()->pluck('category_id')->toArray();
-          $category_finished_order_count   = count($category_finished_product);
-
-          // last added merchant
+          $category  = category::all();
+          # all category finished
+          $category_finished_order_count   = DB::table('order_clothes')->where('order_finished',true)->distinct()->count();
+          # all category finished product
+          $category_finished_order_count   = DB::table('products')->where('count_piecies',0)->distinct()->count();
+          # last added merchant
           $categories_last_added           = category::where('created_at', '>=', Carbon::now()->firstOfMonth()->toDateTimeString() )->count();
-
-          return view('admin.category.index')->with(['categories_last_added'=>$categories_last_added,'category_finished_order_count'=>$category_finished_order_count,'categories_count'=>$categories_count,'category_all'=>$category_all]);
+          $Context = [
+             'categories_last_added'        =>$categories_last_added,
+             'category_finished_order_count'=>$category_finished_order_count,
+             'categories_count'             =>$category->count(),
+             'category_all'                 =>$category
+          ];
+          return view('admin.category.index')->with($Context);
 
     }
 
@@ -47,20 +44,20 @@ class categories extends Controller
     public function datatableCategories(Request $request){
         $categories = DB::table('categories')->get();
          return datatables()->of($categories)
-        ->addColumn('select', function($row) {
+            ->addColumn('select', function($row) {
                  return '<input name="select[]" value="'.$row->id.'" type="checkbox"> '.$row->id.'#';
-
-
             })
             ->addColumn('count_orders', function($row) {
-                $count_order = orderClothes::where('category_id',$row->id)->count();
-                $type = "طلب";
-                if(empty($count_order)){
-                    $count_order = product::where('category_id',$row->id)->count();
-                    $type = "منتج";
+                if( $count_order = orderClothes::where('category_id',$row->id)->count() ){
+                    $type = "طلبية قماش";
+                    return ($count_order?$count_order.' '.$type:'');
                 }
 
-                return ($count_order?$count_order.' '.$type:' فارغ ');
+                if($count_products = product::where('category_id',$row->id)->count()){
+                    $type = "منتج";
+                    return ( $count_products ? $count_products : '');
+                }
+                return '-';
             })
             ->addColumn('process', function($row) {
                  return '<div class="btn-group">
@@ -75,7 +72,8 @@ class categories extends Controller
                             </div>
                         </div>';
 
-            })->rawColumns(['select','count_orders','process'])->make(true);
+            })
+            ->rawColumns(['select','count_orders','process'])->make(true);
 
     }
 
@@ -86,10 +84,10 @@ class categories extends Controller
      */
     public function create()
     {
-        //
-         $last_category_added = category::orderby('created_at','desc')->first();
-         //var_dump($last_merchant_added);
-         return view('admin.category.create')->with(['last_category'=>$last_category_added]);
+         $Context = [
+            'last_category'=>category::latest()->first()
+         ];
+         return view('admin.category.create')->with($Context);
     }
 
     /**
@@ -105,18 +103,11 @@ class categories extends Controller
              'category' => 'required',
         ]);
         $last_insert = category::create($request->all());
-        return back()->with(['success'=>'تم اضافة التصنيف بنجاح','last_category'=>$last_insert]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $Context =[
+           'success'      =>'تم اضافة التصنيف بنجاح',
+           'last_category'=>$last_insert
+        ];
+        return back()->with($Context);
     }
 
     /**
@@ -127,9 +118,10 @@ class categories extends Controller
      */
     public function edit($id)
     {
-        //
-        $category_data_info = category::where('id',$id)->get();
-        return view('admin.category.edite')->with('category_data',$category_data_info);
+        $Context = [
+           'category_data' => category::find($id)
+        ];
+        return view('admin.category.edite')->with($Context);
 
     }
 
@@ -146,8 +138,11 @@ class categories extends Controller
         $this->validate($request,[
              'category' => 'required',
         ]);
-        $last_insert = category::where('id',$id)->update($request->only(['category']));
-        return back()->with(['success'=>'تم تعديل التصنيف بنجاح']);
+        category::where('id',$id)->update($request->only(['category']));
+        $Context = [
+          'success'=>'تم تعديل التصنيف بنجاح'
+        ];
+        return back()->with($Context);
 
     }
 
@@ -160,8 +155,11 @@ class categories extends Controller
     public function destroy($id)
     {
         //
-        category::where('id',$id)->delete();
-        return back()->with(['success'=>'تم حذف التصنيف بنجاح']);
+        category::destroy($id);
+        $Context = [
+            'success'=>'تم حذف التصنيف بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     /**
@@ -174,8 +172,11 @@ class categories extends Controller
         if(!$request->input('select')){
           return back();
         }
-        category::whereIn('id',$request->input('select'))->delete();
-        return back()->with(['success'=>'تم حذف التصنيف بنجاح']);
+        category::destroy($request->input('select'));
+        $Context = [
+            'success'=>'تم حذف التصنيف بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     public function truncated(){

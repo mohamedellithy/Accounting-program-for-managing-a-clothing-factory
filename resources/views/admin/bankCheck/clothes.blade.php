@@ -98,7 +98,7 @@
         		                    </button>
         		                    <div class="dropdown-menu" role="menu">
                                    <button class="dropdown-item printDiv" type="button"> <i class="fas fa-print"></i> طباعة  الجدول</button>
-        		                     
+
                                 </div>
         		                </div>
       			            </div>
@@ -111,14 +111,13 @@
       					                  <th></th>
       					                  <th>اسم التاجر</th>
       					                  <th>رقم الطلب</th>
-                                  <th>شيك باسم</th>
+                                          <th>شيك باسم</th>
       					                  <th>قيمة الشيك </th>
-                                  <th>مبلغ اضافى</th>
-      					                  <th>حالة الشيك</th>
+                                          <th>مبلغ اضافى</th>
       					                  <th>تاريخ تسديد الشيك</th>
-                                  <th>حالة الدفع</th>
-                                  
-                                  
+                                          <th>حالة الدفع</th>
+
+
       					                </tr>
       				                </thead>
       			                </table>
@@ -144,7 +143,7 @@
               <p>تأكيد حذف المحدد من جدول العملاء / الزبائن</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -177,14 +176,13 @@
 	                    {data:  'select',name:'select' },
 	                    { data: 'merchant_name', name: 'merchant_name' },
 	                    { data: 'order_number', name: 'order_number' },
-                      { data: 'check_owner', name: 'check_owner' },
+                        { data: 'check_owner', name: 'check_owner' },
 	                    { data: 'check_value', name: 'check_value' },
-                      { data: 'increase_value', name: 'increase_value' },
-                      { data: 'check_status', name: 'check_status' },
-                      { data: 'check_date', name: 'check_date' },
-                      { data: 'approve', name: 'approve' },
-                      
-	                   
+                        { data: 'increase_value', name: 'increase_value' },
+                        { data: 'check_date', name: 'check_date' },
+                        { data: 'approve', name: 'approve' },
+
+
 	                 ]
 	        });
      });
@@ -206,7 +204,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -220,17 +218,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
             // window.location.reload();
         });
-            
+
         jQuery('button[submit]').click(function(event){
            jQuery(this).attr('disabled',true);
         });

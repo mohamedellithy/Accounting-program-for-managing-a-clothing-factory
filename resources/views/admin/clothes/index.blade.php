@@ -20,7 +20,7 @@
                 <span class="info-box-text">طلبات القماش</span>
                 <span class="info-box-number">
                   {{ ($orderClothes_all?$orderClothes_all:'0') }}
-                  
+
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -104,7 +104,7 @@
                                   <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
         		                      <div class="dropdown-divider"></div>
         		                      <a class="dropdown-item delete_all" href="{{ url('delete-order-clothes') }}"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
-        		                      
+
                                 </div>
         		                </div>
       			            </div>
@@ -114,15 +114,17 @@
       			                <table id="merchants" class="table table-bordered table-hover">
       				                <thead>
       					                <tr>
-      					                  <th></th>
-      					                  <th>اسم العميل</th>
-      					                  <th>الصنف</th>
-      					                  <th>الكمية </th>
-      					                  <th>السعر</th>
-      					                  <th>الخصم</th>
-                                  <th>نوع الدفع</th>
-                                  <th>اجراءات</th>
-                                  <th>عرض</th>
+      					                    <th></th>
+      					                    <th>رقم</th>
+                                            <th>رقم القاتورة</th>
+                                            <th>اسم العميل</th>
+      					                    <th>الصنف</th>
+      					                    <th>الكمية </th>
+      					                    <th>السعر</th>
+      					                    <th>الخصم</th>
+                                            <th>نوع الدفع</th>
+                                            <th>اجراءات</th>
+                                            <th>عرض</th>
       					                </tr>
       				                </thead>
       			                </table>
@@ -148,7 +150,7 @@
               <p>تأكيد حذف المحدد من جدول الطلب</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -165,21 +167,21 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <style type="text/css">
-      @media print {  
-        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6) 
+      @media print {
+        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
         {
           display:  table-cell;
         }
-        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6) 
+        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
         {
           display:  table-cell;
         }
 
-        table th:nth-child(8) , table th:nth-child(9)  
+        table th:nth-child(8) , table th:nth-child(9)
         {
           display: none;
         }
-        table td:nth-child(8) , table td:nth-child(9) 
+        table td:nth-child(8) , table td:nth-child(9)
         {
           display: none;
         }
@@ -198,15 +200,17 @@
 	           processing: true,
 	           serverSide: true,
 	           ajax: "{{ url('datatable-order-clothes') }}",
-             order: [[ 0, "desc" ]],
+             order: [[ 1, "desc" ]],
 	           columns: [
-	                    {data:  'select',name:'select' },
+	                    { data: 'select',name:'select' },
+                        { data: 'id', name: 'id' },
+                        { data: 'invoice_no', name: 'invoice_no' },
 	                    { data: 'merchant_name', name: 'merchant_name' },
 	                    { data: 'category_name', name: 'category_name' },
 	                    { data: 'Quantity', name: 'Quantity' },
-                      { data: 'order_price', name: 'order_price' },
-                      { data: 'order_discount', name: 'order_discount' },                      
-                      { data: 'payment_type', name: 'payment_type' },
+                        { data: 'order_price', name: 'order_price' },
+                        { data: 'order_discount', name: 'order_discount' },
+                        { data: 'payment_type', name: 'payment_type' },
 	                    { data: 'process', name: 'process' },
 	                    { data: 'show', name: 'show' }
 	                 ]
@@ -230,7 +234,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -244,17 +248,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
             // window.location.reload();
         });
-            
-        
+
+
     </script>
 @stop

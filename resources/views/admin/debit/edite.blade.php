@@ -3,20 +3,19 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1> اضافة دائن و مدين </h1>
+    <h1> تعديل دائن و مدين </h1>
 @stop
 
 
 @section('content')
     <!-- Main content -->
-    
+
     <section class="content">
       <div class="container-fluid">
           <div class="row">
-            @if(!empty($single_debit))
-              @foreach($single_debit as $debit)
+            @if(!empty($debit))
               <!-- left column -->
-              <div class="col-md-12"> 
+              <div class="col-md-12">
                 @if($message = Session::get('success'))
                   <div class="alert alert-warning alert-dismissible">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -27,7 +26,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">اضافة دائن و مدين</h3>
+                    <h3 class="card-title">تعديل دائن و مدين</h3>
                   </div>
                   <!-- /.card-header -->
                   <!-- form start -->
@@ -36,62 +35,37 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="exampleInputEmail1">القسم</label>
-                        <select name="debitable_type" id="section-type" class="form-control select2"  placeholder="القسم" >
-                             <option value="" {{ ($debit->debitable_type?'':'selected') }} >أخر</option>
-                             <option value="merchant" {{ ($debit->debitable_type=='merchant'?'selected':'') }} >تجار</option>
-                             <option value="client" {{ ($debit->debitable_type=='client'?'selected':'') }} >عملاء</option>
-                             <option value="suppliers" {{ ($debit->debitable_type=='suppliers'?'selected':'') }} >مصنع</option>
-                        </select>
+                        <input name="debitable_type"  value="{{ $debit->debit_for }}" class="form-control"  placeholder="القسم" readonly>
                       </div>
 
                       <div class="form-group">
                         <label for="exampleInputEmail1">نوع المديونية</label>
-                         <select name="debit_type"  class="form-control select2"  placeholder="القسم" required>
-                             <option value="دائن" {{ ($debit->debit_type=='دائن'?'selected':'') }}>دائن</option>
-                             <option value="مدين" {{ ($debit->debit_type=='مدين'?'selected':'') }}>مدين</option>
-                             
-                        </select>
+                         <input name="debit_type"  class="form-control " value="{{ $debit->debit_type }}"  placeholder="القسم" required readonly>
                       </div>
 
                        <div class="form-group">
                         <label for="exampleInputEmail1">نوع دفع المديونية</label>
-                         <select name="type_payment"  class="form-control select2"  placeholder="القسم" required>
-                             <option value="نقدى" {{ ($debit->type_payment=='نقدى'?'selected':'') }}>نقدى</option>
-                             <option value="دفعات" {{ ($debit->type_payment=='دفعات'?'selected':'') }}>دفعات</option>
-                             <option value="شيكات" {{ ($debit->type_payment=='شيكات'?'selected':'') }}>شيكات</option>
-                        </select>
+                         <input name="type_payment"  class="form-control " value="{{ $debit->type_payment }}"  placeholder="القسم" required readonly>
                       </div>
 
                       <div class="form-group" id="merchant_name"  {{ ($debit->debitable_type!='merchant'?"style=display:none":'') }} >
                         <label for="exampleInputEmail1">اسم التجار</label>
                         <select name="debitable_id"   class="form-control select2"  placeholder="القسم" style="display:none" >
-                          @if(!empty($all_merchants))
-                               @foreach($all_merchants as $merchant)
-                                   <option value="{{ $merchant->id }}" {{ ($debit->debitable_id==$merchant->id?'selected':'') }} > {{ $merchant->merchant_name }} </option>
-                               @endforeach
-                           @endif
+                          <option value="{{ $debit->debitable->id }}"  > {{ $debit->debitable->merchant_name }} </option>
                         </select>
                       </div>
 
                       <div class="form-group" id="client_name" {{ ($debit->debitable_type!='client'?'style=display:none':'') }} >
                         <label for="exampleInputEmail1">اسم العميل</label>
                         <select name="debitable_id"   class="form-control select2"  placeholder="القسم" style="display:none" >
-                        @if(!empty($all_clients))
-                             @foreach($all_clients as $client)
-                                 <option value="{{ $client->id }}" {{ ($debit->debitable_id==$client->id?'selected':'') }}> {{ $client->client_name }} </option>
-                             @endforeach
-                         @endif
+                            <option value="{{ $debit->debitable->id }}"  > {{ $debit->debitable->client_name }} </option>
                         </select>
                       </div>
-                     
+
                        <div class="form-group" id="supplier_name" {{ ($debit->debitable_type!='suppliers'?'style=display:none':'') }}>
                         <label for="exampleInputEmail1">اسم المصنع</label>
                         <select name="debitable_id"  class="form-control select2"  placeholder="القسم"  >
-                         @if(!empty($all_suppliers))
-                             @foreach($all_suppliers as $suppliers)
-                                 <option value="{{ $suppliers->id }}" {{ ($debit->debitable_id==$suppliers->id?'selected':'') }} > {{ $suppliers->supplier_name }} </option>
-                             @endforeach
-                         @endif
+                            <option value="{{ $debit->debitable->id }}"  > {{ $debit->debitable->supplier_name }} </option>
                         </select>
                       </div>
 
@@ -107,22 +81,21 @@
 
                       <div class="form-group">
                         <label for="exampleInputPassword1">قيمة المبلغ المدفوع</label>
-                        <input name="payed_check" type="debit_value" class="form-control" value="{{ ($debit->payed_check?$debit->payed_check:'') }}" id="exampleInputPassword1" placeholder="قيمة المبلغ" >
+                        <input name="debit_paid" type="debit_value" class="form-control" value="{{ ($debit->debit_paid?$debit->debit_paid:'') }}" id="exampleInputPassword1" placeholder="قيمة المبلغ" >
                       </div>
-                  
+
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                      <button type="submit" class="btn btn-primary"> اضافة دائن و مدين </button>
+                      <button type="submit" class="btn btn-primary"> تعديل دائن و مدين </button>
                     </div>
                   </form>
                 </div>
                 <!-- /.card -->
 
-            
+
               </div>
-                @endforeach
               @endif
           </div>
       </div>
@@ -175,7 +148,7 @@
         jQuery('#merchant_name').hide();
         jQuery('#supplier_name').show();
         jQuery('#client_name').hide();
-        jQuery('#debit_name').hide();  
+        jQuery('#debit_name').hide();
      }
   });
   </script>

@@ -32,32 +32,30 @@
 		              </div>
 		              <!-- /.card-header -->
 		              <!-- form start -->
-
-		              @foreach($partner_data as $partner_info)
-		              <form action="{{ url('partners/'.$partner_info->id) }}" role="form" method="POST">
+		              <form action="{{ url('partners/'.$partner->id) }}" role="form" method="POST">
                         @method('PUT')
                         {{ csrf_field() }}
 		                <div class="card-body">
 		                  <div class="form-group">
 		                    <label for="exampleInputEmail1">اسم الشريك</label>
-		                    <input name="partner_name" value="{{ $partner_info->partner_name }}" type="name" class="form-control" id="exampleInputEmail1" placeholder="اسم الشريك">
+		                    <input name="partner_name" value="{{ $partner->partner_name }}" type="name" class="form-control" id="exampleInputEmail1" placeholder="اسم الشريك">
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="exampleInputPassword1">رقم التليفون</label>
-		                    <input name="partner_phone" value="{{ $partner_info->partner_phone }}" type="phone" class="form-control" id="exampleInputPassword1" placeholder="رقم التليفون">
+		                    <input name="partner_phone" value="{{ $partner->partner_phone }}" type="phone" class="form-control" id="exampleInputPassword1" placeholder="رقم التليفون">
 		                  </div>
 
 		                  <div class="form-group">
 		                    <label for="exampleInputPassword1">نسبة الشركة</label>
-		                    <input name="partner_percentage" value="{{ $partner_info->partner_percentage }}" type="phone" class="form-control" id="exampleInputPassword1" placeholder="نسبة الشراكة">
+		                    <input name="capital" value="{{ $partner->capital }}" type="phone" class="form-control" id="exampleInputPassword1" placeholder="نسبة الشراكة">
 		                  </div>
 
 		                   <!-- merchant name  -->
 		                   <div class="form-group ">
 			                  <label for="exampleInputEmail1">حالة الشراكة</label>
 			                  <select name="partner_status" class="form-control select2" style="width: 100%;" required>
-			                    <option value="0" {{ (($partner_info->partner_status==0)?'selected':'') }} > شراكة مستمرة </option>
-			                    <option value="1" {{ (($partner_info->partner_status==1)?'selected':'') }} >شراكة منتهية  </option>
+			                    <option value="0" {{ (($partner->partner_status==0)?'selected':'') }} > شراكة مستمرة </option>
+			                    <option value="1" {{ (($partner->partner_status==1)?'selected':'') }} >شراكة منتهية  </option>
 			                  </select>
 			                </div>
 
@@ -69,7 +67,7 @@
 		                  <button type="submit" class="btn btn-primary"> تعديل الشريك </button>
 		                </div>
 		              </form>
-		              @endforeach
+
 		            </div>
 		            <!-- /.card -->
 

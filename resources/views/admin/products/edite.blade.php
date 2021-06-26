@@ -26,15 +26,14 @@
 		                 <a href="{{ url('products') }}" class="btn btn-info"> الرجوع </a>
 		            </div>
 		            <!-- general form elements -->
-		            @if(!empty($product_info) )
-		                @foreach($product_info as $product)
-				            <div class="card card-primary">
-				              <div class="card-header">
-				                <h3 class="card-title"> تعديل المنتج</h3>
-				              </div>
-				              <!-- /.card-header -->
-				              <!-- form start -->
-				              <form action="{{ url('products/'.$product->id) }}" role="form" method="POST">
+
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                 <h3 class="card-title"> تعديل المنتج</h3>
+                            </div>
+				            <!-- /.card-header -->
+				            <!-- form start -->
+				            <form action="{{ url('products/'.$product->id) }}" role="form" method="POST">
 		                        @method('PUT')
                                 {{ csrf_field() }}
 				                <div class="card-body">
@@ -89,14 +88,11 @@
 
 				                </div>
 				                <!-- /.card-body -->
-				            @endforeach
-				         @endif
-
-		                <div class="card-footer">
-		                  <button type="submit" class="btn btn-primary"> تعديل المنتج </button>
+                                <div class="card-footer">
+                                <button type="submit" class="btn btn-primary"> تعديل المنتج </button>
+                                </div>
+		                    </form>
 		                </div>
-		              </form>
-		            </div>
 		            <!-- /.card -->
 	            </div>
 
@@ -120,17 +116,14 @@
 	<script src="{{ asset('vendor/adminlte/plugins/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
 		  $(function () {
-		    //Initialize Select2 Elements
+		    // Initialize Select2 Elements
 		    $('.select2').select2({
 		      theme: 'bootstrap4'
 		    });
 		});
     </script>
     <script type="text/javascript">
-     /*   var count_piecies = 0;
-        var price_piecies = 0;
-        var additional_taxs = 0;
-        var full_price = 0;*/
+
         jQuery('.price_piecies , .count_piecies , .additional_taxs ').keyup(function(){
         	var count_piecies = Number(jQuery('.count_piecies').val() ) * Number( jQuery('.price_piecies').val() ) + Number(jQuery('.additional_taxs').val() )   ;
             jQuery('.full_price').val(count_piecies);

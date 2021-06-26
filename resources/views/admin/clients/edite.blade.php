@@ -33,18 +33,18 @@
 		              <!-- /.card-header -->
 		              <!-- form start -->
 
-		              @foreach($client_data as $client_info)
-		              <form action="{{ url('clients/'.$client_info->id) }}" role="form" method="POST">
+
+		              <form action="{{ url('clients/'.$client->id) }}" role="form" method="POST">
                         @method('PUT')
                         {{ csrf_field() }}
 		                <div class="card-body">
 		                  <div class="form-group">
 		                    <label for="exampleInputEmail1">اسم العميل / الزبون</label>
-		                    <input name="client_name" value="{{ $client_info->client_name }}" type="name" class="form-control" id="exampleInputEmail1" placeholder="اسم العميل / الزبون">
+		                    <input name="client_name" value="{{ $client->client_name }}" type="name" class="form-control" id="exampleInputEmail1" placeholder="اسم العميل / الزبون">
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="exampleInputPassword1">رقم التليفون</label>
-		                    <input name="client_phone" value="{{ $client_info->client_phone }}" type="phone" class="form-control" id="exampleInputPassword1" placeholder="رقم التليفون">
+		                    <input name="client_phone" value="{{ $client->client_phone }}" type="phone" class="form-control" id="exampleInputPassword1" placeholder="رقم التليفون">
 		                  </div>
 
 		                </div>
@@ -54,7 +54,7 @@
 		                  <button type="submit" class="btn btn-primary"> تعديل العميل / الزبون </button>
 		                </div>
 		              </form>
-		              @endforeach
+
 		            </div>
 		            <!-- /.card -->
 

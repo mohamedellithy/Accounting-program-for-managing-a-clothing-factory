@@ -9,10 +9,8 @@ use App\merchant;
 use App\orderClothes;
 use App\BankCheck;
 use Carbon\Carbon;
-use App\postponed_orderClothes;
 use App\suppliers;
 use App\ClothStyles;
-use App\postponed_suppliers;
 class suppliersController extends Controller
 {
         /**
@@ -23,14 +21,9 @@ class suppliersController extends Controller
         public function index()
         {
             //
-              // all merchants count
-              $suppliers_all     = suppliers::all();
-              $suppliers_count   = suppliers::count();
-
-
-              // last added merchant
-              $suppliers_last_added     = suppliers::where('created_at', '>=', Fiscal_Year )->count();
-              return view('admin.suppliers.index')->with(['suppliers_last_added'=>$suppliers_last_added,'suppliers_count'=>$suppliers_count,'suppliers_all'=>$suppliers_all]);
+              $suppliers_count = suppliers::count();
+              $last_added      = suppliers::where('created_at', '>=', Carbon::now()->firstOfMonth()->toDateTimeString() )->count();
+              return view('admin.suppliers.index')->with(['suppliers_last_added'=>$last_added,'suppliers_count'=>$suppliers_count]);
 
         }
 
@@ -41,12 +34,10 @@ class suppliersController extends Controller
          * @return \Illuminate\Http\Response
          */
         public function datatableSuppliers(Request $request){
-            $merchants = DB::table('suppliers')->get();
-             return datatables()->of($merchants)
+            $suppliers = suppliers::all();
+             return datatables()->of($suppliers)
             ->addColumn('select', function($row) {
                      return '<input name="select[]" value="'.$row->id.'" type="checkbox">';
-
-
                 })
             ->addColumn('contact', function($row) {
                      return '<a href="tel:'.$row->supplier_phone.'">  <i class="fab fa-whatsapp-square fa-2x" style="color:#3fad3f" ></i></a>
@@ -54,7 +45,7 @@ class suppliersController extends Controller
 
                 })
             ->addColumn('count_orders', function($row) {
-                     return  ClothStyles::where('supplier_id',$row->id)->count();
+                     return  $row->clothes_styles->count();
                 })
             ->addColumn('process', function($row) {
                      return '<div class="btn-group">
@@ -83,9 +74,11 @@ class suppliersController extends Controller
         public function create()
         {
             //
-             $last_suppliers_added = suppliers::orderby('created_at','desc')->first();
-             //var_dump($last_merchant_added);
-             return view('admin.suppliers.create')->with(['last_suppliers'=>$last_suppliers_added]);
+             $last_suppliers_added = suppliers::latest()->first();
+             $Context = [
+                 'last_suppliers'=> $last_suppliers_added
+             ];
+             return view('admin.suppliers.create')->with($Context);
         }
 
         /**
@@ -101,9 +94,14 @@ class suppliersController extends Controller
                  'supplier_name' => 'required',
                  'supplier_phone' => 'required'
             ]);
-            $last_insert = suppliers::create($request->all());
 
-            return back()->with(['success'=>'تم اضافة المصنع بنجاح','last_supplier'=>$last_insert]);
+            $last_insert = suppliers::create($request->all());
+            $Context = [
+               'success'       =>'تم اضافة المصنع بنجاح',
+               'last_supplier' =>$last_insert
+            ];
+
+            return back()->with($Context);
         }
 
         /**
@@ -115,10 +113,11 @@ class suppliersController extends Controller
         public function show($id)
         {
             //
-            $single_merchant = suppliers::where('id',$id)->get();
-            $clothes_styles_info   = ClothStyles::where('supplier_id',$id)->get();
-            $sum_pospondes_suppliers = postponed_suppliers::where('supplier_id',$id)->sum('posponed_value');
-            return view('admin.suppliers.single')->with(['sum_pospondes_suppliers'=>$sum_pospondes_suppliers,'supplier_id'=>$id,'supplier_data'=>$single_merchant,'order_clothes_info'=>$clothes_styles_info]);
+            $supplier  = suppliers::find($id);
+            $Context   = [
+                'supplier'  =>$supplier,
+            ];
+            return view('admin.suppliers.single')->with($Context);
 
         }
 
@@ -164,7 +163,7 @@ class suppliersController extends Controller
         public function destroy($id)
         {
             //
-            suppliers::where('id',$id)->delete();
+            suppliers::destroy($id);
             return back()->with(['success'=>'تم حذف المصنع بنجاح']);
         }
 
@@ -178,14 +177,10 @@ class suppliersController extends Controller
             if(!$request->input('select')){
               return back();
             }
-            suppliers::whereIn('id',$request->input('select'))->delete();
+            suppliers::destroy($request->input('select'));
             return back()->with(['success'=>'تم حذف المصنع بنجاح']);
         }
 
-        public function deleteMerchantOrders($id){
-            orderClothes::where('merchant_id',$id)->delete();
-            return back()->with(['success'=>'تم حذف طلبات المصنع بنجاح']);
-        }
 
         public function truncated(){
             suppliers::truncate();
@@ -193,36 +188,10 @@ class suppliersController extends Controller
         }
 
         function addPostponedsuppliers(Request $request, $id){
-            if($request->rest_value>=$request->postponed_value):
-                $postponed_value = $request->postponed_value;
-                $create_posponed = new postponed_suppliers();
-                $create_posponed->supplier_id = $id;
-                $create_posponed->posponed_value  = $postponed_value;
-                $create_posponed->save();
-            endif;
-               /* $get_all_order   = orderClothes::where(['merchant_id'=>$id,'payment_type'=>'دفعات'])->get();
-                foreach ($get_all_order as $key => $order) {
-                    $pospondes =   postponed_orderClothes::where('orderClothes_id',$order->id)->sum('posponed_value');
-                    if($order->order_price > $pospondes){
-                        $rest_value = $order->order_price - ($pospondes?$pospondes:0);
-                        if(($rest_value>=$postponed_value) && ($postponed_value > 0) ){
-                            $create_posponed = new postponed_orderClothes();
-                            $create_posponed->orderClothes_id = $order->id;
-                            $create_posponed->posponed_value  = $postponed_value;
-                            $create_posponed->save();
-                            break;
-
-                        } elseif(($rest_value < $postponed_value) && ($postponed_value > 0) ){
-                            $postponed_value =$postponed_value - $rest_value;
-                            $create_posponed = new postponed_orderClothes();
-                            $create_posponed->orderClothes_id = $order->id;
-                            $create_posponed->posponed_value  = $rest_value;
-                            $create_posponed->save();
-                        }
-                    }
-                }*/
-                return back()->with(['success'=>'تم تسديد دفعة بنجاح']);
-            }
+            # add  payments to merchant from
+            SupplierPayments::Create($id,SupplierPayments::PaymentValue($id,$request->postponed_value,'دفعات'));
+            return back()->with(['success'=>'تم تسديد دفعة بنجاح']);
+        }
 
 
 }

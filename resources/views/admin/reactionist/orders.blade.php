@@ -97,7 +97,7 @@
                                   <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
                                   <div class="dropdown-divider"></div>
                                   <a class="dropdown-item delete_all" href="{{ url('delete-order') }}"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -108,6 +108,7 @@
                               <thead>
                                 <tr>
                                   <th></th>
+                                  <th>رقم الفاتورة</th>
                                   <th>اسم المنتج</th>
                                   <th>اسم العميل</th>
                                   <th>الصنف</th>
@@ -141,7 +142,7 @@
               <p>تأكيد حذف المحدد من جدول الطلب</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -158,21 +159,21 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <style type="text/css">
-      @media print {  
-        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6) 
+      @media print {
+        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
         {
           display:  table-cell;
         }
-        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6) 
+        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
         {
           display:  table-cell;
         }
 
-        table th:nth-child(8) , table th:nth-child(9)  
+        table th:nth-child(8) , table th:nth-child(9)
         {
           display: none;
         }
-        table td:nth-child(8) , table td:nth-child(9) 
+        table td:nth-child(8) , table td:nth-child(9)
         {
           display: none;
         }
@@ -192,12 +193,13 @@
              serverSide: true,
              ajax: "{{ url('datatable-reactionist-orders') }}",
              columns: [
-                      {data:  'select',name:'select' },
+                      { data: 'select',name:'select' },
+                      { data: 'invoice_no', name: 'invoice_no' },
                       { data: 'product_name', name: 'product_name' },
                       { data: 'client_name', name: 'client_name' },
                       { data: 'category_name', name: 'category_name' },
                       { data: 'Quantity', name: 'Quantity' },
-                      { data: 'order_price', name: 'order_price' },                  
+                      { data: 'order_price', name: 'order_price' },
                       { data: 'payment_type', name: 'payment_type' },
                       { data: 'process', name: 'process' },
                       { data: 'show', name: 'show' }
@@ -222,7 +224,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -236,17 +238,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
              //window.location.reload();
         });
-            
-        
+
+
     </script>
 @stop

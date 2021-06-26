@@ -232,11 +232,6 @@ return [
 
    'menu' => [
         [
-            'text' => 'search',
-            'search' => true,
-            'topnav' => true,
-        ],
-        [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
@@ -249,18 +244,18 @@ return [
         [
             'text'        => 'تجار القماش',
             'url'         => 'merchants',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-users',
             'submenu' => [
                             [
                                 'text' => 'اضافة تجار',
                                 'url'  => 'merchants/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-user-plus text-danger',
 
                             ],
                             [
                                 'text' => 'عرض التجار',
                                 'url'  => 'merchants',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-users text-success',
 
                             ],
             ]
@@ -268,55 +263,55 @@ return [
          [
             'text'        => 'الاصناف',
             'url'         => 'show-categories',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-tags',
             'submenu' => [
                             [
                                 'text' => 'اضافة صنف',
                                 'url'  => 'categories/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-tags text-danger',
 
                             ],
                             [
                                 'text' => 'عرض الاصناف',
                                 'url'  => 'categories',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-tags text-success',
 
                             ],
             ]
         ],
         [
             'text'        => 'فواتير القماش',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-tasks',
             'url'         => '#',
             'submenu' => [
                             [
                                 'text' => 'اضافة فواتير القماش',
                                 'url'  => 'orders-clothes/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-plus-square text-danger',
 
                             ],
                             [
                                 'text' => 'عرض فواتير القماش',
                                 'url'  => 'orders-clothes',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-tasks text-success',
 
                             ],
             ]
         ],
         [
             'text'        => 'الزبائن / العملاء',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-user-friends',
             'submenu' => [
                             [
                                 'text' => 'اضافة عميل',
                                 'url'  => 'clients/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-user-plus text-danger',
 
                             ],
                             [
                                 'text' => 'عرض العملاء',
                                 'url'  => 'clients',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-user-friends text-success',
 
                             ],
             ]
@@ -324,84 +319,84 @@ return [
         ],
         [
             'text'        => 'قصات القماش',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-tasks',
             'submenu' => [
                             [
                                 'text' => 'اضافة قصات',
                                 'url'  => 'piecies/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-plus-square text-danger',
                             ],
                             [
                                 'text' => 'عرض القصات',
                                 'url'  => 'piecies',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-tasks text-success',
                             ],
             ]
         ],
          [
             'text'        => 'المنتجات',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-boxes',
             'submenu' => [
                             [
                                 'text' => 'اضافة منتج',
                                 'url'  => 'products/create',
-                                 'icon' => 'far fa-circle text-danger',
+                                 'icon' => 'fas fa-plus-square text-danger',
                             ],
                             [
                                 'text' => 'عرض المنتجات',
                                 'url'  => 'products',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-boxes text-success',
                             ],
             ]
         ],
         [
             'text'        => 'المبيعات',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-dolly-flatbed',
             'submenu' => [
                             [
                                 'text' => 'اضافة طلب',
                                 'url'  => 'orders/create',
-                                 'icon' => 'far fa-circle text-danger',
+                                 'icon' => 'fas fa-plus-square text-danger',
                             ],
                             [
                                 'text' => 'عرض المبيعات',
                                 'url'  => 'orders',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-dolly-flatbed text-success',
                             ],
             ]
         ],
 
         [
             'text'        => 'المرتجع',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-boxes',
             'submenu' => [
                             [
                                 'text' => 'اضافة مرتجع',
                                 'url'  => 'reactionists/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-plus-square text-danger',
                             ],
                             [
                                 'text' => 'عرض المرتجع',
                                 'url'  => 'reactionists',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-boxes text-success',
                             ],
             ]
         ],
            [
             'text'        => 'المصانع',
             'url'         => 'show-suppliers',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-industry',
             'submenu' => [
                             [
                                 'text' => 'اضافة مصنع',
                                 'url'  => 'suppliers/create',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-plus-square text-danger',
 
                             ],
                             [
                                 'text' => 'عرض المصانع',
                                 'url'  => 'suppliers',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-industry text-success',
 
                             ],
             ]
@@ -409,79 +404,79 @@ return [
             [
             'text'        => 'المديونات',
             'url'         => 'show-debit',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-wallet',
             'submenu' => [
                             [
                                 'text' => 'دائن',
                                 'url'  => 'show-credit',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-wallet text-danger',
 
                             ],
                             [
                                 'text' => 'مدين',
                                 'url'  => 'show-debit',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-wallet text-success',
 
                             ],
                             [
                                 'text' => 'اضافة دائن / مدين',
                                 'url'  => 'add-credit-debit',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-plus-square text-info',
 
                             ],
             ]
         ],
         [
             'text'        => 'شيكات',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-money-check',
             'submenu' => [
                             [
                                 'text' => 'شيكات طلبات القماش',
                                 'url'  => 'bank-check-clothes',
-                                'icon' => 'far fa-circle text-danger',
+                                'icon' => 'fas fa-money-check text-danger',
                             ],
                             [
                                 'text' => 'شيكات طلبات المبيعات',
                                 'url'  => 'bank-check-orders',
-                                'icon' => 'far fa-circle text-success',
+                                'icon' => 'fas fa-money-check text-success',
                             ],
             ]
         ],
         [
             'text'        => 'المصروفات',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-money-bill-alt',
             'url'         => 'Expances',
         ],
         [
             'text'        => 'خزنة المصنع',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-coins',
             'url'         => 'money-safe',
         ],
 
         [
             'text'        => 'المخزن',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-dolly-flatbed',
             'url'         => 'inventory',
 
         ],
         [
             'text'        => 'تقارير البيع',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-receipt',
             'url'         => 'sales',
         ],
          [
             'text'        => 'راس المال و الارصدة',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'fas fa-funnel-dollar',
             'url'         => 'factory-capital',
         ],
         [
             'text'        => 'نسب الشركاء',
-            'icon'        => 'fas fa-tachometer-alt',
+            'icon'        => 'far fa-handshake',
             'submenu' => [
                             [
                                 'text' => 'اضافة شريك',
                                 'url'  => 'partners/create',
-                                 'icon' => 'far fa-circle text-danger',
+                                 'icon' => 'fas fa-plus-square text-danger',
                             ],
                             [
                                 'text' => 'عرض جميع النسب',

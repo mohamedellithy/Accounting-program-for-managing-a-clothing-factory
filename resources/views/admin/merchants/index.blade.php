@@ -101,7 +101,7 @@
                                   <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
         		                      <div class="dropdown-divider"></div>
         		                      <a class="dropdown-item delete_all" href="{{ url('delete-merchants') }}"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
-        		                      
+
                                 </div>
         		                </div>
       			            </div>
@@ -142,7 +142,7 @@
               <p>تأكيد حذف المحدد من جدول التجار</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -199,7 +199,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -213,17 +213,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
              //window.location.reload();
         });
-            
-        
+
+
     </script>
 @stop

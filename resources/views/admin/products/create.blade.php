@@ -124,7 +124,7 @@
 	                                <tr>
 	                                  <td>1#</td>
 	                                  <td> {{ $last_products->name_product }} </td>
-	                                  <td> {{ $last_products->category_name->category }} </td>
+	                                  <td> {{ $last_products->category->category }} </td>
 	                                  <td> {{ $last_products->count_piecies}} قطعة </td>
 	                                  <td> {{ $last_products->price_piecies }} جنية </td>
 	                                  <td> {{ $last_products->additional_taxs }} جنية </td>

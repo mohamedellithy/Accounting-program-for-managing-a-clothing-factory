@@ -20,4 +20,16 @@ class BankCheck extends Model
     {
         return $this->morphTo();
     }
+
+    public function Scopemerchantcheque($query){
+        #merchantcheque
+        return $query->where('bank_checkable_type','merchant');
+    }
+
+    public function Scopeclientcheque($query){
+        #clientcheque
+        return $query->where('bank_checkable_type','client');
+    }
+
+
 }

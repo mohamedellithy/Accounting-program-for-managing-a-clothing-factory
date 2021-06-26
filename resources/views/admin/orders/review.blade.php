@@ -39,53 +39,50 @@
 		                    	</div>
 		                    	<div class="col-xs-12 text-right" style="padding:10px;text-align: right !important;font-size:20px;font-weight:200">
                                    <span> مطلوب من السيد :
-                                   	    @if(!empty($last_order_review))
-                                           @foreach($last_order_review as $order)
-                                               {{ ($order->client_name?$order->client_name->client_name:'') }}
-                                               @php break @endphp
-                                           @endforeach
+                                   	    @if(!empty($order_invoices))
+                                               {{ $order_invoices->client->client_name ?? 'لم يحدد' }}
                                         @endif
 
                                    </span>
 		                    	</div>
 		                    	<table class="table table-bordered">
 		                    		<thead>
-			                    		<tr>
+			                    		<tr style="border-top: 3px solid black;">
 			                    			<th colspan="2">اجمالى السعر</th>
-			                    			<th colspan="2">سعر الوحدة</th>
-			                    			<th rowspan="2">العدد</th>
+			                    			<th colspan="2" style="border-right: 3px solid black;">سعر الوحدة</th>
+			                    			<th rowspan="2" style="border-right: 3px solid black;">العدد</th>
 			                    			<th rowspan="2">تخفيض</th>
-			                    			<th>الصنف</th>
+			                    			<th style="border-right: 3px solid black;">الصنف</th>
 			                    		</tr>
 			                    		<tr>
 			                    			<th>قرش</th>
 			                    			<th>جنيه</th>
-			                    			<th>قرش</th>
+			                    			<th style="border-right: 3px solid black;">قرش</th>
 			                    			<th>جنيه</th>
-
-
-			                    			<th></th>
+			                    			<th style="border-right: 3px solid black;"></th>
 			                    		</tr>
 			                    	</thead>
 			                    	<tbody>
-			                    	   @php $all_cost=0 @endphp
-			                    	   @php $order_discount = 0 @endphp
-                                       @if(!empty($last_order_review))
-                                           @foreach($last_order_review as $order)
-                                           @php $all_cost +=$order->final_cost  @endphp
+
+                                       @if(!empty($order_invoices))
+                                           @foreach($order_invoices->invoices_items as $order)
                                               <tr>
-                                              	  <td>{{ round($order->final_cost - intval($order->final_cost),2) }}</td>
+                                              	  <td >{{ round($order->final_cost - intval($order->final_cost),2) }}</td>
                                               	  <td>{{ intval($order->final_cost) }}</td>
-                                              	  <td>{{ round((($order->order_price / $order->order_count) + $order->order_taxs) - floor(($order->order_price / $order->order_count) + $order->order_taxs),2) }}</td>
+                                              	  <td style="border-right: 3px solid black;">{{ round((($order->order_price / $order->order_count) + $order->order_taxs) - floor(($order->order_price / $order->order_count) + $order->order_taxs),2) }}</td>
                                               	  <td>{{ floor(($order->order_price / $order->order_count) + $order->order_taxs) }}</td>
-                                              	  <td>{{ intval($order->order_count) }}</td>
+                                              	  <td style="border-right: 3px solid black;">{{ intval($order->order_count) }}</td>
                                               	  <td>{{ intval($order->order_discount) }}</td>
-                                              	     @php $order_discount += $order->order_discount @endphp
-                                              	  <td>{{ $order->product_name->category_name->category }}</td>
+                                              	  <td style="border-right: 3px solid black;">{{ $order->product->category->category }}</td>
                                               </tr>
                                            @endforeach
                                            <tr>
-                                           	  <td colspan="7"> التكلفة الكلية : {{ ($all_cost?$all_cost:'0') - $order_discount  }} جنيه </td>
+                                           	  <td colspan="7" style="font-weight: bold;font-size: 18px;"> التكلفة الكلية : {{ $order_invoices->total_invoices }} جنيه </td>
+                                           </tr>
+                                           <tr>
+                                               <td colspan="7">
+                                                     <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($order_invoices->invoice_no, 'C39')}}" alt="barcode" />
+                                               <td>
                                            </tr>
                                        @endif
 			                    	</tbody>

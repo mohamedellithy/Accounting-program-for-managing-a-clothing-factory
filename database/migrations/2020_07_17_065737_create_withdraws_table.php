@@ -17,9 +17,8 @@ class CreateWithdrawsTable extends Migration
             $table->id();
             $table->integer('partner_id')->default(0);
             $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
-            $table->string('withdraw_value');
-            $table->string('profit_value')->nullable();
-            $table->string('type_withdraw')->nullable();
+            $table->string('value');
+            $table->string('type')->comment('0 => profits , 1 => Capital')->default(0);
             $table->timestamps();
         });
     }

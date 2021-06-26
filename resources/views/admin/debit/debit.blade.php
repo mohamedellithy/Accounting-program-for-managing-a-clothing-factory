@@ -43,7 +43,7 @@
           </div>
           <!-- /.col -->
 
-         
+
           <!-- /.col -->
           <div class="col-12">
              <form id="form_delete_select" action="{{ url('delete-select-debit') }}"  method="POST">
@@ -71,7 +71,7 @@
                                   <button id="" type="submit" class="dropdown-item delete" data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف المحدد</button>
                                   <div class="dropdown-divider"></div>
                                   <a class="dropdown-item delete_all" href="{{ url('delete-debits/مدين') }}"  data-toggle="modal" data-target="#modal-default" > <i class="far fa-trash-alt"></i> حذف الكل</a>
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                    <th>طريقة الدفع</th>
                                   <th>تسديد المبلغ</th>
                                   <th>اجراءات</th>
-                                  
+
                                 </tr>
                               </thead>
                             </table>
@@ -116,7 +116,7 @@
               <p>تأكيد حذف المحدد من جدول المدينين</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -138,26 +138,17 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                     
+
                       <div class="form-group">
                         <label for="exampleInputPassword1">قيمة المبلغ</label>
                         <input name="debit_value" type="debit_value" class="form-control" id="debit_value" placeholder="قيمة المبلغ" required>
                         <input name="debit_id" type="debit_value" class="form-control" id="debit_id" placeholder="قيمة المبلغ" hidden>
-                       
-                      </div>
 
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">طريقة التسديد</label>
-                           <select name="type_paydebit" class="form-control select2" style="width: 100%;" required>
-                                <option value="1"> ارفاق فى المدفعوات </option>
-                                <option value="2"> بدون ارفاق للمدفوعات </option>
-                           </select>
                       </div>
-
 
                   </div>
                   <div class="modal-footer justify-content-between">
-                    
+
                     <button type="submit" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد التسديد</button>
                   </div>
               </form>
@@ -192,15 +183,15 @@
                       { data: 'credit_name', name: 'credit_name' },
                       { data: 'credit_value', name: 'credit_value' },
                       { data: 'rest_value', name: 'rest_value' },
-                      
+
                       { data: 'section', name: 'section' },
                       { data: 'credit_type', name: 'credit_type' },
                       { data: 'type_payment', name: 'type_payment' },
-                      
+
                       { data: 'credit_pay', name: 'credit_pay' },
                       { data: 'process', name: 'process' },
-                      
-                     
+
+
                    ]
           });
      });
@@ -222,7 +213,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -236,24 +227,24 @@
             event.preventDefault();
 
             var printContents = document.getElementById("merchantsContainer").innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
              //window.location.reload();
         });
-            
+
       jQuery('body').on('click','.pay_money',function(event){
 
          var value_payed = jQuery(this).attr('debit-cost');
          var pay_id      = jQuery(this).attr('debit-id');
          jQuery('#debit_value').val(value_payed);
          jQuery('#debit_id').val(pay_id);
-      }); 
+      });
          console.log('hi');
     </script>
 @stop

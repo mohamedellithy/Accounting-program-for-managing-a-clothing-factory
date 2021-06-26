@@ -3,25 +3,25 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1> تفاصيل بالزبون 
-         <a href="#" onclick="printDiv('container-print-frame')" class="btn btn-sm btn-info" style="float: left;margin-left: 15px;">طباعة</a> 
-   
+    <h1> تفاصيل بالزبون
+         <a href="#" onclick="printDiv('container-print-frame')" class="btn btn-sm btn-info" style="float: left;margin-left: 15px;">طباعة</a>
+
     </h1>
 @stop
 
 
 @section('content')
     <!-- Main content -->
-    
+
     <section class="content" id="container-print-frame">
 	    <div class="container-fluid">
 	        <!-- start row -->
 	        <div class="row">
 	            <!-- start row orders clothes -->
-	            <div class="side-by-side col-md-8"> 
+	            <div class="side-by-side col-md-8">
 				   <div class="card" id="card_print_1">
 		              <div class="card-header border-transparent">
-		                <h3 class="card-title">طلبات الشراء الخاصة بالزبون <label> \ {{ get_client_name($client_id) }} </label> </h3>
+		                <h3 class="card-title">طلبات الشراء الخاصة بالزبون <label> \ {{ $client_info->client_name }} </label> </h3>
 		              </div>
 		              <!-- /.card-header -->
 		              <div class="card-body p-0">
@@ -39,34 +39,34 @@
 		                    </tr>
 		                    </thead>
 		                    <tbody>
-		                    	@php $total_value = 0 @endphp
-		                    	@if(!empty($order_data_info))
-				              	    @foreach($order_data_info as $order_info)
-					                    <tr>
-					                      <td><a href="pages/examples/invoice.html"> {{ $order_info->id }} </a></td>
-					                      <td>{{$order_info->product_name->name_product }}</td>
-					                      <td>{{$order_info->product_name->category_name->category }}</td>
-					                      <td><span class="badge {{ ( ($order_info->payment_type=='نقدى')?'badge-success':'badge-info') }} ">{{ $order_info->payment_type }}  </span></td>
-					                      <td>
-					                        {{$order_info->created_at }} 
-					                      </td>
-					                      <td>
-					                      	  {{ $order_info->final_cost }}
-                                              @php $total_value+=$order_info->final_cost @endphp 
-					                      </td>
-					                
-					                      <td >
-					                      	  <a href="{{ url('single-order/'.($order_info->order_follow?$order_info->order_follow:$order_info->id) ) }}" class="btn btn-sm btn-primary float-left">تفاصيل</a>
-					                      </td>
-					                    </tr>
-					                @endforeach
-					                @php $total_value += debit_delay($client_id) @endphp 
-					                @php define('any_postponeds',$total_value ) @endphp
-					            @else
-					                <tr>
-					                	 <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
-					                </tr>
-					            @endif		                   
+                                @forelse($order_data_info as $order_info)
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html"> {{ $order_info->id }} </a></td>
+                                        <td>
+                                           {{$order_info->product->name_product }}
+                                        </td>
+                                        <td>
+                                           {{$order_info->product->category->category }}
+                                        </td>
+                                        <td>
+                                           <span class="badge {{ ( ($order_info->payment_type=='نقدى')?'badge-success':'badge-info') }} ">{{ $order_info->payment_type }}  </span>
+                                        </td>
+                                        <td>
+                                           {{$order_info->created_at }}
+                                        </td>
+                                        <td>
+                                            {{ $order_info->final_cost }}
+                                        </td>
+
+                                        <td >
+                                            <a href="{{ url('single-order/'.($order_info->order_follow?$order_info->order_follow:$order_info->id) ) }}" class="btn btn-sm btn-primary float-left">تفاصيل</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
+                                    </tr>
+                                @endforelse
 		                    </tbody>
 		                  </table>
 		                </div>
@@ -74,20 +74,34 @@
 		              </div>
 		              <!-- /.card-body -->
 		              <div class="card-footer clearfix">
-		                <!-- <a href="{{ url('delete-merchant-orders/'.$client_id) }}"  class="btn btn-sm btn-info delete_all float-left" data-toggle="modal" data-target="#modal-default"  > <i class="far fa-trash-alt"></i> حذف الطلبات</a>
-		                   -->
-		                     <table style="width:100%">
+
+                            <table style="width:100%">
                            	   <tr>
-                           	      <td>  المبلغ الاجمالى : {{ $total_value  }} جنيه </td>
-                           	  
-                           	      <td> المبلغ المدفوع : {{ get_all_paid_from_client($client_id) }} جنيه </td>
-                           	 
-                           	      <td> المبلغ المتبقى : {{ $total_value - get_all_paid_from_client($client_id) }} جنيه  {{ ($total_value < get_all_paid_from_client($client_id))?'مديونية':'' }} </td>
-                           	    </tr> 
+                           	      <td style="padding: 12px;background-color: white;border: 1px solid gray;">
+                                     التكلفة الاجمالى للطلبات : {{ $total_invoices }} جنيه
+                                  </td>
+
+
+
+                                  <td style="padding: 12px;background-color: white;border: 1px solid gray;">
+                                       المبلغ المدفوع للطلبات:  {{ $Paid + $total_cache   }} جنيه
+                                  </td>
+
+                           	      <td style="padding: 12px;background-color: white;border: 1px solid gray;">
+                                      المبلغ المتبقى : {{ ($total_not_cache > $Paid ) ? ($total_not_cache - $Paid ) : 0 }} جنيه
+                                  </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="padding: 10px;background-color: wheat;">
+                                      تم ادانه المصنع بمبلغ قيمته   {{ $rest_debit }} جنيه
+                                    </td>
+                                </tr>
 
                            	</table>
-		                  <a href="#" onclick="printDiv('card_print_1')" class="btn btn-sm btn-info float-left">طباعة</a>                 
-		                                
+		                  <a href="#" onclick="printDiv('card_print_1')" class="btn btn-sm btn-info float-left">طباعة</a>
+
 		              </div>
 		              <!-- /.card-footer -->
 		            </div>
@@ -97,7 +111,7 @@
 		            <!-- --------------------------------------------------------------- -->
 		            <div class="card" id="card_print_2">
 		              <div class="card-header border-transparent">
-		                <h3 class="card-title">شيكات مطلوب تسديدها <label> \ {{ get_client_name($client_id) }} </label> </h3>
+		                <h3 class="card-title">شيكات مطلوب تسديدها <label> \ {{ $client_info->client_name }} </label> </h3>
 		              </div>
 		              <!-- /.card-header -->
 			              <div class="card-body p-0">
@@ -138,7 +152,7 @@
 							                      </td>
 							                      <td>
 						                      	    @if($bank_check->payed_check==null)
-									                    <a href=" {{ url('approve-check/'.$bank_check->id) }}" class="btn btn-success btn-sm"> تسديد </a>                       
+									                    <a href=" {{ url('approve-cheque/'.$bank_check->id) }}" class="btn btn-success btn-sm"> تسديد </a>
 									                @else
 									                    تم التسديد
 									                @endif
@@ -146,12 +160,12 @@
 						                    </tr>
 					                    @endif
 							        @endforeach
-							               
+
 					            @else
 					                <tr>
 					                	 <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
 					                </tr>
-					            @endif		                   
+					            @endif
 			                    </tbody>
 			                  </table>
 			                </div>
@@ -160,7 +174,7 @@
 		              <!-- /.card-body -->
 		              <div class="card-footer clearfix">
 		                 <a href="#" onclick="printDiv('card_print_2')" class="btn btn-sm btn-info float-left">طباعة</a>
-		                
+
 		              </div>
 		              <!-- /.card-footer -->
 		            </div>
@@ -170,7 +184,7 @@
 		            <!-- --------------------------------------------------------------- -->
 		            <div class="card" id="card_print_3">
 		              <div class="card-header border-transparent" style="background-color:#CDDC39;" >
-		                <h3 class="card-title">شيكات تم تسديدها <label> \ {{ get_client_name($client_id) }} </label> </h3>
+		                <h3 class="card-title">شيكات تم تسديدها <label> \ {{ $client_info->client_name }} </label> </h3>
 		              </div>
 		              <!-- /.card-header -->
 			              <div class="card-body p-0">
@@ -210,12 +224,12 @@
 							                    </tr>
 						                    @endif
 					                    @endforeach
-					                
+
 						            @else
 						                <tr>
 						                	 <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
 						                </tr>
-						            @endif		                   
+						            @endif
 			                    </tbody>
 			                  </table>
 			                </div>
@@ -224,20 +238,20 @@
 		              <!-- /.card-body -->
 		              <div class="card-footer clearfix">
 		                  <a href="#" onclick="printDiv('card_print_3')" class="btn btn-sm btn-info float-left">طباعة</a>
-		                
+
 		              </div>
 		              <!-- /.card-footer -->
 		            </div>
-		       
+
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
-		            
+
 		            <div class="card" id="card_print_4">
 		              <div class="card-header border-transparent">
-		                <h3 class="card-title">الدفعات الخاصة بالتاجر <label> \ {{ get_client_name($client_id) }} </label> </h3>
+		                <h3 class="card-title">الدفعات الخاصة بالتاجر <label> \ {{ $client_info->client_name }} </label> </h3>
 		              </div>
 		              <!-- /.card-header -->
 		              <div class="card-body p-0">
@@ -248,7 +262,7 @@
 		                      <th>رقم الدفعة</th>
 		                      <th>قيمة الدفعة</th>
 		                      <th>تاريخ تسديد الدفعة</th>
-		                    
+
 		                    </tr>
 		                    </thead>
 		                    <tbody>
@@ -256,17 +270,17 @@
 		                    	    @foreach($client_postponed as $postponed_data)
 		                    	        <tr>
 					                      <td><a href="#"> {{ $postponed_data->id }} </a></td>
-					                      <td> {{$postponed_data->posponed_value }} جنيه </td>
+					                      <td> {{$postponed_data->value }} جنيه </td>
 					                      <td><span class="badge badge-info"> {{ $postponed_data->created_at }} </span></td>
-					                      
+
 				                        </tr>
-							               
+
 							        @endforeach
 					            @else
 					                <tr>
 					                	 <td colspan="5" style="text-align:center"> لايوجد اى طلبات </td>
 					                </tr>
-					            @endif		                   
+					            @endif
 		                    </tbody>
 		                  </table>
 		                </div>
@@ -275,7 +289,7 @@
 		              <!-- /.card-body -->
 		              <div class="card-footer clearfix">
 		                  <a href="#" onclick="printDiv('card_print_4')" class="btn btn-sm btn-info float-left">طباعة</a>
-		                
+
 		              </div>
 		              <!-- /.card-footer -->
 		            </div>
@@ -286,61 +300,62 @@
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
-		            
-		            <div class="card">
-		              <div class="card-header border-transparent">
-		                <h3 class="card-title">تسديد دفعة</h3>
-		              </div>
-		              <form method="POST" action="{{ url('client/add-postponed/'.$client_id) }}">
-		              	  {{ csrf_field() }}
-			              <!-- /.card-header -->
-			              <div class="card-body p-0">
-			                <div class="table-responsive" style="max-height: 400px;">
-		                    
-      						   <div class="form-group col-12">
-			                      <!-- text input -->
-			                      <div class="form-group">
-			                        <label>تسديد دفعة من المبلغ</label>
-                                    @if( ( $total_value - get_all_paid_from_client($client_id) ) != 0):
-                                       المبلغ المتبقى على العميل : {{ $total_value - get_all_paid_from_client($client_id) }} جنيه  {{ ($total_value < get_all_paid_from_client($client_id))?'مديونية':'' }}
-			                           <input name="postponed_value" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." required="">
-			                            <input value="{{ $total_value - get_all_paid_from_client($client_id) }}" name="final_cost" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." required="" hidden>
-			                        @endif
-			                      </div>
-		                        </div>
-							                
-			                </div>
-			                <!-- /.table-responsive -->
-			              </div>
-			              <!-- /.card-body -->
-			              <div class="card-footer clearfix">
-			                <button  class="btn btn-sm btn-primary float-left">تسديد دفعة</button>
-			                
-			              </div>
-			              <!-- /.card-footer -->
-		              </form>
-		            </div>
+
+		             @if( ( $total_not_cache - $Paid ) != 0):
+                        <div class="card">
+                        <div class="card-header border-transparent">
+                            <h3 class="card-title">تسديد دفعة</h3>
+                        </div>
+                        <form method="POST" action="{{ url('client/add-payments/'.$client_id) }}">
+                            {{ csrf_field() }}
+                            <!-- /.card-header -->
+                            <div class="card-body p-0">
+                                <div class="table-responsive" style="max-height: 400px;">
+
+                                <div class="form-group col-12">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label>تسديد دفعة من المبلغ</label>
+
+                                        المبلغ المتبقى على العميل : {{ $total_not_cache - $Paid }} جنيه
+                                        <input name="postponed_value" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." required="">
+
+                                    </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer clearfix">
+                                <button  class="btn btn-sm btn-primary float-left">تسديد دفعة</button>
+
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
+                        </div>
+                     @endif
 
 		                   <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
 		            <!-- --------------------------------------------------------------- -->
-		            
+
 		           <!-- here put check -->
-                    <form method="post" action="{{ url('add-check-for-client/'.$client_id) }}">
+                    <form method="post" action="{{ url('add-cheque-for-client/'.$client_id) }}">
                        {{ csrf_field() }}
-                 
+
 		              <!--  here put form check of Banck -->
 		                  <div class="checkform col-12" style="display:block">
 		                  	<div class="col-xs-12">
 		                  	     <h4 class="badge bg-danger" style="font-size:14px;color:black"> اضافة شيك </h4>
-		                  	   
+
 		                  	</div>
                             <div class="form-group col-md-12">
 		                      <!-- text input -->
 		                      <div class="form-group">
 		                        <label>شيك باسم</label>
-		                        <input name="check_owner" value="{{ get_client_name($client_id) }}" type="text" class="form-control" placeholder="شيك باسم ..." >
+		                        <input name="check_owner" value="{{ $client_info->client_name }}" type="text" class="form-control" placeholder="شيك باسم ..." >
 		                      </div>
 		                    </div>
 		                    <div class="form-group col-md-12">
@@ -355,8 +370,8 @@
 		                      <div class="form-group">
 		                        <label>قيمة الشيك</label>
 		                        <input name="check_value" type="text" class="form-control" placeholder="قيمة الشيك ..." >
-		                          <input name="order_price" value="{{ $total_value - get_all_paid_from_client($client_id) }}" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." required="" hidden>
-			                           
+		                          <input name="order_price" value="{{ $total_invoices - $Paid }}" type="text" class="form-control" placeholder="المبلغ المطلوب تسديدة ..." required="" hidden>
+
 		                      </div>
 		                    </div>
 		                    <div class="form-group col-md-12">
@@ -367,30 +382,29 @@
 		                      </div>
 		                    </div>
 		                     <button  class="btn btn-sm btn-primary float-left">اضافة شيك</button>
-			                
+
 		                  </div>
                           <!--  here put end of form check of Banck -->
                        </form>
-	           
 
-		           
+
+
 
 	            </div>
 	            <!-- start orders clothes -->
 
 	            <!-- start row orders clothes -->
-	            <div class="side-by-side col-md-4"> 
+	            <div class="side-by-side col-md-4">
 		            <!-- general form elements -->
 				    <div class="card">
 		              <div class="card-header" style="background-color:rgb(253 233 62);">
 		                <h3 class="card-title">تفاضيل العميل</h3>
 		              </div>
-		              @if(!empty($client_data))
-		              	 @foreach($client_data as $client_info)
+
 			              <!-- /.card-header -->
 			              <div class="card-body p-0">
 			                <ul class="products-list product-list-in-card pl-2 pr-2">
-			              
+
 				                  <!-- /.item -->
 				                  <li class="item">
 				                    <div class="product-info">
@@ -421,7 +435,7 @@
 				                    </div>
 				                  </li>
 
-				                
+
 			                </ul>
 			              </div>
 			              <!-- /.card-body -->
@@ -430,8 +444,7 @@
 	                           <a href="tel: {{ $client_info->client_phone }}"> <i class="fas fa-lg fa-phone fa-2x" style="color:#007bff"></i></a>
 			              </div>
 			              <!-- /.card-footer -->
-			            @endforeach
-			        @endif
+
 		            </div>
 			            </div>
 			        </div>
@@ -455,7 +468,7 @@
               <p>تأكيد حذف المحدد من جدول التجار</p>
             </div>
             <div class="modal-footer justify-content-between">
-              
+
               <a type="button" href="#" class="btn btn-primary " id="confirm_delete" >تأكيد الحذف</a>
             </div>
           </div>
@@ -471,34 +484,34 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/custom.css') }}">
 
         <style type="text/css">
-      .card-title label 
+      .card-title label
       {
       	display: none;
       }
-      @media print {  
-        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6) 
+      @media print {
+        table th:nth-child(4) , table th:nth-child(5) , table th:nth-child(6)
         {
           display:  table-cell;
         }
-        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6) 
+        table td:nth-child(4) , table td:nth-child(5) , table td:nth-child(6)
         {
           display:  table-cell;
         }
 
-        table th:nth-child(8) , table th:nth-child(9)  
+        table th:nth-child(8) , table th:nth-child(9)
         {
           display: none;
         }
-        table td:nth-child(8) , table td:nth-child(9) 
+        table td:nth-child(8) , table td:nth-child(9)
         {
           display: none;
         }
 
-        table th:nth-child(7) , table th:nth-child(7)  
+        table th:nth-child(7) , table th:nth-child(7)
         {
           display: none !important;
         }
-        table td:nth-child(7) , table td:nth-child(7) 
+        table td:nth-child(7) , table td:nth-child(7)
         {
           display: none !important;
         }
@@ -506,7 +519,7 @@
 	    {
 	      display: none;
 	    }
-	    .card-title label 
+	    .card-title label
         {
       	  display: block;
         }
@@ -527,7 +540,7 @@
       });
       $('#confirm_delete').click(function(){
         if(!typeAlert){
-          $('form#form_delete_select').submit();        
+          $('form#form_delete_select').submit();
         }
         else
         {
@@ -542,17 +555,17 @@
             event.preventDefault();
 
             var printContents = document.getElementById(id_div_container).innerHTML;
-                              
+
              var originalContents = document.body.innerHTML;
-             
+
              document.body.innerHTML = printContents;
-             
+
              window.print();
-             
+
              document.body.innerHTML = originalContents;
              //window.location.reload();
         }
-            
-        
+
+
     </script>
 @stop

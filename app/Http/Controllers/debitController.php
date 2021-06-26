@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use App\debit;
 use App\client;
 use App\merchant;
-
-use App\postponed_orderClothes;
-use App\postponed;
 use App\suppliers;
 use DB;
 class debitController extends Controller
@@ -22,46 +19,34 @@ class debitController extends Controller
     {
         //
 
-        /*  $clothes_count   = ClothStyles::count();
-          $ClothStyles_finished  = ClothStyles::where('count_piecies',0)->count();
-         */
-        /*  $check_count      =  debit::where('debit_type','دائن')->count();
-          $check_count_late =  debit::where('debit_type','دائن')->sum('debit_value');
-          return view('admin.debit.credit')->with(['check_count_late'=>$check_count_late,'check_count'=>$check_count]);*/
           $check_count             =  debit::where('debit_type','دائن')->count();
-          $check_count_payed       =  debit::where('debit_type','دائن')->where('type_payment','!=','متأخرات')->sum('payed_check');
-          $check_count_late        =  debit::where('debit_type','دائن')->where('type_payment','!=','متأخرات')->sum('debit_value');    
-          $get_all_debit_later_special     =  debit::where('type_payment','متأخرات')->sum('debit_value');
-          $get_all_sales_postponed = postponed::where('created_at','>=',Fiscal_Year)->sum('posponed_value');
-          $get_payed_from_posponed = ( (($get_all_debit_later_special-$get_all_sales_postponed)>0)?($get_all_debit_later_special-$get_all_sales_postponed):0);
-          return view('admin.debit.credit')->with(['check_count_late'=>(($check_count_late - $check_count_payed)+$get_payed_from_posponed ),'check_count'=>$check_count]);
-   
-   
+          $total_debit             =  debit::where('debit_type','دائن')->sum('debit_value');
+          $Context = [
+              'total_debit'=>$total_debit,
+              'check_count'=>$check_count
+          ];
+          return view('admin.debit.credit')->with( $Context );
+
+
     }
 
     function datatableCredit(Request $request){
-         $merchants = DB::table('debits')->where('debit_type','دائن')->orderby('created_at','ASC')->get();
+         $merchants = debit::Credit()->latest()->get();
          return datatables()->of($merchants)
         ->addColumn('select', function($row) {
                  return '<input name="select[]" value="'.$row->id.'" type="checkbox">';
-
-
             })
         ->addColumn('credit_name', function($row) {
-                if($row->debitable_type!=null):
-                    return get_debit_name($row->debitable_type,$row->debitable_id); 
-                else:
-                    return $row->debit_name;
-                endif; 
+               return $row->debitable->merchant_name ?? $row->debitable->client_name ?? $row->debitable->supplier_name ?? '' ;
             })
          ->addColumn('credit_value', function($row) {
                return $row->debit_value . ' جنيه';
             })
            ->addColumn('rest_value', function($row) {
-               return $row->debit_value-$row->payed_check . ' جنيه';
+               return $row->rest_value_of_debit . ' جنيه';
             })
           ->addColumn('section', function($row) {
-                return get_debit_section($row->debitable_type);
+                return $row->debit_for ?? '';
             })
            ->addColumn('credit_type', function($row) {
                return $row->debit_type;
@@ -70,13 +55,11 @@ class debitController extends Controller
                return $row->type_payment;
             })
             ->addColumn('credit_pay', function($row) {
-                if($row->type_payment!='متأخرات'):
-                     return ($row->payed_check<$row->debit_value?'<a class="btn btn-success pay_money" style="color:white;font-size: 12px;" debit-cost="'.($row->debit_value-$row->payed_check).'" debit-id="'.$row->id.'" data-toggle="modal" data-target="#modal-default23" > <i class="fas fa-pencil-alt"></i>  تسديد مبلغ </a>   ':'تم التسديد');
-                else:
-                    return '----';
-                endif;
+                return ($row->debit_paid < $row->debit_value?
+                '<a class="btn btn-success pay_money" style="color:white;font-size: 12px;" debit-cost="'.($row->rest_value_of_debit).'" debit-id="'.$row->id.'" data-toggle="modal" data-target="#modal-default23" >
+                <i class="fas fa-pencil-alt"></i>  تسديد مبلغ </a>   ':'تم التسديد');
             })
-        ->addColumn('process', function($row) {
+            ->addColumn('process', function($row) {
                  return '<div class="btn-group">
                             <button type="button" class="btn btn-warning">اجراء</button>
                             <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
@@ -85,11 +68,12 @@ class debitController extends Controller
                             <div class="dropdown-menu" role="menu">
                               <a class="dropdown-item delete_single" href="'.url('debit-delete/'.$row->id).'"  data-toggle="modal" data-target="#modal-default"> <i class="far fa-trash-alt"></i>  حذف</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item " href="'.url('debit-edite/'.$row->id).'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>      
-                            </div>  
+                              <a class="dropdown-item " href="'.url('debit-edite/'.$row->id).'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
+                            </div>
                         </div>';
 
-            })->rawColumns(['select','credit_name','rest_value','credit_value','section','credit_type','type_payment','credit_pay','process'])->make(true);
+            })
+            ->rawColumns(['select','credit_name','rest_value','credit_value','section','credit_type','type_payment','credit_pay','process'])->make(true);
 
     }
 
@@ -103,53 +87,49 @@ class debitController extends Controller
     {
         //
 
-        /*  $clothes_count   = ClothStyles::count();
-          $ClothStyles_finished  = ClothStyles::where('count_piecies',0)->count();
-         */
           $check_count       =  debit::where('debit_type','مدين')->count();
           $check_count_late  =  debit::where('debit_type','مدين')->sum('debit_value');
-          $check_count_payed =  debit::where('debit_type','مدين')->sum('payed_check');
-          return view('admin.debit.debit')->with(['check_count_late'=>($check_count_late-$check_count_payed),'check_count'=>$check_count]);
-   
+          $check_count_payed =  debit::where('debit_type','مدين')->sum('debit_paid');
+          $Context = [
+              'check_count_late'=>($check_count_late-$check_count_payed),
+              'check_count'     =>$check_count
+          ];
+          return view('admin.debit.debit')->with( $Context);
+
     }
 
 
     function datatabledebit(Request $request){
-         $merchants = DB::table('debits')->where('debit_type','مدين')->orderby('created_at','ASC')->get();
-         return datatables()->of($merchants)
-        ->addColumn('select', function($row) {
+        $merchants = debit::Debit()->latest()->get();
+            return datatables()->of($merchants)
+            ->addColumn('select', function($row) {
                  return '<input name="select[]" value="'.$row->id.'" type="checkbox">';
-
-
             })
-        ->addColumn('credit_name', function($row) {
-                if($row->debitable_type!=null):
-                    return get_debit_name($row->debitable_type,$row->debitable_id); 
-                else:
-                    return $row->debit_name;
-                endif; 
+            ->addColumn('credit_name', function($row) {
+                return $row->debitable->merchant_name ?? $row->debitable->client_name ?? $row->debitable->supplier_name ?? '' ;
             })
-         ->addColumn('credit_value', function($row) {
+            ->addColumn('credit_value', function($row) {
                return $row->debit_value . ' جنيه';
             })
-           ->addColumn('rest_value', function($row) {
-               return $row->debit_value-$row->payed_check . ' جنيه';
+            ->addColumn('rest_value', function($row) {
+               return $row->rest_value_of_debit . ' جنيه';
             })
-          ->addColumn('section', function($row) {
-                return get_debit_section($row->debitable_type);
+            ->addColumn('section', function($row) {
+                return $row->debit_for;
             })
-           ->addColumn('credit_type', function($row) {
+            ->addColumn('credit_type', function($row) {
                return $row->debit_type;
             })
             ->addColumn('type_payment', function($row) {
                return $row->type_payment;
             })
             ->addColumn('credit_pay', function($row) {
-              if($row->type_payment!='متأخرات'):
-                  return ($row->payed_check<$row->debit_value?'<a class="btn btn-success pay_money" style="color:white;font-size: 12px;" debit-cost="'.($row->debit_value-$row->payed_check).'" debit-id="'.$row->id.'" data-toggle="modal" data-target="#modal-default23" > <i class="fas fa-pencil-alt"></i>  تسديد مبلغ </a>   ':'تم التسديد');
-              endif;
+               return ($row->debit_paid < $row->debit_value?
+                '<a class="btn btn-success pay_money" style="color:white;font-size: 12px;" debit-cost="'.($row->rest_value_of_debit).'" debit-id="'.$row->id.'" data-toggle="modal" data-target="#modal-default23" >
+                 <i class="fas fa-pencil-alt"></i>  تسديد مبلغ </a>   ':'تم التسديد');
+
             })
-        ->addColumn('process', function($row) {
+            ->addColumn('process', function($row) {
                  return '<div class="btn-group">
                             <button type="button" class="btn btn-warning">اجراء</button>
                             <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
@@ -158,11 +138,12 @@ class debitController extends Controller
                             <div class="dropdown-menu" role="menu">
                               <a class="dropdown-item delete_single" href="'.url('debit-delete/'.$row->id).'"  data-toggle="modal" data-target="#modal-default"> <i class="far fa-trash-alt"></i>  حذف</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item " href="'.url('debit-edite/'.$row->id).'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>      
-                            </div>  
+                              <a class="dropdown-item " href="'.url('debit-edite/'.$row->id).'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
+                            </div>
                         </div>';
 
-            })->rawColumns(['select','credit_name','rest_value','credit_value','section','credit_type','type_payment','credit_pay','process'])->make(true);
+            })
+            ->rawColumns(['select','credit_name','rest_value','credit_value','section','credit_type','type_payment','credit_pay','process'])->make(true);
 
     }
 
@@ -174,11 +155,11 @@ class debitController extends Controller
     public function create()
     {
         //
-         $last_debit_added = debit::orderby('created_at','desc')->first();
-         $all_merchants =merchant::all();
-         $all_clients   =client::all();
-         $all_suppliers =suppliers::all();
-         return view('admin.debit.create')->with(['all_merchants'=>$all_merchants,'all_clients'=>$all_clients,'all_suppliers'=>$all_suppliers,'last_debit'=>$last_debit_added]);
+         $last_debit_added = debit::latest()->first();
+         $all_merchants    = merchant::all();
+         $all_clients      = client::all();
+         $all_suppliers    = suppliers::all();
+         return view('admin.debit.create')->with(['all_merchants'=>$all_merchants,'all_clients'=>$all_clients,'all_suppliers'=>$all_suppliers,'last'=>$last_debit_added]);
     }
 
     /**
@@ -192,52 +173,46 @@ class debitController extends Controller
         //
         $this->validate($request,[
              'debit_value' => 'required',
-             'debit_type' => 'required',
-             'type_payment'=>'required',
         ]);
-       
-        $request['payed_check']=0;
-       
-        if(($request['debitable_type']=='client') && ($request['debit_type']=='دائن') ):
-          $request['type_payment'] = 'متأخرات';    
+
+        if(($request['debitable_type']=='merchant') || ($request['debitable_type']=='suppliers') ):
+          $request['debit_type'] = 'دائن';
+        else:
+          $request['debit_type'] = 'مدين';
         endif;
+
+        $request['type_payment'] = 'دفعات';
         $last_insert = debit::create($request->all());
 
-        return back()->with(['success'=>'تم اضافة المديونية بنجاح','last_merchant'=>$last_insert]);
-        
+        return back()->with(['success'=>'تم اضافة المديونية بنجاح','last'=>$last_insert]);
+
     }
 
     function Paydebit(Request $request){
-         $this->validate($request,[
+        $this->validate($request,[
              'debit_value' => 'required',
-             'debit_id' => 'required',
+             'debit_id'    => 'required',
         ]);
-         $debiter_id = debit::where('id',$request->debit_id)->pluck('debitable_id')[0];
-         $debitable_type = debit::where('id',$request->debit_id)->pluck('debitable_type')[0];
-         if($request['type_paydebit']==1):
-             if($debitable_type=='merchant'):
-                $create_posponed = new postponed_orderClothes();
-                $create_posponed->posponed_value = $request->debit_value;
-                $create_posponed->merchant_id      = $debiter_id;                 
-                $create_posponed->save();
-             elseif($debitable_type=='client'):
-                $create_posponed = new postponed();
-                $create_posponed->posponed_value = $request->debit_value;
-                $create_posponed->client_id      = $debiter_id;                 
-                $create_posponed->save();
-             elseif($debitable_type=='suppliers'):
-                $create_posponed = new suppliers();
-                $create_posponed->posponed_value = $request->debit_value;
-                $create_posponed->supplier_id      = $debiter_id;                 
-                $create_posponed->save();
-             endif;
-         endif;  
-         $create_payed =debit::where('id',$request->debit_id)->increment('payed_check',$request->debit_value);
-         return back()->with(['success'=>'تم تسديد مبلغ بنجاح']);
+        $debite          = debit::find($request->debit_id);
+        $debit_value     = $debite->debit_value - $debite->debit_paid;
+        if($debit_value >= $request->debit_value ):
+            $Debiter = '';
+            if($debite->debitable_type    == 'merchant'):
+                $Debiter = 'App\Http\Controllers\MerchantPayments';
+            elseif($debite->debitable_type == 'client'):
+                $Debiter = 'App\Http\Controllers\ClientPayments';
+            elseif($debite->debitable_type =='suppliers'):
+                $Debiter = 'App\Http\Controllers\SupplierPayments';
+            endif;
+            $Debiter::Create($debite->debitable->id,$request->debit_value);
+            $create_payed = $debite->increment('debit_paid',$request->debit_value);
+            return back()->with(['success'=>'تم تسديد مبلغ بنجاح']);
+        endif;
+        return back()->with(['error'=>'لم يتم تسديد مبلغ بنجاح']);
 
     }
 
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -247,12 +222,18 @@ class debitController extends Controller
     public function edit($id)
     {
         //
-         $single_debit = debit::where('id',$id)->get();
-         $all_merchants =merchant::all();
-         $all_clients   =client::all();
-         $all_suppliers =suppliers::all();
-         return view('admin.debit.edite')->with(['single_debit'=>$single_debit,'all_merchants'=>$all_merchants,'all_clients'=>$all_clients,'all_suppliers'=>$all_suppliers]);
-   
+         $single_debit  = debit::find($id);
+         $all_merchants = merchant::all();
+         $all_clients   = client::all();
+         $all_suppliers = suppliers::all();
+         $Context = [
+             'debit'        =>$single_debit,
+             'all_merchants'=>$all_merchants,
+             'all_clients'  =>$all_clients,
+             'all_suppliers'=>$all_suppliers
+         ];
+         return view('admin.debit.edite')->with($Context);
+
     }
 
     /**
@@ -268,9 +249,9 @@ class debitController extends Controller
         $this->validate($request,[
              'debit_value' => 'required',
         ]);
-        $last_insert = debit::where('id',$id)->update($request->only(['debitable_id','debitable_type','debit_value','debit_type','payed_check','type_payment','debit_name']));
+        $last_insert = debit::where('id',$id)->update($request->only(['debit_value','debit_paid']));
         return back()->with(['success'=>'تم تعديل المديونية بنجاح']);
-   
+
     }
 
     /**
@@ -282,7 +263,7 @@ class debitController extends Controller
     public function destroy($id)
     {
         //
-        debit::where('id',$id)->delete();
+        debit::destory($id);
         return back()->with(['success'=>'تم حذف المديونية بنجاح']);
     }
 
@@ -296,7 +277,7 @@ class debitController extends Controller
         if(!$request->input('select')){
           return back();
         }
-        debit::whereIn('id',$request->input('select'))->delete();
+        debit::destory($request->input('select'));
         return back()->with(['success'=>'تم حذف المديونية بنجاح']);
     }
 
@@ -304,6 +285,22 @@ class debitController extends Controller
     public function truncated($debit_type){
         debit::where('debit_type',$debit_type)->delete();
         return back()->with(['success'=>'تم حذف المديونية بنجاح']);
+    }
+
+    public static function insert_debit_data(Array $data = []){
+        if($data['value']!=null):
+            $section       =  ($data['section']=='suppliers'?'suppliers':$data['section']);
+            $debit_name    =  new debit();
+            $debit_name->debitable_id  = $data['debiter_id'];
+            $debit_name->debitable_type= $section;
+            $debit_name->debit_value   = $data['value'];
+            $debit_name->debit_type    = $data['type_debit'];
+            $debit_name->type_payment  = $data['type_payment'];
+            $debit_name->debit_paid    = 0;
+            $debit_name->order_id      = $data['order_id'];
+            $debit_name->save();
+            return $debit_name;
+        endif;
     }
 
 }

@@ -34,16 +34,21 @@ Route::group(['middleware' => ['auth']], function () {
 
 		Route::get('/home','HomeController@index');
 
-		Route::get('/main','sales@moneysafe');
+		Route::get('/main','FactoryController@moneysafe');
 
 
 		Route::resource('/merchants','merchants');
 		Route::get('datatable-merchants','merchants@datatableMerchants');
 		Route::post('delete-select-merchant','merchants@deleteSelected');
 		Route::get('delete-merchants','merchants@truncated');
-		# Route::get('delete-merchant-orders/{id}','merchants@deleteMerchantOrders');
-		# Route::post('merchant/add-postponed/{id}','merchants@addPostponedmerchants');
-		# Route::post('add-check-for-merchant/{id}','merchants@add_check_for_merchant');
+		####@
+        Route::get('delete-merchants/{id}','merchants@destroy');
+        #Route::get('delete-merchant-orders/{id}','merchants@deleteMerchantOrders');
+		Route::post('merchant/add-postponed/{id}','merchants@addPostponedmerchants');
+		Route::post('add-check-for-merchant/{id}','merchants@add_check_for_merchant');
+        ####@
+
+
 
         Route::resource('/categories','categories');
 		Route::get('datatable-categories','categories@datatableCategories');
@@ -66,8 +71,8 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('client-delete/{id}','clientsController@destroy');
 		Route::post('delete-select-client','clientsController@deleteSelected');
 		Route::get('delete-clients','clientsController@truncated');
-		# Route::post('client/add-postponed/{id}','clientsController@addPostponedclients');
-		# Route::post('add-check-for-client/{id}','clientsController@add_check_for_client');
+		Route::post('client/add-payments/{id}','clientsController@addPostponedclients');
+		Route::post('add-cheque-for-client/{id}','clientsController@add_check_for_client');
 
         Route::resource('piecies','ClothStylesController');
 		Route::get('datatable-order-clothes-styles','ClothStylesController@datatableClothes');
@@ -100,11 +105,11 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('delete-product','productsController@truncated');
 
 
-        Route::resource('partners','PartnerPercentages');
-		Route::get('datatable-partners','PartnerPercentages@datatablePartners');
-		Route::get('delete-partners','PartnerPercentages@truncated');
-		Route::get('partner-delete/{id}','PartnerPercentages@destroy');
-		Route::post('delete-select-partner','PartnerPercentages@deleteSelected');
+        Route::resource('partners','PartnerController');
+		Route::get('datatable-partners','PartnerController@datatablePartners');
+		Route::get('delete-partners','PartnerController@truncated');
+		Route::get('partner-delete/{id}','PartnerController@destroy');
+		Route::post('delete-select-partner','PartnerController@deleteSelected');
 
 
         Route::resource('reactionists','reactionistController');
@@ -112,14 +117,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('orders/{order_id?}/reactionists/create','reactionistController@createReactionists');
 		Route::resource('orders.reactionists','reactionistController');
 		Route::get('datatable-reactionist','reactionistController@datatableReactionist');
+		Route::get('reactionist-delete/{id}','reactionistController@destroy');
+		Route::post('delete-select-reactionist','reactionistController@deleteSelected');
+		Route::get('delete-reactionist','reactionistController@truncated');
 		# Route::get('/add-reactionist-orders','reactionistController@orders');
 		# Route::get('/show-reactionist','reactionistController@index');
 		# Route::post('/create-reactionist/{id}','reactionistController@store');
-		# Route::get('reactionist-delete/{id}/{type_return?}','reactionistController@destroy');
-		# Route::post('delete-select-reactionist','reactionistController@deleteSelected');
 		# Route::get('reactionist-edite/{id}','reactionistController@edit');
 		# Route::post('update-reactionist/{id}/{order_id}','reactionistController@update');
-		# Route::get('delete-reactionist','reactionistController@truncated');
 		# Route::get('single-reactionist/{id}','reactionistController@show');
 
 
@@ -127,46 +132,46 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::resource('withdraws','withdrawController');
 		Route::get('datatable-withdraws','withdrawController@datatableWithdraws');
+		Route::get('withdraw-delete/{id}','withdrawController@destroy');
 		# Route::get('/withdraw-capital','withdrawController@index');
 		# Route::post('/create-withdraw','withdrawController@store');
-		# Route::get('withdraw-delete/{id}','withdrawController@destroy');
 		# Route::post('delete-select-withdraw','withdrawController@deleteSelected');
 		# Route::get('withdraw-edite/{id}','withdrawController@edit');
 		# Route::post('update-withdraw/{id}','withdrawController@update');
 		# Route::get('delete-withdraw','withdrawController@truncated');
 		# Route::get('withdraw-client-delete/{id}','withdrawController@deleteWithdrawPartner');
-		# Route::post('withdraw-profit-and-end-partner/{id}','withdrawController@withdrawprofitandendpartner');
+		Route::post('end-partner/{id}','withdrawController@endPercentPartner');
 
 
 		// ajax
 		Route::get('ajax-delete-Bankcheck/{id?}','bankCheckController@destroy');
 
 		// ajax
-		Route::get('ajax-delete-postponed/{id?}','PostponedController@destroy');
+		# Route::get('ajax-delete-postponed/{id?}','PostponedController@destroy');
 
 
 
-		Route::get('inventory','inventory@index');
-		Route::get('inventory/products/{product_type}','inventory@product');
-		Route::get('datatable-product/{product_type}','inventory@datatableProducts');
+		Route::get('inventory','inventoryController@index');
+		Route::get('inventory/products/{product_type}','inventoryController@product');
+		Route::get('datatable-product/{product_type}','inventoryController@datatableProducts');
 
 
-		Route::get('inventory/order-clothes/{order_type}','inventory@orderClothes');
-		Route::get('datatable-order-clothes/{order_type}','inventory@datatableorderClothes');
+		Route::get('inventory/order-clothes/{order_type}','inventoryController@orderClothes');
+		Route::get('datatable-order-clothes/{order_type}','inventoryController@datatableorderClothes');
 
 
-		Route::get('inventory/clothesStyles/{cloth_type}','inventory@clothesStyles');
-		Route::get('datatable-clothes-styles','inventory@datatablePiecies');
-
-
-
-		Route::get('inventory/category/{category_type}','inventory@category');
-		Route::get('datatable-category','inventory@datatableCategories');
+		Route::get('inventory/clothesStyles/{cloth_type}','inventoryController@clothesStyles');
+		Route::get('datatable-clothes-styles','inventoryController@datatablePiecies');
 
 
 
-		Route::get('inventory/reactionist/{reactionist_type}','inventory@reactionist');
-		Route::get('datatable-reactionist','inventory@datatableReactionist');
+		Route::get('inventory/category/{category_type}','inventoryController@category');
+		Route::get('datatable-category','inventoryController@datatableCategories');
+
+
+
+		Route::get('inventory/reactionist/{reactionist_type}','inventoryController@reactionist');
+		# Route::get('datatable-reactionist','inventory@datatableReactionist');
 
 
 		Route::get('sales','sales@index');
@@ -180,11 +185,11 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('datatable-check-clothes','bankCheckController@datatablecheckclothes');
 		Route::get('datatable-check-orders','bankCheckController@datatablecheckorders');
 
-		Route::get('approve-check/{id}','bankCheckController@update');
+		Route::get('approve-cheque/{id}','bankCheckController@update');
 
 
-		Route::get('factory-capital','withdrawController@factoryCapital');
-		Route::post('create-capital','withdrawController@CreateCapital');
+		Route::get('factory-capital','FactoryController@index');
+		Route::post('create-capital','FactoryController@CreateCapital');
 		Route::post('create-withdraw-capital','withdrawController@CreateWithdrawCapital');
 
 		Route::post('withdraw-profit-only/{id}','withdrawController@CreateWithdrawProfite');
@@ -197,8 +202,8 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('supplier-delete/{id}','suppliersController@destroy');
 		Route::post('delete-select-supplier','suppliersController@deleteSelected');
 		Route::get('delete-suppliers','suppliersController@truncated');
+		Route::post('supplier/add-postponed/{id}','suppliersController@addPostponedsuppliers');
 		# Route::get('delete-supplier-orders/{id}','suppliersController@deleteMerchantOrders');
-		# Route::post('supplier/add-postponed/{id}','suppliersController@addPostponedsuppliers');
 
 
 
@@ -231,6 +236,11 @@ Route::group(['middleware' => ['auth']], function () {
 		# Route::post('create-expances','sales@store');
 
 
-		Route::get('money-safe','sales@moneysafe');
+		Route::get('money-safe','FactoryController@moneysafe');
+
+        Route::get('parcode-product/{parcode}',function(){
+            return 'hi';
+        })->name('parcode-product');
 });
+
 

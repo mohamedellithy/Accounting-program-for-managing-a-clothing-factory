@@ -21,7 +21,7 @@ class CreateDebitsTable extends Migration
             $table->string('debit_type')->nullable();
             $table->string('type_payment')->nullable();
             $table->string('debit_name')->nullable();
-            $table->string('payed_check')->nullable();
+            $table->string('debit_paid')->default(0);
             $table->string('order_id')->nullable();
             $table->timestamps();
         });

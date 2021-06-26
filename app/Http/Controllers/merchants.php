@@ -9,7 +9,9 @@ use App\merchant;
 use App\orderClothes;
 use App\BankCheck;
 use Carbon\Carbon;
+use App\MerchantPayment;
 use App\postponed_orderClothes;
+
 class merchants extends Controller
 {
     /**
@@ -19,22 +21,23 @@ class merchants extends Controller
      */
     public function index()
     {
-        //
-          // all merchants count
-          $merchants_all     = merchant::all();
-          $merchants_count   = merchant::count();
 
-          // all merchant active
-          $merchants_active      = DB::table('order_clothes')->distinct()->pluck('merchant_id')->toArray();
-          $merchants_active_count = count($merchants_active);
-
-          // all merchant have check
-          $merchants_have_check  =  DB::table('order_clothes')->where('payment_type','شيك')->distinct()->pluck('merchant_id')->toArray(); //orderClothes::whereIn('merchant_id',$merchants_ids)->andWhere('payment_type','شيك')->count();
-          $merchants_have_check_count = count($merchants_have_check);
-
-          // last added merchant
-          $merchants_last_added     = merchant::where('created_at', '>=', Carbon::now()->firstOfMonth()->toDateTimeString() )->count();
-          return view('admin.merchants.index')->with(['merchants_last_added'=>$merchants_last_added,'merchants_have_check'=>$merchants_have_check_count,'merchants_active'=>$merchants_active_count,'merchants_count'=>$merchants_count,'merchants_all'=>$merchants_all]);
+          # all merchants count
+          $merchants_all = merchant::all();
+          # all merchant active
+          $merchants_active_count      = DB::table('order_clothes')->distinct()->pluck('merchant_id')->count();
+          # all merchant have check
+          $merchants_have_check_count  =  DB::table('order_clothes')->where('payment_type','شيك')->distinct()->count();
+          # last added merchant this month
+          $merchants_last_added        = merchant::where('created_at', '>=', Carbon::now()->firstOfMonth()->toDateTimeString() )->count();
+          $Context = [
+            'merchants_last_added'=>$merchants_last_added,
+            'merchants_have_check'=>$merchants_have_check_count,
+            'merchants_active'    =>$merchants_active_count,
+            'merchants_count'     =>$merchants_all->count(),
+            'merchants_all'       =>$merchants_all
+          ];
+          return view('admin.merchants.index')->with($Context);
 
     }
 
@@ -46,32 +49,35 @@ class merchants extends Controller
      */
     public function datatableMerchants(Request $request){
         $merchants = DB::table('merchants')->get();
-         return datatables()->of($merchants)
-        ->addColumn('select', function($row) {
-                 return '<input name="select[]" value="'.$row->id.'" type="checkbox">';
-
-
-            })
-        ->addColumn('contact', function($row) {
-                 return '<a href="tel:'.$row->merchant_phone.'">  <i class="fab fa-whatsapp-square fa-2x" style="color:#3fad3f" ></i></a>
-                         <a href="tel:'.$row->merchant_phone.'"> <i class="fas fa-lg fa-phone fa-2x" style="color:#007bff"></i></a>';
-
-            })->addColumn('process', function($row) {
-                 return '<div class="btn-group">
-                            <button type="button" class="btn btn-warning">اجراء</button>
-                            <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                              <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu" role="menu">
-                              <a class="dropdown-item delete_single" href="'.url('merchants/'.$row->id).'"  data-toggle="modal" data-target="#modal-default"> <i class="far fa-trash-alt"></i>  حذف</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item " href="'.url('merchants/'.$row->id.'/edit').'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
-                            </div>
-                        </div>';
-
-            })->addColumn('show', function($row) {
-                   return '<a href='.url('merchants/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
-            })->rawColumns(['select','contact','process','show'])->make(true);
+        return datatables()->of($merchants)
+                ->addColumn('select', function($row) {
+                        $select = '<input name="select[]" value="'.$row->id.'" type="checkbox">';
+                        return $select;
+                    })
+                ->addColumn('contact', function($row) {
+                        $contact = '<a href="tel:'.$row->merchant_phone.'">  <i class="fab fa-whatsapp-square fa-2x" style="color:#3fad3f" ></i></a>
+                                    <a href="tel:'.$row->merchant_phone.'"> <i class="fas fa-lg fa-phone fa-2x" style="color:#007bff"></i></a>';
+                        return $contact;
+                    })
+                ->addColumn('process', function($row) {
+                        $process =  '<div class="btn-group">
+                                    <button type="button" class="btn btn-warning">اجراء</button>
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item delete_single" href="'.url('delete-merchants/'.$row->id).'"  data-toggle="modal" data-target="#modal-default"> <i class="far fa-trash-alt"></i>  حذف</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item " href="'.url('merchants/'.$row->id.'/edit').'"> <i class="fas fa-pencil-alt"></i>  تعديل </a>
+                                    </div>
+                                </div>';
+                        return $process;
+                    })
+                ->addColumn('show', function($row) {
+                        $show = '<a href='.url('merchants/'.$row->id).' class="btn btn-success btn-sm">عرض </a>';
+                        return $show;
+                    })
+                ->rawColumns(['select','contact','process','show'])->make(true);
 
     }
 
@@ -82,10 +88,10 @@ class merchants extends Controller
      */
     public function create()
     {
-        //
-         $last_merchant_added = merchant::orderby('created_at','desc')->first();
-         //var_dump($last_merchant_added);
-         return view('admin.merchants.create')->with(['last_merchant'=>$last_merchant_added]);
+         $Context = [
+            'last_merchant' => merchant::latest()->first()
+         ];
+         return view('admin.merchants.create')->with($Context);
     }
 
     /**
@@ -98,11 +104,14 @@ class merchants extends Controller
     {
         //
         $this->validate($request,[
-             'merchant_name' => 'required',
+             'merchant_name'  => 'required',
              'merchant_phone' => 'required'
         ]);
-        $last_insert = merchant::create($request->all());
-        return back()->with(['success'=>'تم اضافة التاجر بنجاح','last_merchant'=>$last_insert]);
+        $Context = [
+            'last_merchant' => merchant::create($request->all()),
+            'success'       =>'تم اضافة التاجر بنجاح',
+         ];
+        return back()->with($Context);
     }
 
     /**
@@ -114,11 +123,21 @@ class merchants extends Controller
     public function show($id)
     {
         //
-        $single_merchant = merchant::where('id',$id)->get();
-        $order_clothes_info   = orderClothes::where('merchant_id',$id)->where('order_follow',null)->get();
-        $merchant_bankCheck   = BankCheck::where(['bank_checkable_id'=>$id])->get();
-        $merchant_postponed   = postponed_orderClothes::where(['merchant_id'=>$id])->get();
-        return view('admin.merchants.single')->with(['merchant_postponed'=>$merchant_postponed,'merchant_bankCheck'=>$merchant_bankCheck,'merchant_id'=>$id,'merchant_data'=>$single_merchant,'order_clothes_info'=>$order_clothes_info]);
+        $merchant      = merchant::find($id);
+        $order_clothes_info   = $merchant->order_clothes()->where('order_follow',null)->get();
+        $Context = [
+            'merchant_postponed'=>$merchant->Paid,
+            'merchant_bankCheck'=>$merchant->bank_check,
+            'merchant_data'     =>$merchant,
+            'order_clothes_info'=>$order_clothes_info,
+            'total'             =>$merchant->order_clothes->sum('order_price'),
+            'total_not_cache'   =>$merchant->order_clothes()->where('payment_type','!=','نقدى')->sum('order_price'),
+            'total_cache'       =>$merchant->order_clothes()->where('payment_type','نقدى')->sum('order_price'),
+            'paid'              =>$merchant->Paid->sum('value'),
+            'debits_payed'      =>$merchant->debits_payed()->sum('debit_value'),
+            'debits_not_payed'  =>$merchant->debits()->sum(DB::raw('debit_value - debit_paid')),
+        ];
+        return view('admin.merchants.single')->with( $Context );
 
     }
 
@@ -130,9 +149,10 @@ class merchants extends Controller
      */
     public function edit($id)
     {
-        //
-        $merchant_data_info = merchant::where('id',$id)->get();
-        return view('admin.merchants.edite')->with('merchant_data',$merchant_data_info);
+        $Context = [
+            'merchant_data'=> merchant::find($id),
+        ];
+        return view('admin.merchants.edite')->with($Context);
 
     }
 
@@ -150,8 +170,16 @@ class merchants extends Controller
              'merchant_name' => 'required',
              'merchant_phone' => 'required'
         ]);
-        $last_insert = merchant::where('id',$id)->update($request->only(['merchant_name','merchant_phone']));
-        return back()->with(['success'=>'تم تعديل التاجر بنجاح']);
+
+        merchant::where('id',$id)->update($request->only([
+            'merchant_name',
+            'merchant_phone'
+        ]));
+
+        $Context = [
+            'success'=>'تم تعديل التاجر بنجاح'
+        ];
+        return back()->with($Context);
 
     }
 
@@ -164,8 +192,11 @@ class merchants extends Controller
     public function destroy($id)
     {
         //
-        merchant::where('id',$id)->delete();
-        return back()->with(['success'=>'تم حذف التاجر بنجاح']);
+        merchant::destroy($id);
+        $Context = [
+            'success'=>'تم حذف التاجر بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     /**
@@ -178,73 +209,51 @@ class merchants extends Controller
         if(!$request->input('select')){
           return back();
         }
-        merchant::whereIn('id',$request->input('select'))->delete();
-        return back()->with(['success'=>'تم حذف التاجر بنجاح']);
+        merchant::destroy($request->input('select'));
+        $Context = [
+            'success'=>'تم حذف التاجر بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     public function deleteMerchantOrders($id){
         orderClothes::where('merchant_id',$id)->delete();
-        return back()->with(['success'=>'تم حذف طلبات التاجر بنجاح']);
+        $Context = [
+            'success'=>'تم حذف طلبات التاجر بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     public function truncated(){
         merchant::truncate();
-        return back()->with(['success'=>'تم حذف التاجر بنجاح']);
+        $Context = [
+            'success'=>'تم حذف التاجر بنجاح'
+        ];
+        return back()->with($Context);
     }
 
     function addPostponedmerchants(Request $request, $id){
-            $postponed_value = $request->postponed_value;
-            if( ($request->order_price > $postponed_value ) && ($postponed_value > 0) ){
-                $create_posponed = new postponed_orderClothes();
-                $create_posponed->merchant_id = $id;
-                $create_posponed->posponed_value  = $postponed_value;
-                $create_posponed->save();
-            }
-            else
-            {
-                $rest_value =$postponed_value-$request->order_price;
-                $create_posponed = new postponed_orderClothes();
-                $create_posponed->merchant_id = $id;
-                $create_posponed->posponed_value  = $request->order_price;
-                $create_posponed->save();
-
-                if($postponed_value!=0){
-                    insert_debit_data($id,'merchant','دائن',$rest_value,'دفعات',null);
-                }
-            }
+        # add  payments to merchant from
+        MerchantPayments::Create($id,MerchantPayments::PaymentValue($id,$request->postponed_value,'دفعات'));
         return back()->with(['success'=>'تم تسديد دفعة بنجاح']);
-
     }
 
 
 
-    function add_check_for_merchant(Request $request , $merchant_id){
-            if( ($request->order_price >  $request->input('check_value') ) && ( $request->input('check_value') > 0) ){
-                $insert_bankcheck = new BankCheck();
-                $insert_bankcheck->bank_checkable_id = $merchant_id;
-                $insert_bankcheck->bank_checkable_type = 'merchant';
-                $insert_bankcheck->check_date  = $request->input('check_date');
-                $insert_bankcheck->check_value = $request->input('check_value');
-                $insert_bankcheck->increase_value = $request->input('increase_value');
-                $insert_bankcheck->check_owner = $request->input('check_owner');
-                $insert_bankcheck->save();
-            }
-            else
-            {
-                $rest_value = $request->input('check_value')-$request->order_price;
-                $insert_bankcheck = new BankCheck();
-                $insert_bankcheck->bank_checkable_id = $merchant_id;
-                $insert_bankcheck->bank_checkable_type = 'merchant';
-                $insert_bankcheck->check_date  = $request->input('check_date');
-                $insert_bankcheck->check_value = $request->input('check_value');
-                $insert_bankcheck->increase_value = $request->input('increase_value');
-                $insert_bankcheck->check_owner = $request->input('check_owner');
-                $insert_bankcheck->save();
-
-                if($rest_value!=0){
-                    insert_debit_data($merchant_id,'merchant','دائن',$rest_value,'شيك',null);
-                }
-            }
-                return back()->with(['success'=>'تم اضافة شيك بنجاح']);
+    function add_check_for_merchant(Request $request , $id){
+        # add check in container checkbanck
+        bankCheckController::Create([
+            'id'            => $id,
+            'type'          => 'merchant',
+            'check_date'    =>$request->input('check_date'),
+            'check_value'   =>$request->input('check_value'),
+            'increase_value'=>$request->input('increase_value'),
+            'check_owner'   =>$request->input('check_owner')
+        ]);
+        # add  payments to merchant from Banckcheck
+        # MerchantPayments::Create($id,MerchantPayments::PaymentValue($id,$request->input('check_value'),'شيك'));
+        return back()->with(['success'=>'تم اضافة شيك بنجاح']);
     }
+
+
 }

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: 05 يونيو 2021 الساعة 06:26
--- إصدار الخادم: 5.6.51-cll-lve
--- PHP Version: 7.3.6
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 26, 2021 at 10:05 AM
+-- Server version: 5.7.31
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,134 +24,57 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `bank_checks`
+-- Table structure for table `bank_checks`
 --
 
-CREATE TABLE `bank_checks` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `bank_checks`;
+CREATE TABLE IF NOT EXISTS `bank_checks` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `bank_checkable_id` int(11) DEFAULT NULL,
-  `bank_checkable_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `check_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `check_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `increase_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `check_owner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payed_check` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_checkable_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `check_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `check_value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `increase_value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `check_owner` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payed_check` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `bank_checks`
---
-
-INSERT INTO `bank_checks` (`id`, `bank_checkable_id`, `bank_checkable_type`, `check_date`, `check_value`, `increase_value`, `check_owner`, `payed_check`, `created_at`, `updated_at`) VALUES
-(9, 1, 'client', '2021-02-28', '15000', NULL, 'محمد عبد اللاه فوزي', '1', '2020-09-24 20:42:21', '2020-12-25 14:18:51');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `categories`
+-- Table structure for table `categories`
 --
 
-CREATE TABLE `categories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `categories`
---
-
-INSERT INTO `categories` (`id`, `category`, `created_at`, `updated_at`) VALUES
-(1, 'بواقي اطفال', '2020-08-28 00:59:22', '2020-08-28 00:59:22'),
-(2, 'ساده فلافيل', '2020-08-29 17:08:38', '2020-08-29 17:08:38'),
-(3, 'ساده خاص', '2020-08-29 18:39:49', '2020-08-29 18:39:49'),
-(4, 'كاروه خاص', '2020-08-29 18:53:50', '2020-08-29 18:53:50'),
-(5, 'كاروه مغسول مبرد', '2020-08-29 19:12:58', '2020-08-29 19:12:58'),
-(6, 'كتان بجبين', '2020-08-29 19:19:27', '2020-08-29 19:19:27'),
-(7, 'هواي جبردين مثلث', '2020-08-29 19:40:39', '2020-08-29 19:40:39'),
-(8, 'كتان ساده', '2020-08-29 21:04:52', '2020-08-29 21:04:52'),
-(9, 'هواي مشكل', '2020-08-29 21:10:12', '2020-08-29 21:10:12'),
-(10, 'اكس فورد', '2020-08-29 21:23:17', '2020-08-29 21:23:17'),
-(11, 'ليكرا ساده', '2020-08-29 22:37:16', '2020-08-29 22:37:16'),
-(12, 'اطفال محير', '2020-08-29 22:45:25', '2020-08-29 22:45:25'),
-(13, 'جنيز بيبي', '2020-08-29 23:23:59', '2020-08-29 23:23:59'),
-(14, 'مكسر قميص رجالى', '2020-08-29 23:26:07', '2020-08-29 23:26:07'),
-(15, 'مكسر اطفال', '2020-08-29 23:29:36', '2020-08-29 23:29:36'),
-(16, 'بواقي اطفال فايز', '2020-09-06 22:16:06', '2020-09-06 22:16:06'),
-(17, 'كاروه مجهز شبابي', '2020-09-07 14:32:23', '2020-09-07 14:32:23'),
-(18, 'كاروه خاص مغسول', '2020-09-07 15:04:17', '2020-09-07 15:04:17'),
-(19, 'كاروه خاص مغسول', '2020-09-07 15:04:17', '2020-09-07 15:04:17'),
-(20, 'كاروه شبابي مبرد', '2020-09-07 15:19:40', '2020-09-07 15:19:40'),
-(21, 'بنجالين بيبي', '2020-10-18 19:49:06', '2020-10-18 19:49:06'),
-(22, 'مطبوع بيبي', '2020-10-18 19:58:31', '2020-10-18 19:58:31'),
-(23, 'مطبوع محير', '2020-10-18 19:59:05', '2020-10-18 19:59:05'),
-(24, 'ملتون شبابي', '2020-10-20 15:35:52', '2020-10-20 15:35:52'),
-(25, 'بواقي شتوي', '2020-10-26 18:39:46', '2020-10-26 18:39:46'),
-(27, 'دربي', '2020-11-06 04:44:01', '2020-11-06 04:44:01'),
-(28, 'دربي2', '2020-11-06 04:46:57', '2020-11-06 04:46:57'),
-(29, 'ا', '2020-11-07 04:17:54', '2020-11-07 04:17:54'),
-(30, 'ترنج اطفال شتوي', '2020-11-07 04:18:18', '2020-11-07 04:18:18'),
-(31, 'دفايه رجالي', '2020-11-23 02:55:47', '2020-11-23 02:55:47'),
-(32, 'بجامه', '2020-11-23 03:08:01', '2020-11-23 03:08:01'),
-(33, 'بجامه2', '2020-11-23 03:13:04', '2020-11-23 03:13:04'),
-(34, 'كشمير شبابي', '2020-11-30 20:01:31', '2020-11-30 20:01:31'),
-(35, 'كشمير اطفال', '2020-12-01 01:45:35', '2020-12-01 01:45:35'),
-(36, 'كشمير شبابي', '2021-01-08 21:52:50', '2021-01-08 21:52:50'),
-(37, 'كشمير اطفال', '2021-01-08 23:48:23', '2021-01-08 23:48:23'),
-(38, 'بنطلون', '2021-03-05 16:17:14', '2021-03-05 16:17:14'),
-(39, 'ساده مستورد', '2021-03-13 03:14:26', '2021-03-13 03:14:26'),
-(40, 'تشيرت بيكا', '2021-05-01 19:29:44', '2021-05-01 19:29:44'),
-(41, 'ساده محير 315', '2021-05-01 21:06:17', '2021-05-01 21:06:17'),
-(42, 'كاروه الدهش', '2021-05-02 17:59:22', '2021-05-02 17:59:22'),
-(43, 'ساده محير 615', '2021-05-02 19:20:48', '2021-05-02 19:20:48'),
-(44, 'ساده ليكرا +مبرد 686', '2021-05-02 21:22:40', '2021-05-02 21:22:40'),
-(45, 'كاروه مبرد1215', '2021-05-02 21:26:19', '2021-05-02 21:26:19'),
-(46, 'كاروه ليكرا 1104', '2021-05-02 22:28:17', '2021-05-02 22:28:17'),
-(47, 'مغسول 1036', '2021-05-03 18:12:25', '2021-05-03 18:12:25'),
-(48, 'منجلين', '2021-05-03 19:48:41', '2021-05-03 19:48:41'),
-(49, 'ليكر \\مبرد 686', '2021-05-04 21:35:55', '2021-05-04 21:35:55'),
-(50, 'اكس فورد 962', '2021-05-04 22:03:14', '2021-05-04 22:03:14'),
-(51, 'جبردين بجيبن 390', '2021-05-04 23:01:33', '2021-05-04 23:01:33'),
-(52, 'هواي منقط', '2021-05-06 19:28:46', '2021-05-06 19:28:46'),
-(53, 'نص كم', '2021-05-14 23:16:33', '2021-05-14 23:16:33'),
-(54, 'هواي كم 396', '2021-05-15 06:41:34', '2021-05-15 06:41:34'),
-(55, 'اكس فورد 310', '2021-05-15 07:42:32', '2021-05-15 07:42:32'),
-(56, 'هواي مستورد', '2021-05-15 16:53:31', '2021-05-15 16:53:31'),
-(57, 'جبردبت مخطط', '2021-05-15 17:41:17', '2021-05-15 17:41:17'),
-(58, 'جبردين بجيب 485', '2021-05-15 18:46:06', '2021-05-15 18:46:06'),
-(59, 'ساده ليكرا مصري 720', '2021-05-15 20:26:41', '2021-05-15 20:26:41'),
-(60, 'ليكرا مبرد مستورد 482', '2021-05-15 22:48:35', '2021-05-15 22:48:35'),
-(61, 'هواي محير', '2021-05-16 03:04:02', '2021-05-16 03:04:02'),
-(62, 'محير ساده395', '2021-05-16 04:06:04', '2021-05-16 04:06:04'),
-(63, 'هواي بيبي', '2021-05-16 05:35:59', '2021-05-16 05:35:59'),
-(64, 'ساده 1400', '2021-05-16 06:20:09', '2021-05-16 06:20:09'),
-(65, 'كاروه محير 480', '2021-05-16 15:11:23', '2021-05-16 15:11:23'),
-(66, 'مبرد مصري', '2021-05-16 16:00:04', '2021-05-16 16:00:04'),
-(67, 'ساده مقلم', '2021-05-16 16:52:00', '2021-05-16 16:52:00'),
-(68, 'هواي مصري 544', '2021-05-16 17:15:30', '2021-05-16 17:15:30'),
-(69, 'هواي جبردين', '2021-05-16 17:31:27', '2021-05-16 17:31:27'),
-(70, 'ليكرا ساده مستورد 783', '2021-05-17 15:40:23', '2021-05-17 15:40:23'),
-(71, 'بنطلون2', '2021-05-17 17:13:01', '2021-05-17 17:13:01');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `clients`
+-- Table structure for table `clients`
 --
 
-CREATE TABLE `clients` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `clients`;
+CREATE TABLE IF NOT EXISTS `clients` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `client_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `client_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- إرجاع أو استيراد بيانات الجدول `clients`
+-- Dumping data for table `clients`
 --
 
 INSERT INTO `clients` (`id`, `client_name`, `client_phone`, `created_at`, `updated_at`) VALUES
@@ -193,146 +115,117 @@ INSERT INTO `clients` (`id`, `client_name`, `client_phone`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `cloth_styles`
+-- Table structure for table `client_payments`
 --
 
-CREATE TABLE `cloth_styles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name_piecies` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_clothes_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `supplier_id` int(11) DEFAULT NULL,
-  `count_piecies` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price_piecies` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `additional_taxs` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `full_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `cloth_styles`
---
-
-INSERT INTO `cloth_styles` (`id`, `name_piecies`, `order_clothes_id`, `supplier_id`, `count_piecies`, `price_piecies`, `additional_taxs`, `full_price`, `created_at`, `updated_at`) VALUES
-(1, 'كاروه مجهز', '1', 1, '520', '70.80', '24.20', '49400.00', '2020-09-07 14:44:38', '2020-09-07 14:46:26'),
-(2, 'كاروه مغسول خاص', '2', 1, '147', '57.76', '26.24', '12348.00', '2020-09-07 15:08:16', '2020-09-07 15:11:53'),
-(3, 'كاروه شبابي مبرد', '3', 1, '285', '46.41', '26.59', '20805.00', '2020-09-07 15:24:06', '2020-09-07 15:26:15');
-
--- --------------------------------------------------------
-
---
--- بنية الجدول `debits`
---
-
-CREATE TABLE `debits` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `debitable_id` int(11) DEFAULT NULL,
-  `debitable_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `debit_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `debit_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type_payment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `debit_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payed_check` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+DROP TABLE IF EXISTS `client_payments`;
+CREATE TABLE IF NOT EXISTS `client_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) DEFAULT NULL,
+  `date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `order_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  PRIMARY KEY (`id`),
+  KEY `client_payments_client_id_foreign` (`client_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `debits`
---
-
-INSERT INTO `debits` (`id`, `debitable_id`, `debitable_type`, `debit_value`, `debit_type`, `type_payment`, `debit_name`, `payed_check`, `created_at`, `updated_at`, `order_id`) VALUES
-(85, 7, 'client', '1000', 'دائن', 'متأخرات', NULL, '0', '2020-09-20 22:00:40', '2020-09-20 22:00:40', NULL),
-(84, 16, 'client', '15000', 'دائن', 'متأخرات', NULL, '0', '2020-09-07 03:53:42', '2020-09-07 03:53:42', NULL),
-(83, 11, 'client', '13100', 'مدين', 'نقدى', NULL, '13100', '2020-09-04 19:24:15', '2020-10-20 16:59:28', NULL),
-(81, 14, 'client', '18710', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:40:09', '2020-09-04 18:40:09', NULL),
-(80, 15, 'client', '15000', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:39:36', '2020-09-04 18:39:36', NULL),
-(79, 12, 'client', '1100', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:39:14', '2020-09-04 18:39:14', NULL),
-(78, 10, 'client', '44510', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:38:38', '2020-09-04 18:38:38', NULL),
-(77, 9, 'client', '5220', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:37:49', '2020-09-04 18:37:49', NULL),
-(76, 8, 'client', '94800', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:37:21', '2020-09-04 18:37:21', NULL),
-(74, 6, 'client', '6094', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:36:05', '2020-09-04 18:36:05', NULL),
-(75, 7, 'client', '22320', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:36:41', '2020-09-04 18:36:41', NULL),
-(73, 5, 'client', '37300', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:35:37', '2020-09-04 18:35:37', NULL),
-(72, 4, 'client', '68165', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:35:03', '2020-09-04 18:35:03', NULL),
-(82, 2, 'client', '24400', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:46:29', '2020-09-04 18:46:29', NULL),
-(71, 3, 'client', '69095', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:34:24', '2020-09-04 18:34:24', NULL),
-(69, 1, 'client', '224130', 'دائن', 'متأخرات', NULL, '0', '2020-09-04 18:33:04', '2020-09-04 18:33:04', NULL),
-(86, 16, 'client', '1800', 'دائن', 'متأخرات', NULL, '0', '2020-09-20 22:02:04', '2020-09-20 22:02:04', NULL),
-(87, 6, 'client', '5636', 'مدين', 'دفعات', NULL, '0', '2020-10-23 20:52:11', '2020-10-23 20:52:11', NULL),
-(88, 6, 'client', '4364', 'دائن', 'متأخرات', NULL, '0', '2020-10-23 20:54:50', '2020-10-23 20:54:50', NULL),
-(89, 23, 'client', '3000', 'دائن', 'متأخرات', NULL, '0', '2020-10-29 23:55:59', '2020-10-29 23:55:59', NULL);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `expances`
+-- Table structure for table `cloth_styles`
 --
 
-CREATE TABLE `expances` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `expances_value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expances_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+DROP TABLE IF EXISTS `cloth_styles`;
+CREATE TABLE IF NOT EXISTS `cloth_styles` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name_piecies` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_clothes_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `count_piecies` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price_piecies` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `additional_taxs` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `full_price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cloth_styles_order_clothes_id_foreign` (`order_clothes_id`),
+  KEY `cloth_styles_supplier_id_foreign` (`supplier_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `expances`
---
-
-INSERT INTO `expances` (`id`, `expances_value`, `expances_description`, `created_at`, `updated_at`) VALUES
-(1, '1530', 'سوسته شتوي', '2020-09-12 15:39:42', '2020-09-12 15:39:42'),
-(2, '1050', 'حبل زنط زاد جلد', '2020-09-12 15:40:32', '2020-09-12 15:40:32'),
-(3, '80', 'كيس', '2020-09-12 15:41:30', '2020-09-12 15:41:30'),
-(4, '140', 'كيس', '2020-09-12 15:41:50', '2020-09-12 15:41:50'),
-(5, '750', 'حبل زنط', '2020-09-12 15:42:25', '2020-09-12 15:42:25'),
-(6, '200', 'جلد تشيرت', '2020-09-12 15:42:48', '2020-09-12 15:42:48'),
-(7, '3750', 'مصروفات شتوي', '2020-09-12 15:44:47', '2020-09-12 15:44:47'),
-(8, '1500', 'طباعه', '2020-09-13 15:25:21', '2020-09-13 15:25:21'),
-(9, '150', 'عربيه', '2020-09-15 15:16:52', '2020-09-15 15:16:52'),
-(10, '3060', 'حسني خليفه', '2020-09-20 19:31:18', '2020-09-20 19:31:18'),
-(11, '1000', 'طباعه', '2020-09-25 14:58:55', '2020-09-25 14:58:55'),
-(12, '80', 'كيس', '2020-09-27 13:27:06', '2020-09-27 13:27:06'),
-(13, '10', 'كيس', '2020-09-27 13:29:43', '2020-09-27 13:29:43'),
-(14, '50', 'شحن', '2020-09-28 06:06:49', '2020-09-28 06:06:49'),
-(16, '1000', 'حسني خليفه كيس', '2020-10-04 00:16:21', '2020-10-04 00:16:21'),
-(17, '1500', 'حسني خليفه ايجار', '2020-10-06 22:58:47', '2020-10-06 22:58:47'),
-(18, '4000', 'مصنعيه اسكندريه', '2020-10-09 22:50:12', '2020-10-09 22:50:12'),
-(19, '650', 'عربيه ماركر', '2020-10-09 22:55:29', '2020-10-09 22:55:29');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `failed_jobs`
+-- Table structure for table `debits`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `debits`;
+CREATE TABLE IF NOT EXISTS `debits` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `debitable_id` int(11) DEFAULT NULL,
+  `debitable_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debit_value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debit_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_payment` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debit_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debit_paid` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `order_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expances`
+--
+
+DROP TABLE IF EXISTS `expances`;
+CREATE TABLE IF NOT EXISTS `expances` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `expances_value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expances_description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `failed_jobs`
+--
+
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `merchants`
+-- Table structure for table `merchants`
 --
 
-CREATE TABLE `merchants` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `merchants`;
+CREATE TABLE IF NOT EXISTS `merchants` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `merchant_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `merchant_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- إرجاع أو استيراد بيانات الجدول `merchants`
+-- Dumping data for table `merchants`
 --
 
 INSERT INTO `merchants` (`id`, `merchant_name`, `merchant_phone`, `created_at`, `updated_at`) VALUES
@@ -344,1171 +237,253 @@ INSERT INTO `merchants` (`id`, `merchant_name`, `merchant_phone`, `created_at`, 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `migrations`
+-- Table structure for table `merchant_payments`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
+DROP TABLE IF EXISTS `merchant_payments`;
+CREATE TABLE IF NOT EXISTS `merchant_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) DEFAULT NULL,
+  `value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `merchant_payments_merchant_id_foreign` (`merchant_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- إرجاع أو استيراد بيانات الجدول `migrations`
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(129, '2014_10_12_000000_create_users_table', 1),
-(130, '2019_08_19_000000_create_failed_jobs_table', 1),
-(131, '2020_07_03_035452_create_merchants_table', 1),
-(132, '2020_07_03_040604_create_order_clothes_table', 1),
-(133, '2020_07_03_042316_create_categories_table', 1),
-(134, '2020_07_03_044328_create_bank_checks_table', 1),
-(135, '2020_07_07_053109_create_clients_table', 1),
-(136, '2020_07_07_062104_create_cloth_styles_table', 1),
-(137, '2020_07_12_031717_create_products_table', 1),
-(138, '2020_07_14_053140_create_orders_table', 1),
-(139, '2020_07_14_190114_create_partners_table', 1),
-(140, '2020_07_17_000202_create_reactionists_table', 1),
-(141, '2020_07_17_065737_create_withdraws_table', 1),
-(142, '2020_07_19_114205_create_postponeds_table', 1),
-(143, '2020_07_26_154808_create_postponed_order_clothes_table', 1);
+(23, '2014_10_12_000000_create_users_table', 1),
+(24, '2014_10_12_100000_create_password_resets_table', 1),
+(25, '2019_08_19_000000_create_failed_jobs_table', 1),
+(26, '2020_07_03_035452_create_merchants_table', 1),
+(27, '2020_07_03_040604_create_order_clothes_table', 1),
+(28, '2020_07_03_042316_create_categories_table', 1),
+(29, '2020_07_03_044328_create_bank_checks_table', 1),
+(30, '2020_07_07_053109_create_clients_table', 1),
+(31, '2020_07_07_062104_create_cloth_styles_table', 1),
+(32, '2020_07_12_031717_create_products_table', 1),
+(33, '2020_07_14_053140_create_orders_table', 1),
+(34, '2020_07_14_190114_create_partners_table', 1),
+(35, '2020_07_17_000202_create_reactionists_table', 1),
+(36, '2020_07_17_065737_create_withdraws_table', 1),
+(37, '2020_08_12_132902_create_suppliers_table', 1),
+(38, '2020_08_14_033046_create_debits_table', 1),
+(39, '2020_08_16_031434_create_expances_table', 1),
+(40, '2021_06_07_140129_create_merchant_payments_table', 1),
+(41, '2021_06_10_101737_create_client_payments_table', 1),
+(42, '2021_06_16_140811_create_supplier_payments_table', 1),
+(43, '2021_06_19_153635_create_profits_table', 1),
+(44, '2021_06_19_204153_create_settings_table', 1);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `orders`
+-- Table structure for table `orders`
 --
 
-CREATE TABLE `orders` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
   `product_id` int(10) UNSIGNED NOT NULL,
-  `order_discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_taxs` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_count` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `final_cost` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_follow` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_discount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_taxs` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_count` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `final_cost` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_follow` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `orders_client_id_foreign` (`client_id`),
+  KEY `orders_product_id_foreign` (`product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `orders`
---
-
-INSERT INTO `orders` (`id`, `client_id`, `product_id`, `order_discount`, `order_taxs`, `order_price`, `payment_type`, `order_count`, `final_cost`, `order_follow`, `created_at`, `updated_at`) VALUES
-(47, 17, 17, '0', '10', '49400', 'نقدى', '520', '54600', NULL, '2020-09-07 14:46:26', '2020-09-07 14:46:26'),
-(48, 17, 18, '0', '11', '12348', 'نقدى', '147', '13965', NULL, '2020-09-07 15:11:53', '2020-09-07 15:11:53'),
-(49, 17, 19, '0', '22', '20805', 'نقدى', '285', '27075', NULL, '2020-09-07 15:26:15', '2020-09-07 15:26:15'),
-(51, 19, 6, '0', '3.50', '1440', 'دفعات', '16', '1496', NULL, '2020-09-07 15:45:14', '2020-09-07 15:45:14'),
-(52, 19, 9, '0', '10', '3060', 'دفعات', '36', '3420', NULL, '2020-09-07 15:47:18', '2020-09-07 15:47:18'),
-(55, 19, 5, '0', '10.50', '2324', 'دفعات', '28', '2618', NULL, '2020-09-07 15:58:21', '2020-09-07 15:58:21'),
-(54, 19, 7, '0', '6.5', '1392', 'دفعات', '16', '1496', NULL, '2020-09-07 15:53:05', '2020-09-07 15:53:05'),
-(57, 19, 4, '0', '11.500', '1722', 'دفعات', '21', '1963.5', NULL, '2020-09-07 18:29:18', '2020-09-07 18:29:18'),
-(58, 19, 3, '0', '0', '1425', 'دفعات', '15', '1425', NULL, '2020-09-07 18:31:13', '2020-09-07 18:31:13'),
-(59, 19, 8, '0', '8.5', '4080', 'دفعات', '48', '4488', NULL, '2020-09-07 18:43:06', '2020-09-07 18:43:06'),
-(60, 19, 10, '0', '13.50', '960', 'دفعات', '12', '1122', NULL, '2020-09-07 18:44:31', '2020-09-07 18:44:31'),
-(61, 19, 2, '0', '5.50', '1760', 'دفعات', '20', '1870', NULL, '2020-09-07 18:49:20', '2020-09-07 18:49:20'),
-(62, 19, 11, '0', '0', '1900', 'دفعات', '20', '1900', NULL, '2020-09-07 19:01:07', '2020-09-07 19:01:07'),
-(67, 20, 4, '0', '13', '492', 'نقدى', '6', '570', NULL, '2020-09-07 20:27:23', '2020-09-07 20:27:23'),
-(64, 20, 5, '0', '12', '664', 'دفعات', '8', '760', NULL, '2020-09-07 20:22:28', '2020-09-07 20:22:28'),
-(69, 20, 8, '0', '15', '680', 'دفعات', '8', '800', NULL, '2020-09-07 20:32:12', '2020-09-07 20:32:12'),
-(70, 20, 11, '0', '5', '760', 'دفعات', '8', '800', NULL, '2020-09-07 20:33:48', '2020-09-07 20:33:48'),
-(71, 20, 7, '0', '13', '348', 'دفعات', '4', '400', NULL, '2020-09-07 20:34:38', '2020-09-07 20:34:38'),
-(72, 17, 14, '0', '20', '70', 'نقدى', '1', '90', NULL, '2020-09-08 16:24:38', '2020-09-08 16:24:38'),
-(73, 1, 4, '0', '13', '3362', 'دفعات', '41', '3895', NULL, '2020-09-10 19:49:17', '2020-09-10 19:49:17'),
-(74, 1, 5, '0', '12', '1660', 'دفعات', '20', '1900', NULL, '2020-09-10 19:50:45', '2020-09-10 19:50:45'),
-(75, 1, 11, '0', '5', '1520', 'دفعات', '16', '1600', NULL, '2020-09-10 19:53:44', '2020-09-10 19:53:44'),
-(76, 1, 2, '0', '7', '3520', 'دفعات', '40', '3800', NULL, '2020-09-24 20:31:10', '2020-09-24 20:31:10'),
-(77, 1, 5, '0', '12', '996', 'دفعات', '12', '1140', NULL, '2020-09-24 20:33:39', '2020-09-24 20:33:39'),
-(78, 17, 5, '0', '7', '83', 'نقدى', '1', '90', NULL, '2020-09-24 20:35:59', '2020-09-24 20:35:59'),
-(79, 15, 4, '0', '13', '738', 'دفعات', '9', '855', NULL, '2020-09-27 13:31:44', '2020-09-27 13:31:44'),
-(80, 15, 5, '0', '12', '332', 'دفعات', '4', '380', NULL, '2020-09-27 13:33:48', '2020-09-27 13:33:48'),
-(81, 17, 8, NULL, '15', '170', 'نقدى', '2', '200', NULL, '2020-10-06 23:15:20', '2020-10-06 23:15:20'),
-(82, 17, 9, NULL, '15', '85', 'نقدى', '1', '100', NULL, '2020-10-06 23:16:35', '2020-10-06 23:16:35'),
-(83, 17, 9, NULL, '15', '85', 'نقدى', '1', '100', NULL, '2020-10-06 23:17:16', '2020-10-06 23:17:16'),
-(84, 17, 3, NULL, '0', '95', 'نقدى', '1', '95', NULL, '2020-10-06 23:18:48', '2020-10-06 23:18:48'),
-(85, 17, 2, NULL, '7', '264', 'نقدى', '3', '285', NULL, '2020-10-06 23:22:13', '2020-10-06 23:22:13'),
-(86, 17, 8, '0', '10', '85', 'نقدى', '1', '95', NULL, '2020-10-06 23:25:59', '2020-10-06 23:25:59'),
-(87, 21, 9, '0', '8', '510', 'دفعات', '6', '558', NULL, '2020-10-12 15:16:18', '2020-10-12 15:16:18'),
-(88, 21, 8, '0', '8', '1020', 'دفعات', '12', '1116', NULL, '2020-10-12 15:17:18', '2020-10-12 15:17:18'),
-(89, 21, 10, '0', '13', '320', 'دفعات', '4', '372', NULL, '2020-10-12 15:18:17', '2020-10-12 15:18:17'),
-(90, 21, 5, '0', '10', '415', 'دفعات', '5', '465', NULL, '2020-10-12 15:20:55', '2020-10-12 15:20:55'),
-(96, 21, 14, NULL, '23', '70', 'دفعات', '1', '93', NULL, '2020-10-12 15:37:41', '2020-10-12 15:37:41'),
-(92, 21, 4, NULL, '11', '82', 'دفعات', '1', '93', NULL, '2020-10-12 15:23:28', '2020-10-12 15:23:28'),
-(93, 21, 6, NULL, '3', '270', 'دفعات', '3', '279', NULL, '2020-10-12 15:30:11', '2020-10-12 15:49:20'),
-(94, 21, 2, '0', '5', '792', 'دفعات', '9', '837', NULL, '2020-10-12 15:31:45', '2020-10-12 15:31:45'),
-(95, 21, 3, '0', '0', '95', 'دفعات', '1', '95', NULL, '2020-10-12 15:33:57', '2020-10-12 15:33:57'),
-(97, 17, 8, NULL, '15', '170', 'نقدى', '2', '200', NULL, '2020-10-16 16:44:20', '2020-10-16 16:44:20'),
-(98, 22, 16, NULL, '5', '1400', 'دفعات', '40', '1600', NULL, '2020-10-17 04:46:23', '2020-10-17 04:46:23'),
-(99, 22, 1, NULL, '10', '2500', 'دفعات', '100', '3500', NULL, '2020-10-17 04:47:55', '2020-10-17 04:47:55'),
-(100, 22, 3, NULL, NULL, '240', 'دفعات', '3', '240', NULL, '2020-10-17 04:49:50', '2020-10-17 04:49:50'),
-(101, 22, 14, NULL, '10', '70', 'دفعات', '1', '80', NULL, '2020-10-17 04:50:43', '2020-10-17 04:50:43'),
-(102, 22, 4, NULL, NULL, '80', 'دفعات', '1', '80', NULL, '2020-10-17 04:51:50', '2020-10-17 04:51:50'),
-(103, 7, 2, NULL, '12', '1056', 'دفعات', '12', '1200', NULL, '2020-10-17 15:13:35', '2020-10-17 15:13:35'),
-(104, 7, 7, NULL, '13', '348', 'دفعات', '4', '400', NULL, '2020-10-17 15:18:49', '2020-10-17 15:18:49'),
-(105, 7, 9, NULL, '15', '340', 'دفعات', '4', '400', NULL, '2020-10-17 15:20:03', '2020-10-17 15:20:03'),
-(106, 5, 3, NULL, '5', '855', 'دفعات', '9', '900', NULL, '2020-10-17 23:24:52', '2020-10-17 23:24:52'),
-(107, 5, 4, NULL, '18', '738', 'دفعات', '9', '900', NULL, '2020-10-17 23:30:01', '2020-10-17 23:30:01'),
-(108, 5, 7, NULL, '13', '1392', 'دفعات', '16', '1600', NULL, '2020-10-17 23:30:56', '2020-10-17 23:30:56'),
-(109, 5, 2, NULL, '12', '1408', 'دفعات', '16', '1600', NULL, '2020-10-17 23:32:09', '2020-10-17 23:32:09'),
-(110, 5, 11, NULL, '5', '380', 'دفعات', '4', '400', NULL, '2020-10-17 23:32:48', '2020-10-17 23:32:48'),
-(111, 5, 8, NULL, '15', '1020', 'دفعات', '12', '1200', NULL, '2020-10-17 23:34:41', '2020-10-17 23:34:41'),
-(112, 8, 9, NULL, '5', '1360', 'دفعات', '16', '1440', NULL, '2020-10-18 19:40:30', '2020-10-18 19:40:30'),
-(142, 4, 22, '0', '31.5', '14904', 'دفعات', '144', '19440', NULL, '2020-10-26 04:02:36', '2020-10-26 04:02:36'),
-(143, 5, 22, '0', '36.5', '8694', 'دفعات', '84', '11760', NULL, '2020-10-26 04:04:02', '2020-10-26 04:04:02'),
-(144, 8, 22, '0', '31.5', '19872', 'دفعات', '192', '25920', NULL, '2020-10-26 04:05:29', '2020-10-26 04:05:29'),
-(145, 6, 22, '0', '36.5', '3726', 'دفعات', '36', '5040', NULL, '2020-10-26 04:08:24', '2020-10-26 04:08:24'),
-(146, 19, 22, '0', '36.5', '12834', 'دفعات', '124', '17360', NULL, '2020-10-26 04:09:48', '2020-10-26 04:09:48'),
-(147, 11, 22, '0', '31.5', '23391', 'دفعات', '226', '30510', NULL, '2020-10-26 04:21:00', '2020-10-26 04:21:00'),
-(148, 11, 22, '0', '28.5', '3105', 'دفعات', '30', '3960', NULL, '2020-10-26 04:23:18', '2020-10-26 04:23:18'),
-(149, 15, 22, '0', '36.5', '3622.5', 'دفعات', '35', '4900', NULL, '2020-10-26 04:24:56', '2020-10-26 04:24:56'),
-(150, 21, 22, '0', '31.5', '2070', 'دفعات', '20', '2700', NULL, '2020-10-26 04:26:34', '2020-10-26 04:26:34'),
-(151, 2, 22, '0', '26.5', '18526.5', 'دفعات', '179', '23270', NULL, '2020-10-26 04:28:52', '2020-10-26 04:28:52'),
-(141, 23, 22, '0', '41.5', '11178', 'دفعات', '108', '15660', NULL, '2020-10-26 04:00:03', '2020-10-26 04:00:03'),
-(135, 8, 8, NULL, '5', '680', 'دفعات', '8', '720', NULL, '2020-10-24 16:18:37', '2020-10-24 16:18:37'),
-(136, 17, 8, NULL, '15', '85', 'نقدى', '1', '100', NULL, '2020-10-24 18:32:22', '2020-10-24 18:32:22'),
-(137, 17, 2, NULL, '12', '88', 'نقدى', '1', '100', NULL, '2020-10-24 18:33:08', '2020-10-24 18:33:08'),
-(153, 17, 22, '0', '36.5', '310.5', 'نقدى', '3', '420', NULL, '2020-10-26 04:32:22', '2020-10-26 04:32:22'),
-(152, 7, 22, '0', '36.5', '4140', 'دفعات', '40', '5600', NULL, '2020-10-26 04:30:15', '2020-10-26 04:30:15'),
-(154, 11, 22, '0', '28.5', '2484', 'دفعات', '24', '3168', NULL, '2020-10-26 16:42:41', '2020-10-26 16:42:41'),
-(156, 17, 23, '0', '170', '30', 'نقدى', '1', '200', NULL, '2020-10-26 18:48:47', '2020-10-26 18:48:47'),
-(164, 2, 25, '0', '35', '335', 'دفعات', '67', '2680', NULL, '2020-11-06 04:46:20', '2020-11-06 04:46:20'),
-(158, 19, 22, '0', '31.5', '2794.5', 'دفعات', '27', '3645', NULL, '2020-11-01 04:34:46', '2020-11-01 04:34:46'),
-(159, 8, 3, '0', '0', '855', 'دفعات', '9', '855', NULL, '2020-11-01 04:44:26', '2020-11-01 04:44:26'),
-(160, 8, 4, NULL, '8', '164', 'دفعات', '2', '180', NULL, '2020-11-01 04:45:18', '2020-11-01 04:45:18'),
-(161, 17, 8, '0', '30', '85', 'نقدى', '1', '115', NULL, '2020-11-06 04:35:32', '2020-11-06 04:35:32'),
-(162, 17, 10, '0', '35', '80', 'نقدى', '1', '115', NULL, '2020-11-06 04:36:39', '2020-11-06 04:36:39'),
-(163, 17, 11, '0', '25', '95', 'نقدى', '1', '120', NULL, '2020-11-06 04:38:07', '2020-11-06 04:38:07'),
-(166, 2, 26, '0', '23', '867', 'دفعات', '51', '2040', NULL, '2020-11-06 04:55:44', '2020-11-06 04:55:44'),
-(167, 24, 22, '0', '11.5', '1552.5', 'دفعات', '15', '1725', NULL, '2020-11-07 04:14:09', '2020-11-07 04:14:09'),
-(168, 17, 22, '0', '0', '414', 'نقدى', '4', '414', NULL, '2020-11-07 04:15:44', '2020-11-07 04:15:44'),
-(169, 9, 27, '0', '5', '6900', 'دفعات', '60', '7200', NULL, '2020-11-07 04:20:10', '2020-11-07 04:20:10'),
-(170, 7, 2, '0', '12', '704', 'دفعات', '8', '800', NULL, '2020-11-07 15:52:49', '2020-11-07 15:52:49'),
-(171, 7, 7, '0', '13', '696', 'دفعات', '8', '800', NULL, '2020-11-07 15:54:06', '2020-11-07 15:54:06'),
-(174, 5, 28, '0', '10', '2720', 'دفعات', '16', '2880', NULL, '2020-11-23 03:05:29', '2020-11-23 03:05:29'),
-(175, 24, 28, '0', '15', '2720', 'دفعات', '16', '2960', NULL, '2020-11-23 03:07:12', '2020-11-23 03:07:12'),
-(176, 24, 29, '0', '0', '6900', 'دفعات', '60', '6900', NULL, '2020-11-23 03:09:51', '2020-11-23 03:09:51'),
-(177, 17, 29, '0', '0', '3795', 'نقدى', '33', '3795', NULL, '2020-11-23 03:12:45', '2020-11-23 03:12:45'),
-(178, 5, 30, '0', '5', '3630', 'دفعات', '33', '3795', NULL, '2020-11-23 03:15:07', '2020-11-23 03:15:07'),
-(222, 14, 33, '0', '15', '2185', 'دفعات', '19', '2470', NULL, '2021-01-08 22:03:46', '2021-01-08 22:03:46'),
-(221, 17, 33, '0', '10', '3680', 'نقدى', '32', '4000', NULL, '2021-01-08 22:02:39', '2021-01-08 22:02:39'),
-(220, 11, 33, '0', '10', '7360', 'دفعات', '64', '8000', NULL, '2021-01-08 22:02:04', '2021-01-08 22:02:04'),
-(217, 2, 33, '0', '5', '3680', 'دفعات', '32', '3840', NULL, '2021-01-08 21:56:36', '2021-01-08 21:56:36'),
-(218, 6, 33, '0', '15', '1840', 'دفعات', '16', '2080', NULL, '2021-01-08 21:58:43', '2021-01-08 21:58:43'),
-(219, 8, 33, '0', '10', '11040', 'دفعات', '96', '12000', NULL, '2021-01-08 22:00:32', '2021-01-08 22:00:32'),
-(240, 8, 33, '0', '35', '2760', 'دفعات', '24', '3600', NULL, '2021-01-08 22:53:11', '2021-01-08 22:53:11'),
-(238, 5, 33, '0', '35', '2760', 'دفعات', '24', '3600', NULL, '2021-01-08 22:44:50', '2021-01-08 22:44:50'),
-(239, 24, 33, '0', '30', '1725', 'دفعات', '15', '2175', NULL, '2021-01-08 22:45:38', '2021-01-08 22:45:38'),
-(237, 17, 33, '0', '10', '115', 'نقدى', '1', '125', NULL, '2021-01-08 22:43:13', '2021-01-08 22:43:13'),
-(235, 14, 33, '0', '15', '1840', 'دفعات', '16', '2080', NULL, '2021-01-08 22:40:58', '2021-01-08 22:40:58'),
-(236, 12, 33, '0', '130', '920', 'دفعات', '8', '1960', NULL, '2021-01-08 22:42:30', '2021-01-08 22:42:30'),
-(241, 14, 33, '0', '35', '2760', 'دفعات', '24', '3600', NULL, '2021-01-08 22:54:06', '2021-01-08 22:54:06'),
-(242, 15, 33, '0', '35', '1035', 'دفعات', '9', '1350', NULL, '2021-01-08 22:56:20', '2021-01-08 22:56:20'),
-(243, 17, 33, '0', '0', '345', 'نقدى', '3', '345', NULL, '2021-01-08 23:10:18', '2021-01-08 23:10:18'),
-(223, 15, 33, '0', '25', '1380', 'دفعات', '12', '1680', NULL, '2021-01-08 22:04:47', '2021-01-08 22:04:47'),
-(225, 7, 33, '0', '15', '1610', 'دفعات', '14', '1820', NULL, '2021-01-08 22:16:59', '2021-01-08 22:16:59'),
-(226, 11, 33, '0', '10', '11500', 'دفعات', '100', '12500', NULL, '2021-01-08 22:18:28', '2021-01-08 22:18:28'),
-(227, 8, 33, '0', '10', '3680', 'دفعات', '32', '4000', NULL, '2021-01-08 22:19:18', '2021-01-08 22:19:18'),
-(228, 17, 33, '0', '10', '690', 'نقدى', '6', '750', NULL, '2021-01-08 22:21:45', '2021-01-08 22:21:45'),
-(229, 6, 33, '0', '15', '1840', 'دفعات', '16', '2080', NULL, '2021-01-08 22:24:00', '2021-01-08 22:24:00'),
-(230, 19, 33, '0', '15', '3680', 'دفعات', '32', '4160', NULL, '2021-01-08 22:32:38', '2021-01-08 22:32:38'),
-(231, 19, 33, '0', '35', '2760', 'دفعات', '24', '3600', NULL, '2021-01-08 22:34:06', '2021-01-08 22:34:06'),
-(232, 15, 33, '0', '25', '1840', 'دفعات', '16', '2240', NULL, '2021-01-08 22:35:07', '2021-01-08 22:35:07'),
-(233, 5, 33, '0', '15', '4140', 'دفعات', '36', '4680', NULL, '2021-01-08 22:38:36', '2021-01-08 22:38:36'),
-(234, 8, 33, '0', '10', '1380', 'دفعات', '12', '1500', NULL, '2021-01-08 22:40:10', '2021-01-08 22:40:10'),
-(216, 8, 4, '0', '8', '1230', 'دفعات', '15', '1350', NULL, '2020-12-01 13:36:34', '2020-12-01 13:36:34'),
-(244, 11, 33, '0', '0', '3795', 'دفعات', '33', '3795', NULL, '2021-01-08 23:11:37', '2021-01-08 23:11:37'),
-(245, 11, 34, '0', '6.5', '7536', 'دفعات', '96', '8160', NULL, '2021-01-08 23:55:00', '2021-01-08 23:55:00'),
-(246, 2, 34, '0', '6.5', '3768', 'دفعات', '48', '4080', NULL, '2021-01-08 23:58:32', '2021-01-08 23:58:32'),
-(247, 2, 34, NULL, '1.50', '3140', 'دفعات', '40', '3200', NULL, '2021-01-08 23:59:38', '2021-01-08 23:59:38'),
-(248, 15, 34, '0', '11.50', '5966', 'دفعات', '76', '6840', NULL, '2021-01-09 00:02:12', '2021-01-09 00:02:12'),
-(249, 17, 34, '0', '6.5', '392.5', 'دفعات', '5', '425', NULL, '2021-01-09 00:04:49', '2021-01-09 00:04:49'),
-(250, 17, 34, '0', '11.5', '235.5', 'نقدى', '3', '270', NULL, '2021-01-09 00:05:44', '2021-01-09 00:05:44'),
-(252, NULL, 34, '0', '21.5', '78.5', 'نقدى', '1', '100', NULL, '2021-01-09 00:08:23', '2021-01-09 00:08:23'),
-(254, 5, 34, '0', '11.5', '3768', 'دفعات', '48', '4320', NULL, '2021-01-09 00:14:29', '2021-01-09 00:14:29'),
-(255, 17, 34, '0', '6.5', '314', 'نقدى', '4', '340', NULL, '2021-01-09 00:16:57', '2021-01-09 00:16:57'),
-(256, 8, 34, '0', '6.5', '1884', 'دفعات', '24', '2040', NULL, '2021-01-09 00:26:43', '2021-01-09 00:26:43'),
-(257, NULL, 34, '0', '0', '314', 'نقدى', '4', '314', NULL, '2021-01-09 00:27:40', '2021-01-09 00:27:40'),
-(258, 14, 34, '0', '11.5', '2355', 'نقدى', '30', '2700', NULL, '2021-01-10 19:12:03', '2021-01-10 19:12:03'),
-(260, 11, 7, '0', '3', '2784', 'دفعات', '32', '2880', NULL, '2021-03-05 15:08:24', '2021-03-05 15:08:24'),
-(261, NULL, 7, '0', '3', '2784', 'دفعات', '32', '2880', NULL, '2021-03-05 15:24:48', '2021-03-05 15:24:48'),
-(262, 11, 2, '0', '2', '8800', 'دفعات', '100', '9000', NULL, '2021-03-05 16:02:01', '2021-03-05 16:02:01'),
-(263, 2, 35, '0', '9.25', '4482.75', 'دفعات', '129', '5676', NULL, '2021-03-05 16:40:42', '2021-03-05 16:40:42'),
-(264, 25, 35, '0', '9.25', '4343.75', 'دفعات', '125', '5500', NULL, '2021-03-05 16:43:31', '2021-03-05 16:43:31'),
-(265, 8, 35, '0', '10.25', '4621.75', 'دفعات', '133', '5985', NULL, '2021-03-05 16:46:53', '2021-03-05 16:46:53'),
-(266, 11, 35, NULL, '6.25', '1424.75', 'دفعات', '41', '1681', NULL, '2021-03-05 16:49:40', '2021-03-05 16:49:40'),
-(267, 17, 35, '0', '9.25', '2432.5', 'نقدى', '70', '3080', NULL, '2021-03-05 16:51:37', '2021-03-05 16:51:37'),
-(268, 26, 35, '0', '8.25', '15290', 'دفعات', '440', '18920', NULL, '2021-03-05 16:56:05', '2021-03-05 16:56:05'),
-(269, 27, 35, '0', '10.25', '4517.5', 'دفعات', '130', '5850', NULL, '2021-03-05 16:58:47', '2021-03-05 16:58:47'),
-(270, 19, 35, '0', '20.25', '1042.5', 'دفعات', '30', '1650', NULL, '2021-03-05 17:00:58', '2021-03-05 17:00:58'),
-(271, 15, 35, '0', '15.25', '521.25', 'دفعات', '15', '750', NULL, '2021-03-05 17:02:51', '2021-03-05 17:02:51'),
-(272, 15, 35, '0', '20.25', '347.5', 'دفعات', '10', '550', NULL, '2021-03-05 17:03:59', '2021-03-05 17:03:59'),
-(273, 12, 35, '0', '15.25', '521.25', 'نقدى', '15', '750', NULL, '2021-03-06 01:05:52', '2021-03-06 01:05:52'),
-(274, 5, 35, '0', '13.25', '2085', 'دفعات', '60', '2880', NULL, '2021-03-06 14:55:13', '2021-03-06 14:55:13'),
-(275, 5, 35, '0', '13.25', '2085', 'دفعات', '60', '2880', NULL, '2021-03-06 14:55:27', '2021-03-06 14:55:27'),
-(276, 1, 35, '0', '10.25', '8687.5', 'دفعات', '250', '11250', NULL, '2021-03-06 14:58:07', '2021-03-06 14:58:07'),
-(277, 8, 36, '0', '19', '9568', 'دفعات', '208', '13520', NULL, '2021-05-01 19:35:27', '2021-05-01 19:35:27'),
-(278, 8, 36, '0', '14', '12512', 'دفعات', '272', '16320', NULL, '2021-05-01 19:36:57', '2021-05-01 19:36:57'),
-(279, 8, 36, '0', '14', '17434', 'دفعات', '379', '22740', NULL, '2021-05-01 19:38:18', '2021-05-01 19:38:18'),
-(280, 8, 36, '0', '19', '2852', 'دفعات', '62', '4030', NULL, '2021-05-01 19:39:46', '2021-05-01 19:39:46'),
-(281, 8, 36, '0', '21', '2576', 'دفعات', '56', '3752', NULL, '2021-05-01 19:45:47', '2021-05-01 19:45:47'),
-(282, 8, 36, '0', '14', '8832', 'دفعات', '192', '11520', NULL, '2021-05-01 19:47:49', '2021-05-01 19:47:49'),
-(284, 19, 36, '0', '34', '1058', 'دفعات', '23', '1840', NULL, '2021-05-01 19:52:09', '2021-05-01 19:52:09'),
-(285, 19, 36, '0', '34', '1', 'دفعات', '0', '1', NULL, '2021-05-01 19:53:09', '2021-05-01 19:53:09'),
-(286, 19, 36, '0', '24', '167', 'دفعات', '0', '167', NULL, '2021-05-01 19:55:45', '2021-05-01 19:55:45'),
-(287, 19, 36, '0', '24', '7682', 'دفعات', '167', '11690', NULL, '2021-05-01 19:57:05', '2021-05-01 19:57:05'),
-(288, 28, 36, '0', '24', '5888', 'دفعات', '128', '8960', NULL, '2021-05-01 19:58:54', '2021-05-01 19:58:54'),
-(289, 28, 36, '0', '19', '4094', 'دفعات', '89', '5785', NULL, '2021-05-01 20:00:05', '2021-05-01 20:00:05'),
-(290, 25, 36, '0', '14', '2806', 'دفعات', '61', '3660', NULL, '2021-05-01 20:01:41', '2021-05-01 20:01:41'),
-(291, 25, 36, '0', '19', '2622', 'دفعات', '57', '3705', NULL, '2021-05-01 20:02:29', '2021-05-01 20:02:29'),
-(292, 2, 36, '0', '29', '1472', 'دفعات', '32', '2400', NULL, '2021-05-01 20:06:44', '2021-05-01 20:06:44'),
-(293, 17, 36, '0', '4', '7314', 'دفعات', '159', '7950', NULL, '2021-05-01 20:09:33', '2021-05-01 20:09:33'),
-(294, 17, 36, '0', '14', '736', 'دفعات', '16', '960', NULL, '2021-05-01 20:10:31', '2021-05-01 20:10:31'),
-(295, 17, 36, '0', '4', '230', 'نقدى', '5', '250', NULL, '2021-05-01 20:13:34', '2021-05-01 20:13:34'),
-(296, 17, 36, '0', '19', '46', 'نقدى', '1', '65', NULL, '2021-05-01 20:15:10', '2021-05-01 20:15:10'),
-(297, 23, 36, '0', '34', '736', 'دفعات', '16', '1280', NULL, '2021-05-01 20:18:52', '2021-05-01 20:18:52'),
-(298, 23, 36, '0', '24', '1932', 'دفعات', '42', '2940', NULL, '2021-05-01 20:19:58', '2021-05-01 20:19:58'),
-(299, 26, 36, '0', '14', '3680', 'دفعات', '80', '4800', NULL, '2021-05-01 20:28:14', '2021-05-01 20:28:14'),
-(300, 26, 36, '0', '14', '1380', 'دفعات', '30', '1800', NULL, '2021-05-01 20:29:24', '2021-05-01 20:29:24'),
-(301, 26, 36, '0', '19', '1472', 'دفعات', '32', '2080', NULL, '2021-05-01 20:31:26', '2021-05-01 20:31:26'),
-(302, 15, 36, '0', '19', '1518', 'دفعات', '33', '2145', NULL, '2021-05-01 20:34:58', '2021-05-01 20:34:58'),
-(303, 15, 36, '0', '14', '2530', 'دفعات', '55', '3300', NULL, '2021-05-01 20:36:07', '2021-05-01 20:36:07'),
-(304, 24, 36, '0', '4', '1150', 'دفعات', '25', '1250', NULL, '2021-05-01 20:41:01', '2021-05-01 20:41:01'),
-(305, 26, 36, '0', '14', '184', 'دفعات', '4', '240', NULL, '2021-05-01 20:42:38', '2021-05-01 20:42:38'),
-(306, 6, 36, '0', '14', '2024', 'دفعات', '44', '2640', NULL, '2021-05-01 20:43:50', '2021-05-01 20:43:50'),
-(308, 2, 37, '0', '13', '5700', 'دفعات', '100', '7000', NULL, '2021-05-01 21:25:10', '2021-05-01 21:25:10'),
-(309, 5, 37, '0', '18', '2850', 'دفعات', '50', '3750', NULL, '2021-05-01 21:25:54', '2021-05-01 21:25:54'),
-(310, 25, 37, '0', '13', '1425', 'دفعات', '25', '1750', NULL, '2021-05-01 22:35:02', '2021-05-01 22:35:02'),
-(315, 8, 37, '0', '13', '2850', 'دفعات', '50', '3500', NULL, '2021-05-01 23:19:42', '2021-05-01 23:19:42'),
-(314, 31, 37, '0', '8', '1140', 'دفعات', '20', '1300', NULL, '2021-05-01 22:43:20', '2021-05-01 22:43:20'),
-(316, 15, 37, NULL, '13', '1425', 'دفعات', '25', '1750', NULL, '2021-05-01 23:20:46', '2021-05-01 23:20:46'),
-(318, 16, 37, '0', '8', '2565', 'دفعات', '45', '2925', NULL, '2021-05-01 23:24:10', '2021-05-01 23:24:10'),
-(319, 23, 38, '0', '18', '1175', 'دفعات', '25', '1625', NULL, '2021-05-02 18:08:53', '2021-05-02 18:08:53'),
-(320, 5, 38, '0', '13', '2820', 'دفعات', '60', '3600', NULL, '2021-05-02 18:12:24', '2021-05-02 18:12:24'),
-(321, 5, 38, '0', '13', '2820', 'دفعات', '60', '3600', NULL, '2021-05-02 18:13:32', '2021-05-02 18:13:32'),
-(329, 8, 38, '0', '8', '3149', 'دفعات', '67', '3685', NULL, '2021-05-02 19:04:30', '2021-05-02 19:04:30'),
-(328, 8, 38, '0', '13', '4465', 'دفعات', '95', '5700', NULL, '2021-05-02 19:03:02', '2021-05-02 19:03:02'),
-(324, 15, 38, '0', '8', '1410', 'دفعات', '30', '1650', NULL, '2021-05-02 18:21:54', '2021-05-02 18:21:54'),
-(325, 32, 38, '0', '23', '7050', 'دفعات', '150', '10500', NULL, '2021-05-02 18:38:11', '2021-05-02 18:38:11'),
-(326, 11, 38, '0', '8', '7990', 'دفعات', '170', '9350', NULL, '2021-05-02 18:41:00', '2021-05-02 18:41:00'),
-(327, 25, 38, '0', '3', '705', 'دفعات', '15', '750', NULL, '2021-05-02 18:43:18', '2021-05-02 18:43:18'),
-(330, 1, 38, '0', '8', '208', 'دفعات', '0', '208', NULL, '2021-05-02 19:06:35', '2021-05-02 19:06:35'),
-(332, 1, 38, '0', '11', '9776', 'دفعات', '208', '12064', NULL, '2021-05-02 19:08:51', '2021-05-02 19:08:51'),
-(333, 5, 39, '0', '18', '2850', 'دفعات', '50', '3750', NULL, '2021-05-02 19:23:43', '2021-05-02 19:23:43'),
-(334, 2, 39, '0', '13', '4275', 'دفعات', '75', '5250', NULL, '2021-05-02 19:35:22', '2021-05-02 19:35:22'),
-(335, 8, 39, '0', '13', '5700', 'دفعات', '100', '7000', NULL, '2021-05-02 19:50:41', '2021-05-02 19:50:41'),
-(336, 1, 39, '0', '13', '5130', 'دفعات', '90', '6300', NULL, '2021-05-02 19:52:44', '2021-05-02 19:52:44'),
-(337, 32, 39, '0', '18', '7125', 'دفعات', '125', '9375', NULL, '2021-05-02 19:55:22', '2021-05-02 19:55:22'),
-(338, 33, 39, '0', '18', '1710', 'دفعات', '30', '2250', NULL, '2021-05-02 20:00:39', '2021-05-02 20:00:39'),
-(339, 11, 39, '0', '13', '5700', 'دفعات', '100', '7000', NULL, '2021-05-02 20:25:55', '2021-05-02 20:25:55'),
-(340, 15, 39, '0', '13', '1140', 'دفعات', '20', '1400', NULL, '2021-05-02 21:08:21', '2021-05-02 21:08:21'),
-(341, 17, 39, '0', '13', '855', 'دفعات', '15', '1050', NULL, '2021-05-02 21:10:09', '2021-05-02 21:10:09'),
-(342, 1, 41, '0', '17', '49536', 'دفعات', '576', '59328', NULL, '2021-05-02 21:33:38', '2021-05-02 21:33:38'),
-(343, 19, 41, '0', '25', '2064', 'دفعات', '24', '2664', NULL, '2021-05-02 21:35:20', '2021-05-02 21:35:20'),
-(344, 31, 41, '0', '19', '4128', 'دفعات', '48', '5040', NULL, '2021-05-02 21:37:51', '2021-05-02 21:37:51'),
-(345, 23, 41, '0', '29', '3784', 'دفعات', '44', '5060', NULL, '2021-05-02 21:41:24', '2021-05-02 21:41:24'),
-(346, 2, 41, '0', '18', '3784', 'دفعات', '44', '4576', NULL, '2021-05-02 21:43:16', '2021-05-02 21:43:16'),
-(347, 8, 41, '0', '19', '15136', 'دفعات', '176', '18480', NULL, '2021-05-02 21:48:20', '2021-05-02 21:48:20'),
-(348, 20, 41, '0', '19', '1032', 'دفعات', '12', '1260', NULL, '2021-05-02 21:51:11', '2021-05-02 21:51:11'),
-(349, 27, 41, '0', '19', '1376', 'دفعات', '16', '1680', NULL, '2021-05-02 21:54:14', '2021-05-02 21:54:14'),
-(351, 7, 41, '0', '29', '3096', 'دفعات', '36', '4140', NULL, '2021-05-02 21:58:17', '2021-05-02 21:58:17'),
-(352, 33, 41, '0', '24', '4128', 'دفعات', '48', '5280', NULL, '2021-05-02 22:00:02', '2021-05-02 22:00:02'),
-(353, 10, 41, '0', '19', '5160', 'دفعات', '60', '6300', NULL, '2021-05-02 22:01:23', '2021-05-02 22:01:23'),
-(354, 4, 41, '0', '19', '5848', 'دفعات', '68', '7140', NULL, '2021-05-02 22:05:18', '2021-05-02 22:05:18'),
-(355, 6, 41, NULL, '9', '688', 'دفعات', '8', '760', NULL, '2021-05-02 22:08:56', '2021-05-02 22:08:56'),
-(356, 33, 41, '0', '19', '344', 'دفعات', '4', '420', NULL, '2021-05-02 22:09:50', '2021-05-02 22:09:50'),
-(357, 14, 41, '0', '24', '3440', 'دفعات', '40', '4400', NULL, '2021-05-02 22:21:49', '2021-05-02 22:21:49'),
-(358, 1, 42, '0', '8', '4608', 'دفعات', '64', '5120', NULL, '2021-05-02 22:40:29', '2021-05-02 22:40:29'),
-(359, 1, 42, '0', '22', '12096', 'دفعات', '168', '15792', NULL, '2021-05-02 22:42:03', '2021-05-02 22:42:03'),
-(360, 19, 42, '0', '28', '5760', 'دفعات', '80', '8000', NULL, '2021-05-02 22:52:03', '2021-05-02 22:52:03'),
-(361, 23, 42, '0', '33', '2304', 'دفعات', '32', '3360', NULL, '2021-05-02 22:53:36', '2021-05-02 22:53:36'),
-(362, 8, 42, '0', '20', '6336', 'دفعات', '88', '8096', NULL, '2021-05-02 22:55:52', '2021-05-02 22:55:52'),
-(363, 8, 42, '0', '20', '1728', 'دفعات', '24', '2208', NULL, '2021-05-02 22:58:36', '2021-05-02 22:58:36'),
-(365, 20, 42, '0', '28', '2016', 'دفعات', '28', '2800', NULL, '2021-05-02 23:05:54', '2021-05-02 23:05:54'),
-(366, 7, 42, '0', '33', '864', 'دفعات', '12', '1260', NULL, '2021-05-02 23:20:08', '2021-05-02 23:20:08'),
-(368, 27, 42, '0', '23', '9216', 'دفعات', '128', '12160', NULL, '2021-05-03 15:56:49', '2021-05-03 15:56:49'),
-(369, 11, 42, '0', '18', '7200', 'دفعات', '100', '9000', NULL, '2021-05-03 15:59:06', '2021-05-03 15:59:06'),
-(370, 15, 42, '0', '28', '1728', 'دفعات', '24', '2400', NULL, '2021-05-03 16:02:24', '2021-05-03 16:02:24'),
-(371, 25, 42, '0', '15', '2016', 'دفعات', '28', '2436', NULL, '2021-05-03 16:06:01', '2021-05-03 16:06:01'),
-(372, 1, 42, '0', '22', '12096', 'دفعات', '168', '15792', NULL, '2021-05-03 17:17:53', '2021-05-03 17:17:53'),
-(373, NULL, 42, '0', '7', '4032', 'دفعات', '56', '4424', NULL, '2021-05-03 17:18:37', '2021-05-03 17:18:37'),
-(374, 1, 43, '0', '8.5', '29760', 'دفعات', '384', '33024', NULL, '2021-05-03 18:22:27', '2021-05-03 18:22:27'),
-(375, 1, 43, '0', '8.5', '12090', 'دفعات', '156', '13416', NULL, '2021-05-03 18:25:40', '2021-05-03 18:25:40'),
-(376, 1, 43, '0', '16.5', '28132.5', 'دفعات', '363', '34122', NULL, '2021-05-03 18:26:56', '2021-05-03 18:26:56'),
-(377, 8, 43, '0', '11', '5425', 'دفعات', '70', '6195', NULL, '2021-05-03 18:41:21', '2021-05-03 18:41:21'),
-(378, 8, 43, '0', '23', '4650', 'دفعات', '60', '6030', NULL, '2021-05-03 18:43:01', '2021-05-03 18:43:01'),
-(379, 8, 43, '0', '23', '1085', 'دفعات', '14', '1407', NULL, '2021-05-03 18:44:15', '2021-05-03 18:44:15'),
-(380, 23, 43, '0', '33', '2557.5', 'دفعات', '33', '3646.5', NULL, '2021-05-03 18:58:54', '2021-05-03 18:58:54'),
-(381, 19, 43, '0', '17.5', '2790', 'نقدى', '36', '3420', NULL, '2021-05-03 19:06:07', '2021-05-03 19:06:07'),
-(385, 19, 43, '0', '32.5', '3022.5', 'دفعات', '39', '4290', NULL, '2021-05-03 19:11:18', '2021-05-03 19:11:18'),
-(386, 25, 43, '0', '9.5', '4030', 'دفعات', '52', '4524', NULL, '2021-05-03 19:13:20', '2021-05-03 19:13:20'),
-(387, 7, 43, '0', '27.5', '2170', 'دفعات', '28', '2940', NULL, '2021-05-03 19:14:53', '2021-05-03 19:14:53'),
-(388, 15, 43, '0', '12.5', '3720', 'دفعات', '48', '4320', NULL, '2021-05-03 19:17:34', '2021-05-03 19:17:34'),
-(389, 10, 43, '0', '9.5', '4030', 'دفعات', '52', '4524', NULL, '2021-05-03 19:23:01', '2021-05-03 19:23:01'),
-(390, 15, 43, '0', '27.5', '2092.5', 'دفعات', '27', '2835', NULL, '2021-05-03 19:29:41', '2021-05-03 19:29:41'),
-(391, 11, 43, '0', '9.5', '2945', 'دفعات', '38', '3306', NULL, '2021-05-03 19:31:50', '2021-05-03 19:31:50'),
-(392, 17, 42, '0', '10', '1584', 'دفعات', '22', '1804', NULL, '2021-05-03 19:35:55', '2021-05-03 19:35:55'),
-(393, 17, 42, '0', '10', '360', 'نقدى', '5', '410', NULL, '2021-05-03 19:37:56', '2021-05-03 19:37:56'),
-(395, 31, 44, '0', '11', '5050', 'دفعات', '50', '5600', NULL, '2021-05-03 19:54:42', '2021-05-03 19:54:42'),
-(396, 8, 44, '0', '11', '15049', 'دفعات', '149', '16688', NULL, '2021-05-03 19:55:27', '2021-05-03 19:55:27'),
-(397, 1, 44, '0', '10', '61610', 'دفعات', '610', '67710', NULL, '2021-05-03 19:56:32', '2021-05-03 19:56:32'),
-(398, 19, 44, '0', '14', '2525', 'دفعات', '25', '2875', NULL, '2021-05-03 19:58:36', '2021-05-03 19:58:36'),
-(399, 15, 44, '0', '0', '1919', 'دفعات', '19', '1919', NULL, '2021-05-03 20:02:03', '2021-05-03 20:02:03'),
-(400, 1, 45, '0', '6.5', '11070', 'دفعات', '108', '11772', NULL, '2021-05-04 21:43:17', '2021-05-04 21:43:17'),
-(401, 31, 45, '0', '8.5', '10250', 'دفعات', '100', '11100', NULL, '2021-05-04 21:45:38', '2021-05-04 21:45:38'),
-(403, 8, 45, '0', '7.5', '2870', 'دفعات', '28', '3080', NULL, '2021-05-04 21:48:58', '2021-05-04 21:48:58'),
-(404, 20, 45, '0', '12.5', '11480', 'دفعات', '112', '12880', NULL, '2021-05-04 21:50:17', '2021-05-04 21:50:17'),
-(405, 19, 45, '0', '17.5', '5330', 'دفعات', '52', '6240', NULL, '2021-05-04 21:51:44', '2021-05-04 21:51:44'),
-(406, 19, 45, '0', '17.5', '5330', 'دفعات', '52', '6240', NULL, '2021-05-04 21:51:44', '2021-05-04 21:51:44'),
-(407, 27, 45, '0', '7.5', '5432.5', 'دفعات', '53', '5830', NULL, '2021-05-04 21:53:37', '2021-05-04 21:53:37'),
-(408, NULL, 45, '0', '5.5', '3690', 'دفعات', '36', '3888', NULL, '2021-05-04 21:55:18', '2021-05-04 21:55:18'),
-(410, 23, 45, '0', '12.5', '9020', 'دفعات', '88', '10120', NULL, '2021-05-04 21:58:05', '2021-05-04 21:58:05'),
-(411, 7, 45, '0', '17.5', '4510', 'دفعات', '44', '5280', NULL, '2021-05-04 21:59:14', '2021-05-04 21:59:14'),
-(412, 1, 46, '0', '14', '32400', 'دفعات', '360', '37440', NULL, '2021-05-04 22:07:59', '2021-05-04 22:07:59'),
-(413, 8, 46, '0', '15', '4680', 'دفعات', '52', '5460', NULL, '2021-05-04 22:09:07', '2021-05-04 22:09:07'),
-(414, 20, 46, '0', '20', '2160', 'دفعات', '24', '2640', NULL, '2021-05-04 22:10:04', '2021-05-04 22:10:04'),
-(415, 27, 46, '0', '15', '11520', 'دفعات', '128', '13440', NULL, '2021-05-04 22:13:24', '2021-05-04 22:13:24'),
-(416, 19, 46, '0', '25', '4680', 'دفعات', '52', '5980', NULL, '2021-05-04 22:14:57', '2021-05-04 22:14:57'),
-(417, 2, 46, '0', '15', '3600', 'دفعات', '40', '4200', NULL, '2021-05-04 22:18:21', '2021-05-04 22:18:21'),
-(418, 11, 46, '0', '14', '4680', 'دفعات', '52', '5408', NULL, '2021-05-04 22:19:24', '2021-05-04 22:19:24'),
-(419, 7, 46, '0', '25', '4680', 'دفعات', '52', '5980', NULL, '2021-05-04 22:24:12', '2021-05-04 22:24:12'),
-(420, 20, 46, '0', '20', '720', 'دفعات', '8', '880', NULL, '2021-05-04 22:25:32', '2021-05-04 22:25:32'),
-(421, 7, 46, '0', '25', '360', 'دفعات', '4', '460', NULL, '2021-05-04 22:27:50', '2021-05-04 22:27:50'),
-(422, 33, 46, '0', '15', '1080', 'دفعات', '12', '1260', NULL, '2021-05-04 22:28:58', '2021-05-04 22:28:58'),
-(423, 31, 46, '0', '15', '6840', 'دفعات', '76', '7980', NULL, '2021-05-04 22:36:02', '2021-05-04 22:36:02'),
-(424, 8, 46, '0', '15', '2520', 'دفعات', '28', '2940', NULL, '2021-05-04 22:44:47', '2021-05-04 22:44:47'),
-(468, 8, 52, '0', '20', '4080', 'دفعات', '48', '5040', NULL, '2021-05-15 16:49:29', '2021-05-15 16:49:29'),
-(469, 8, 46, '0', '15', '1800', 'دفعات', '20', '2100', NULL, '2021-05-15 16:50:48', '2021-05-15 16:50:48'),
-(427, 1, 47, '0', '15', '9024', 'دفعات', '96', '10464', NULL, '2021-05-04 23:07:16', '2021-05-04 23:07:16'),
-(428, 19, 47, '0', '26', '3384', 'دفعات', '36', '4320', NULL, '2021-05-04 23:08:36', '2021-05-04 23:08:36'),
-(429, 8, 47, '0', '16', '3760', 'دفعات', '40', '4400', NULL, '2021-05-04 23:12:38', '2021-05-04 23:12:38'),
-(430, 31, 47, '0', '16', '6392', 'دفعات', '68', '7480', NULL, '2021-05-04 23:14:17', '2021-05-04 23:14:17'),
-(431, 7, 47, '0', '21', '940', 'دفعات', '10', '1150', NULL, '2021-05-04 23:16:20', '2021-05-04 23:16:20'),
-(432, 33, 47, '0', '16', '3760', 'دفعات', '40', '4400', NULL, '2021-05-04 23:18:52', '2021-05-04 23:18:52'),
-(433, 13, 46, '0', '15', '360', 'دفعات', '4', '420', NULL, '2021-05-04 23:20:33', '2021-05-04 23:20:33'),
-(437, 1, 49, '0', '16', '13272', 'دفعات', '158', '15800', NULL, '2021-05-14 22:19:08', '2021-05-14 22:19:08'),
-(438, 31, 49, '0', '16', '5376', 'دفعات', '64', '6400', NULL, '2021-05-14 22:21:04', '2021-05-14 22:21:04'),
-(439, 8, 49, '0', '16', '4368', 'دفعات', '52', '5200', NULL, '2021-05-14 22:25:26', '2021-05-14 22:25:26'),
-(441, 19, 49, '0', '21', '1680', 'دفعات', '20', '2100', NULL, '2021-05-14 22:34:16', '2021-05-14 22:34:16'),
-(442, 33, 49, '0', '21', '336', 'دفعات', '4', '420', NULL, '2021-05-14 22:40:40', '2021-05-14 22:40:40'),
-(443, NULL, 49, '0', '16', '5040', 'دفعات', '60', '6000', NULL, '2021-05-14 22:42:52', '2021-05-14 22:42:52'),
-(444, 25, 49, '0', '16', '2100', 'دفعات', '25', '2500', NULL, '2021-05-14 22:52:57', '2021-05-14 22:52:57'),
-(445, 20, 50, '0', '26', '1792', 'دفعات', '28', '2520', NULL, '2021-05-14 23:23:00', '2021-05-14 23:23:00'),
-(446, 7, 50, '0', '26', '1344', 'دفعات', '21', '1890', NULL, '2021-05-14 23:24:42', '2021-05-14 23:24:42'),
-(447, 23, 50, '0', '26', '5120', 'دفعات', '80', '7200', NULL, '2021-05-14 23:30:01', '2021-05-14 23:30:01'),
-(448, 33, 50, '0', '26', '2560', 'دفعات', '40', '3600', NULL, '2021-05-14 23:31:24', '2021-05-14 23:31:24'),
-(449, 10, 50, '0', '16', '2560', 'دفعات', '40', '3200', NULL, '2021-05-14 23:32:45', '2021-05-14 23:32:45'),
-(450, 19, 50, '0', '26', '3072', 'دفعات', '48', '4320', NULL, '2021-05-14 23:33:42', '2021-05-14 23:33:42'),
-(451, 31, 50, '0', '16', '4544', 'دفعات', '71', '5680', NULL, '2021-05-14 23:35:06', '2021-05-14 23:35:06'),
-(452, 8, 50, '0', '16', '9664', 'دفعات', '151', '12080', NULL, '2021-05-15 06:32:34', '2021-05-15 06:32:34'),
-(453, 8, 51, '0', '22', '4056', 'دفعات', '52', '5200', NULL, '2021-05-15 06:52:27', '2021-05-15 06:52:27'),
-(454, 19, 51, '0', '22', '4056', 'دفعات', '52', '5200', NULL, '2021-05-15 06:54:42', '2021-05-15 06:54:42'),
-(455, 19, 51, '0', '27', '3120', 'دفعات', '40', '4200', NULL, '2021-05-15 06:56:28', '2021-05-15 06:56:28'),
-(456, 25, 51, '0', '22', '2496', 'دفعات', '32', '3200', NULL, '2021-05-15 06:59:33', '2021-05-15 06:59:33'),
-(457, 25, 51, '0', '17', '1872', 'دفعات', '24', '2280', NULL, '2021-05-15 07:00:47', '2021-05-15 07:00:47'),
-(458, 33, 51, '0', '27', '1560', 'دفعات', '20', '2100', NULL, '2021-05-15 07:04:38', '2021-05-15 07:04:38'),
-(459, 4, 51, '0', '17', '11856', 'دفعات', '152', '14440', NULL, '2021-05-15 07:06:00', '2021-05-15 07:06:00'),
-(460, 7, 51, '0', '27', '1560', 'دفعات', '20', '2100', NULL, '2021-05-15 07:24:47', '2021-05-15 07:24:47'),
-(467, 8, 52, '0', '20', '48', 'دفعات', '0', '48', NULL, '2021-05-15 16:48:38', '2021-05-15 16:48:38'),
-(462, 25, 52, '0', '20', '5780', 'دفعات', '68', '7140', NULL, '2021-05-15 16:13:21', '2021-05-15 16:13:21'),
-(464, 4, 52, '0', '20', '4590', 'نقدى', '54', '5670', NULL, '2021-05-15 16:20:10', '2021-05-15 16:20:10'),
-(465, 4, 2, '0', '17', '704', 'دفعات', '8', '840', NULL, '2021-05-15 16:21:41', '2021-05-15 16:21:41'),
-(466, 31, 52, '0', '20', '11900', 'دفعات', '140', '14700', NULL, '2021-05-15 16:23:10', '2021-05-15 16:23:10'),
-(472, 1, 53, '0', '19', '17280', 'دفعات', '192', '20928', NULL, '2021-05-15 17:10:43', '2021-05-15 17:10:43'),
-(471, 31, 53, '0', '20', '17280', 'دفعات', '192', '21120', NULL, '2021-05-15 17:09:20', '2021-05-15 17:09:20'),
-(473, 33, 53, '0', '20', '4320', 'دفعات', '48', '5280', NULL, '2021-05-15 17:13:48', '2021-05-15 17:13:48'),
-(474, 8, 53, '0', '20', '7200', 'دفعات', '80', '8800', NULL, '2021-05-15 17:15:53', '2021-05-15 17:15:53'),
-(475, 8, 53, '0', '20', '360', 'دفعات', '4', '440', NULL, '2021-05-15 17:18:52', '2021-05-15 17:18:52'),
-(476, 4, 53, '0', '20', '8640', 'دفعات', '96', '10560', NULL, '2021-05-15 17:21:36', '2021-05-15 17:21:36'),
-(477, 4, 8, '0', '25', '340', 'دفعات', '4', '440', NULL, '2021-05-15 17:22:37', '2021-05-15 17:22:37'),
-(478, 11, 53, '0', '20', '2880', 'دفعات', '32', '3520', NULL, '2021-05-15 17:25:16', '2021-05-15 17:25:16'),
-(479, 34, 53, '0', '10', '9000', 'دفعات', '100', '10000', NULL, '2021-05-15 17:39:25', '2021-05-15 17:39:25'),
-(480, 31, 54, '0', '14', '12576', 'دفعات', '131', '14410', NULL, '2021-05-15 17:45:27', '2021-05-15 17:45:27'),
-(481, 16, 54, '0', '9', '3072', 'دفعات', '32', '3360', NULL, '2021-05-15 17:47:11', '2021-05-15 17:47:11'),
-(482, 7, 54, '0', '19', '1536', 'دفعات', '16', '1840', NULL, '2021-05-15 17:53:39', '2021-05-15 18:37:20'),
-(483, 33, 53, '0', '20', '360', 'دفعات', '4', '440', NULL, '2021-05-15 17:59:13', '2021-05-15 17:59:13'),
-(485, 33, 54, '0', '14', '1536', 'دفعات', '16', '1760', NULL, '2021-05-15 18:06:49', '2021-05-15 18:06:49'),
-(486, 16, 54, '0', '9', '1536', 'دفعات', '16', '1680', NULL, '2021-05-15 18:38:28', '2021-05-15 18:38:28'),
-(487, 28, 55, '0', '24', '2093', 'دفعات', '23', '2645', NULL, '2021-05-15 19:02:37', '2021-05-15 19:02:37'),
-(488, 31, 55, '0', '19', '10920', 'دفعات', '120', '13200', NULL, '2021-05-15 19:17:58', '2021-05-15 19:17:58'),
-(489, 1, 55, '0', '18', '10920', 'دفعات', '120', '13080', NULL, '2021-05-15 19:22:55', '2021-05-15 19:22:55'),
-(491, 34, 55, '0', '9', '3640', 'دفعات', '40', '4000', NULL, '2021-05-15 19:24:59', '2021-05-15 19:24:59'),
-(494, 7, 55, '24', '0', '1820', 'دفعات', '20', '1796', NULL, '2021-05-15 19:59:23', '2021-05-15 19:59:23'),
-(493, 33, 55, '0', '19', '1820', 'دفعات', '20', '2200', NULL, '2021-05-15 19:49:35', '2021-05-15 19:49:35'),
-(495, 23, 55, '0', '24', '1820', 'دفعات', '20', '2300', NULL, '2021-05-15 20:00:34', '2021-05-15 20:00:34'),
-(496, 8, 55, '0', '19', '6461', 'دفعات', '71', '7810', NULL, '2021-05-15 20:05:39', '2021-05-15 20:05:39'),
-(497, 10, 55, '0', '19', '2912', 'دفعات', '32', '3520', NULL, '2021-05-15 20:21:32', '2021-05-15 20:21:32'),
-(498, 34, 55, '0', '9', '1456', 'دفعات', '16', '1600', NULL, '2021-05-15 20:23:22', '2021-05-15 20:23:22'),
-(499, 1, 56, '0', '16', '15288', 'دفعات', '196', '18424', NULL, '2021-05-15 20:30:46', '2021-05-15 20:30:46'),
-(500, 28, 56, '0', '27', '1872', 'دفعات', '24', '2520', NULL, '2021-05-15 20:33:33', '2021-05-15 20:33:33'),
-(501, 8, 56, '0', '17', '7488', 'دفعات', '96', '9120', NULL, '2021-05-15 20:50:45', '2021-05-15 20:50:45'),
-(503, 33, 56, '0', '27', '624', 'دفعات', '8', '840', NULL, '2021-05-15 21:00:48', '2021-05-15 21:00:48'),
-(504, 15, 56, '0', '27', '2496', 'دفعات', '32', '3360', NULL, '2021-05-15 21:03:20', '2021-05-15 21:03:20'),
-(505, 16, 56, '0', '12', '1872', 'دفعات', '24', '2160', NULL, '2021-05-15 21:09:22', '2021-05-15 21:09:22'),
-(506, 32, 56, '0', '22', '2496', 'دفعات', '32', '3200', NULL, '2021-05-15 21:11:07', '2021-05-15 21:11:07'),
-(507, 31, 56, '0', '17', '10608', 'دفعات', '136', '12920', NULL, '2021-05-15 21:15:36', '2021-05-15 21:15:36'),
-(508, 23, 56, '0', '37', '2496', 'دفعات', '32', '3680', NULL, '2021-05-15 21:18:48', '2021-05-15 21:18:48'),
-(509, 6, 56, '0', '27', '2496', 'دفعات', '32', '3360', NULL, '2021-05-15 21:23:46', '2021-05-15 21:23:46'),
-(510, 11, 56, '0', '17', '4992', 'دفعات', '64', '6080', NULL, '2021-05-15 22:40:08', '2021-05-15 22:40:08'),
-(512, 7, 56, '0', '22', '1872', 'دفعات', '24', '2400', NULL, '2021-05-15 23:47:57', '2021-05-15 23:47:57'),
-(513, 8, 57, '0', '14', '7350', 'دفعات', '75', '8400', NULL, '2021-05-15 23:50:17', '2021-05-15 23:50:17'),
-(514, 28, 57, '0', '22', '1960', 'دفعات', '20', '2400', NULL, '2021-05-16 00:33:02', '2021-05-16 00:33:02'),
-(515, 31, 57, '0', '12', '14210', 'دفعات', '145', '15950', NULL, '2021-05-16 00:38:58', '2021-05-16 00:38:58'),
-(516, 25, 57, '0', '12', '2450', 'دفعات', '25', '2750', NULL, '2021-05-16 00:40:23', '2021-05-16 00:40:23'),
-(517, 25, 58, '0', '4.5', '6050', 'دفعات', '100', '6500', NULL, '2021-05-16 03:30:53', '2021-05-16 03:30:53'),
-(518, 8, 58, '0', '4.5', '1512.5', 'دفعات', '25', '1625', NULL, '2021-05-16 03:32:41', '2021-05-16 03:32:41'),
-(519, 20, 58, '0', '9.5', '1512.5', 'دفعات', '25', '1750', NULL, '2021-05-16 03:38:40', '2021-05-16 03:38:40'),
-(520, 19, 58, '0', '19.5', '3025', 'دفعات', '50', '4000', NULL, '2021-05-16 03:41:16', '2021-05-16 03:41:16'),
-(521, 27, 58, '0', '4.5', '1512.5', 'دفعات', '25', '1625', NULL, '2021-05-16 03:45:01', '2021-05-16 03:45:01'),
-(522, 5, 58, '0', '14.5', '1210', 'نقدى', '20', '1500', NULL, '2021-05-16 03:49:42', '2021-05-16 03:49:42'),
-(523, 2, 58, '0', '4.5', '1512.5', 'دفعات', '25', '1625', NULL, '2021-05-16 03:51:11', '2021-05-16 03:51:11'),
-(524, 15, 58, '0', '9.5', '1512.5', 'دفعات', '25', '1750', NULL, '2021-05-16 03:52:52', '2021-05-16 03:52:52'),
-(525, 25, 59, '0', '10', '4500', 'دفعات', '75', '5250', NULL, '2021-05-16 04:26:04', '2021-05-16 04:26:04'),
-(526, 2, 59, '0', '10', '1800', 'دفعات', '30', '2100', NULL, '2021-05-16 04:35:19', '2021-05-16 04:35:19'),
-(527, 20, 59, '0', '10', '1800', 'دفعات', '30', '2100', NULL, '2021-05-16 05:08:02', '2021-05-16 05:08:02'),
-(528, 26, 59, '0', '10', '1200', 'دفعات', '20', '1400', NULL, '2021-05-16 05:09:10', '2021-05-16 05:09:10'),
-(529, 26, 59, '0', '10', '1200', 'دفعات', '20', '1400', NULL, '2021-05-16 05:10:04', '2021-05-16 05:10:04'),
-(530, 19, 59, '0', '20', '3600', 'دفعات', '60', '4800', NULL, '2021-05-16 05:12:21', '2021-05-16 05:12:21'),
-(531, 27, 59, '0', '10', '1800', 'دفعات', '30', '2100', NULL, '2021-05-16 05:13:17', '2021-05-16 05:13:17'),
-(532, 8, 59, '0', '10', '1800', 'دفعات', '30', '2100', NULL, '2021-05-16 05:16:47', '2021-05-16 05:16:47'),
-(533, 20, 59, '0', '10', '300', 'دفعات', '5', '350', NULL, '2021-05-16 05:19:44', '2021-05-16 05:19:44'),
-(534, 33, 59, '0', '10', '600', 'دفعات', '10', '700', NULL, '2021-05-16 05:21:10', '2021-05-16 05:21:10'),
-(535, 11, 59, '0', '5', '1440', 'دفعات', '24', '1560', NULL, '2021-05-16 05:22:58', '2021-05-16 05:22:58'),
-(536, 25, 59, '0', '10', '1500', 'دفعات', '25', '1750', NULL, '2021-05-16 05:29:03', '2021-05-16 05:29:03'),
-(537, 25, 60, '0', '10', '5400', 'دفعات', '120', '6600', NULL, '2021-05-16 05:41:31', '2021-05-16 05:41:31'),
-(538, 8, 60, '0', '10', '6840', 'دفعات', '152', '8360', NULL, '2021-05-16 05:44:01', '2021-05-16 05:44:01'),
-(539, 20, 60, '0', '15', '2250', 'دفعات', '50', '3000', NULL, '2021-05-16 05:48:46', '2021-05-16 05:48:46'),
-(540, 27, 60, '0', '10', '2025', 'دفعات', '45', '2475', NULL, '2021-05-16 05:51:53', '2021-05-16 05:51:53'),
-(541, 5, 60, '0', '20', '3600', 'دفعات', '80', '5200', NULL, '2021-05-16 05:55:55', '2021-05-16 05:55:55'),
-(542, 2, 60, '0', '10', '1800', 'دفعات', '40', '2200', NULL, '2021-05-16 05:57:28', '2021-05-16 05:57:28'),
-(543, 8, 60, '0', '10', '3060', 'دفعات', '68', '3740', NULL, '2021-05-16 06:00:55', '2021-05-16 06:00:55'),
-(544, 15, 60, '0', '15', '1800', 'دفعات', '40', '2400', NULL, '2021-05-16 06:03:26', '2021-05-16 06:03:26'),
-(545, 20, 60, '0', '10', '720', 'دفعات', '16', '880', NULL, '2021-05-16 06:04:59', '2021-05-16 06:04:59'),
-(546, 25, 60, '0', '10', '900', 'دفعات', '20', '1100', NULL, '2021-05-16 06:06:44', '2021-05-16 06:06:44'),
-(547, 17, 60, '0', '7', '2700', 'دفعات', '60', '3120', NULL, '2021-05-16 06:09:38', '2021-05-16 06:09:38'),
-(548, 25, 60, '0', '10', '4500', 'دفعات', '100', '5500', NULL, '2021-05-16 06:11:34', '2021-05-16 06:11:34'),
-(549, 29, 60, '0', '0', '2025', 'دفعات', '45', '2025', NULL, '2021-05-16 06:13:53', '2021-05-16 06:13:53'),
-(550, 8, 60, '0', '5', '1620', 'دفعات', '36', '1800', NULL, '2021-05-16 06:16:37', '2021-05-16 06:16:37'),
-(551, 2, 60, '0', '10', '675', 'دفعات', '15', '825', NULL, '2021-05-16 06:17:52', '2021-05-16 06:17:52'),
-(552, 25, 61, '0', '15', '13680', 'دفعات', '304', '18240', NULL, '2021-05-16 06:24:31', '2021-05-16 06:24:31'),
-(553, 8, 61, '0', '15', '10260', 'دفعات', '228', '13680', NULL, '2021-05-16 06:26:52', '2021-05-16 06:26:52'),
-(554, 1, 61, '0', '15', '7380', 'دفعات', '164', '9840', NULL, '2021-05-16 06:28:16', '2021-05-16 06:28:16'),
-(555, 20, 61, '0', '15', '2250', 'دفعات', '50', '3000', NULL, '2021-05-16 06:30:55', '2021-05-16 06:30:55'),
-(556, 27, 61, '0', '15', '4590', 'دفعات', '102', '6120', NULL, '2021-05-16 06:33:57', '2021-05-16 06:33:57'),
-(557, 5, 61, '0', '15', '4860', 'دفعات', '108', '6480', NULL, '2021-05-16 06:37:46', '2021-05-16 06:37:46'),
-(558, 2, 61, '0', '15', '7020', 'دفعات', '156', '9360', NULL, '2021-05-16 06:39:39', '2021-05-16 06:39:39'),
-(559, 8, 61, '0', '15', '4860', 'دفعات', '108', '6480', NULL, '2021-05-16 06:42:58', '2021-05-16 06:42:58'),
-(560, 15, 61, '0', '15', '1800', 'دفعات', '40', '2400', NULL, '2021-05-16 06:44:54', '2021-05-16 06:44:54'),
-(562, 9, 61, '0', '20', '2160', 'دفعات', '48', '3120', NULL, '2021-05-16 06:47:31', '2021-05-16 06:47:31'),
-(563, 4, 61, '0', '10', '9360', 'دفعات', '208', '11440', NULL, '2021-05-16 06:49:18', '2021-05-16 06:49:18'),
-(564, 25, 61, '0', '15', '900', 'دفعات', '20', '1200', NULL, '2021-05-16 06:50:33', '2021-05-16 06:50:33'),
-(565, 17, 61, '0', '10', '6300', 'دفعات', '140', '7700', NULL, '2021-05-16 06:51:45', '2021-05-16 06:51:45'),
-(566, 15, 61, '0', '15', '1080', 'دفعات', '24', '1440', NULL, '2021-05-16 06:53:24', '2021-05-16 06:53:24'),
-(567, 25, 61, '0', '10', '1620', 'دفعات', '36', '1980', NULL, '2021-05-16 06:54:43', '2021-05-16 06:54:43'),
-(568, 8, 61, '0', '15', '1890', 'دفعات', '42', '2520', NULL, '2021-05-16 06:59:11', '2021-05-16 06:59:11'),
-(569, 2, 61, '0', '10', '1890', 'دفعات', '42', '2310', NULL, '2021-05-16 07:03:52', '2021-05-16 07:03:52'),
-(570, 25, 62, '0', '12', '4350', 'دفعات', '75', '5250', NULL, '2021-05-16 15:18:10', '2021-05-16 15:18:10'),
-(571, 8, 62, '0', '12', '5220', 'دفعات', '90', '6300', NULL, '2021-05-16 15:21:59', '2021-05-16 15:21:59'),
-(572, 1, 62, '0', '12', '7830', 'دفعات', '135', '9450', NULL, '2021-05-16 15:24:15', '2021-05-16 15:24:15'),
-(573, 27, 62, '0', '12', '1740', 'دفعات', '30', '2100', NULL, '2021-05-16 15:30:52', '2021-05-16 15:30:52'),
-(574, 5, 62, '0', '17', '1450', 'دفعات', '25', '1875', NULL, '2021-05-16 15:32:16', '2021-05-16 15:32:16'),
-(575, 11, 62, '0', '12', '3480', 'دفعات', '60', '4200', NULL, '2021-05-16 15:34:15', '2021-05-16 15:34:15'),
-(576, 19, 62, '0', '22', '2030', 'دفعات', '35', '2800', NULL, '2021-05-16 15:43:39', '2021-05-16 15:43:39'),
-(577, 20, 62, '0', '12', '1740', 'دفعات', '30', '2100', NULL, '2021-05-16 15:55:21', '2021-05-16 15:55:21'),
-(578, 1, 63, '13', NULL, '9976', 'دفعات', '116', '9963', NULL, '2021-05-16 16:13:16', '2021-05-16 16:13:16'),
-(579, 14, 63, '0', '29', '1032', 'دفعات', '12', '1380', NULL, '2021-05-16 16:18:33', '2021-05-16 16:18:33'),
-(580, 25, 63, '0', '14', '3440', 'دفعات', '40', '4000', NULL, '2021-05-16 16:22:43', '2021-05-16 16:22:43'),
-(581, 31, 63, '0', '14', '4816', 'دفعات', '56', '5600', NULL, '2021-05-16 16:26:34', '2021-05-16 16:26:34'),
-(582, 31, 64, '0', '10', '20000', 'دفعات', '200', '22000', NULL, '2021-05-16 16:57:11', '2021-05-16 16:57:11'),
-(583, 31, 65, '0', '22', '10920', 'دفعات', '140', '14000', NULL, '2021-05-16 17:21:18', '2021-05-16 17:21:18'),
-(584, 19, 65, '0', '27', '2496', 'دفعات', '32', '3360', NULL, '2021-05-16 17:22:57', '2021-05-16 17:22:57'),
-(585, 33, 67, '0', '23', '3680', 'دفعات', '40', '4600', NULL, '2021-05-16 17:37:29', '2021-05-16 17:37:29'),
-(586, 19, 67, '0', '23', '1840', 'دفعات', '20', '2300', NULL, '2021-05-16 17:38:44', '2021-05-16 17:38:44'),
-(587, 11, 2, '0', '2', '8800', 'دفعات', '100', '9000', NULL, '2021-05-16 20:11:06', '2021-05-16 20:11:06'),
-(588, 11, 7, '0', '3', '2784', 'دفعات', '32', '2880', NULL, '2021-05-16 20:14:00', '2021-05-16 20:14:00'),
-(589, 8, 2, '0', '2', '704', 'دفعات', '8', '720', NULL, '2021-05-16 20:16:05', '2021-05-16 20:16:05'),
-(590, 11, 7, '0', '3', '1392', 'دفعات', '16', '1440', NULL, '2021-05-16 20:17:54', '2021-05-16 20:17:54'),
-(591, 11, 7, '0', '3', '1392', 'دفعات', '16', '1440', NULL, '2021-05-16 20:18:31', '2021-05-16 20:18:31'),
-(592, 31, 7, '0', '13', '1392', 'دفعات', '16', '1600', NULL, '2021-05-16 20:20:17', '2021-05-16 20:20:17'),
-(593, 31, 2, '0', '12', '1408', 'دفعات', '16', '1600', NULL, '2021-05-16 20:21:37', '2021-05-16 20:21:37'),
-(594, 19, 8, '0', '10', '1870', 'دفعات', '22', '2090', NULL, '2021-05-16 20:24:46', '2021-05-16 20:24:46'),
-(595, 31, 2, '0', '12', '3168', 'دفعات', '36', '3600', NULL, '2021-05-16 20:27:34', '2021-05-16 20:27:34'),
-(596, 31, 8, '0', '15', '2040', 'دفعات', '24', '2400', NULL, '2021-05-16 20:28:53', '2021-05-16 20:28:53'),
-(597, 4, 2, '0', '17', '704', 'دفعات', '8', '840', NULL, '2021-05-16 20:30:26', '2021-05-16 20:30:26'),
-(598, 8, 8, '0', '5', '2975', 'دفعات', '35', '3150', NULL, '2021-05-16 20:32:39', '2021-05-16 20:32:39'),
-(599, 8, 8, '0', '5', '3825', 'دفعات', '45', '4050', NULL, '2021-05-16 21:04:25', '2021-05-16 21:04:25'),
-(600, 8, 8, '0', '5', '3825', 'دفعات', '45', '4050', NULL, '2021-05-16 21:07:14', '2021-05-16 21:07:14'),
-(601, 8, 12, '0', '10', '1980', 'دفعات', '36', '2340', NULL, '2021-05-16 21:10:59', '2021-05-16 21:10:59'),
-(602, 8, 12, '0', '10', '550', 'دفعات', '10', '650', NULL, '2021-05-16 21:13:55', '2021-05-16 21:13:55'),
-(603, 31, 68, '0', '20', '14040', 'دفعات', '156', '17160', NULL, '2021-05-17 15:44:30', '2021-05-17 15:44:30'),
-(604, 28, 68, '0', '25', '1080', 'دفعات', '12', '1380', NULL, '2021-05-17 15:46:55', '2021-05-17 15:46:55'),
-(605, 28, 57, '0', '22', '1960', 'دفعات', '20', '2400', NULL, '2021-05-17 16:02:45', '2021-05-17 16:02:45'),
-(606, 8, 68, '0', '20', '3240', 'دفعات', '36', '3960', NULL, '2021-05-17 16:05:07', '2021-05-17 16:05:07'),
-(607, 14, 68, '0', '25', '2160', 'دفعات', '24', '2760', NULL, '2021-05-17 16:07:30', '2021-05-17 16:07:30'),
-(608, 14, 2, '0', '27', '352', 'دفعات', '4', '460', NULL, '2021-05-17 16:10:35', '2021-05-17 16:10:35'),
-(609, 19, 68, '0', '25', '1800', 'دفعات', '20', '2300', NULL, '2021-05-17 16:12:13', '2021-05-17 16:12:13'),
-(610, 17, 69, '0', '5', '4100', 'دفعات', '100', '4600', NULL, '2021-05-17 17:18:33', '2021-05-17 17:18:33'),
-(611, 11, 69, '0', '2', '4018', 'دفعات', '98', '4214', NULL, '2021-05-17 17:19:28', '2021-05-17 17:19:28'),
-(612, 8, 69, '0', '5', '1640', 'دفعات', '40', '1840', NULL, '2021-05-17 17:20:47', '2021-05-17 17:20:47'),
-(613, 25, 69, '0', '5', '1640', 'دفعات', '40', '1840', NULL, '2021-05-17 17:23:44', '2021-05-17 17:23:44'),
-(614, 23, 69, '0', '14', '1640', 'دفعات', '40', '2200', NULL, '2021-05-17 17:25:20', '2021-05-17 17:25:20'),
-(615, 17, 69, '0', '9', '451', 'دفعات', '11', '550', NULL, '2021-05-17 17:26:23', '2021-05-17 17:26:23'),
-(616, 25, 69, '0', '5', '2132', 'دفعات', '52', '2392', NULL, '2021-05-17 17:27:58', '2021-05-17 17:27:58'),
-(617, 17, 69, '0', '4', '246', 'دفعات', '6', '270', NULL, '2021-05-17 17:30:11', '2021-05-17 17:30:11'),
-(618, 15, 69, '0', '9', '1640', 'دفعات', '40', '2000', NULL, '2021-05-17 17:30:59', '2021-05-17 17:30:59');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `order_clothes`
+-- Table structure for table `order_clothes`
 --
 
-CREATE TABLE `order_clothes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `order_clothes`;
+CREATE TABLE IF NOT EXISTS `order_clothes` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `merchant_id` int(10) UNSIGNED NOT NULL,
+  `invoice_no` int(11) DEFAULT NULL,
   `category_id` int(10) UNSIGNED NOT NULL,
-  `order_size` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_size_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price_one_piecies` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_finished` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_follow` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `order_clothes`
---
-
-INSERT INTO `order_clothes` (`id`, `merchant_id`, `category_id`, `order_size`, `order_size_type`, `order_price`, `payment_type`, `order_discount`, `price_one_piecies`, `order_finished`, `order_follow`, `created_at`, `updated_at`) VALUES
-(1, 1, 17, '708', 'متر', '36816', 'نقدى', '0', '52', '1', NULL, '2020-09-07 14:33:30', '2020-09-07 14:44:38'),
-(2, 1, 19, '223.44', 'كجم', '8490.72', 'نقدى', '0', '38', '1', NULL, '2020-09-07 15:05:18', '2020-09-07 15:08:16'),
-(3, 1, 20, '339.15', 'متر', '13226.849999999999', 'نقدى', '0', '39', '1', NULL, '2020-09-07 15:20:24', '2020-09-07 15:24:06'),
-(4, 2, 21, '233', 'متر', '9786', 'نقدى', NULL, '42', NULL, NULL, '2020-10-18 19:50:31', '2020-10-18 19:50:31'),
-(5, 2, 23, '280', 'متر', '11760', 'نقدى', NULL, '42', NULL, NULL, '2020-10-18 20:07:30', '2020-10-20 16:53:35'),
-(6, 2, 22, '300', 'متر', '12600', 'نقدى', NULL, '42', NULL, NULL, '2020-10-18 20:09:21', '2020-10-20 16:55:48');
-
--- --------------------------------------------------------
-
---
--- بنية الجدول `partners`
---
-
-CREATE TABLE `partners` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `partner_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `partner_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `partner_percentage` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `partner_status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `order_size` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_size_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_discount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price_one_piecies` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_finished` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_follow` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `partner_percent` int(255) DEFAULT NULL,
-  `partner_ended_at` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  PRIMARY KEY (`id`),
+  KEY `order_clothes_merchant_id_foreign` (`merchant_id`),
+  KEY `order_clothes_category_id_foreign` (`category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `partners`
---
-
-INSERT INTO `partners` (`id`, `partner_name`, `partner_phone`, `partner_percentage`, `partner_status`, `created_at`, `updated_at`, `partner_percent`, `partner_ended_at`) VALUES
-(14, 'وليد عبده', '01000595760', '100000', '1', '2020-08-28 00:25:22', '2021-03-05 14:14:47', NULL, NULL),
-(15, 'د/وائل', '01017280181', '100000', '1', '2020-08-28 00:27:14', '2021-03-05 14:15:08', NULL, NULL),
-(16, 'أم محمود', '01069440944', '180000', '1', '2020-08-28 00:28:30', '2021-03-05 14:15:23', NULL, NULL),
-(17, 'علاء البحراوي', '01069440944', '75000', '1', '2020-08-28 00:30:37', '2021-03-05 14:15:38', NULL, NULL),
-(18, 'القبطان محمود', '01069440944', '50000', '1', '2020-08-28 00:32:35', '2021-03-05 14:15:50', NULL, NULL),
-(51, 'حبيب', '01069440944', '30000', '0', '2021-03-05 15:45:44', '2021-03-05 15:45:44', NULL, NULL),
-(20, 'رامي حماده', '01062227020', '50000', '1', '2020-08-28 00:35:21', '2021-03-05 14:16:17', NULL, NULL),
-(23, 'ق محمود', '01026051966', '135000', '1', '2020-09-07 21:00:36', '2021-03-05 14:16:55', NULL, NULL),
-(25, 'ابو محمود', '01069440944', '30000', '1', '2020-09-07 20:43:57', '2021-03-05 14:17:23', NULL, NULL),
-(26, 'ام خالد', '01069440944', '60000', '1', '2020-09-07 20:46:10', '2021-03-05 14:16:38', NULL, NULL),
-(27, 'أم محمود 2', '01069440944', '50000', '1', '2020-09-07 21:00:36', '2021-01-10 19:17:14', NULL, NULL),
-(52, 'علاء البحراوي', '01069440944', '75000', '0', '2021-03-05 15:46:12', '2021-03-05 15:46:12', NULL, NULL),
-(50, 'ام خالد', '01069440944', '60000', '0', '2021-03-05 15:45:29', '2021-03-05 15:45:29', NULL, NULL),
-(49, 'ام محمود', '01069440944', '180000', '0', '2021-03-05 15:44:21', '2021-03-05 15:44:21', NULL, NULL),
-(47, 'ق محمود2', '01069440944', '50000', '0', '2021-03-05 15:39:05', '2021-03-05 15:39:05', NULL, NULL),
-(46, 'ق محمود', '01069440944', '135000', '0', '2021-03-05 15:21:29', '2021-03-05 15:21:29', NULL, NULL),
-(45, 'وليد عبده', '01069440944', '100000', '0', '2021-03-05 15:20:39', '2021-03-05 15:20:39', NULL, NULL),
-(44, 'وليد عبده 2', '01069440944', '200000', '0', '2021-03-05 15:20:08', '2021-03-05 15:20:08', NULL, NULL),
-(48, 'رامي', '01069440944', '50000', '0', '2021-03-05 15:43:50', '2021-03-05 15:43:50', NULL, NULL),
-(53, 'د/وايل', '01069440944', '100000', '0', '2021-03-05 15:53:16', '2021-03-05 15:53:16', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `postponeds`
+-- Table structure for table `partners`
 --
 
-CREATE TABLE `postponeds` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `posponed_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `posponed_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `posponed_finished` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+DROP TABLE IF EXISTS `partners`;
+CREATE TABLE IF NOT EXISTS `partners` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `partner_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `partner_phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `capital` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `partner_percent` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `partner_status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `partner_ended_at` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `postponeds`
---
-
-INSERT INTO `postponeds` (`id`, `client_id`, `posponed_date`, `posponed_value`, `posponed_finished`, `created_at`, `updated_at`) VALUES
-(47, 5, NULL, '1500', NULL, '2020-09-10 00:19:24', '2020-09-10 00:19:24'),
-(46, 10, NULL, '3000', NULL, '2020-09-10 00:17:23', '2020-09-10 00:17:23'),
-(45, 20, NULL, '430', NULL, '2020-09-07 20:36:31', '2020-09-07 20:36:31'),
-(44, 19, NULL, '3758.50', NULL, '2020-09-07 20:05:17', '2020-09-07 20:05:17'),
-(43, 9, NULL, '500', NULL, '2020-09-06 05:05:15', '2020-09-06 05:05:15'),
-(42, 14, NULL, '300', NULL, '2020-09-06 05:04:18', '2020-09-06 05:04:18'),
-(41, 3, NULL, '700', NULL, '2020-09-04 18:49:23', '2020-09-04 18:49:23'),
-(40, 8, NULL, '9000', NULL, '2020-09-04 18:42:07', '2020-09-04 18:42:07'),
-(48, 6, NULL, '400', NULL, '2020-09-11 14:13:03', '2020-09-11 14:13:03'),
-(49, 4, NULL, '3000', NULL, '2020-09-12 15:49:57', '2020-09-12 15:49:57'),
-(50, 4, NULL, '95', NULL, '2020-09-12 15:50:21', '2020-09-12 15:50:21'),
-(51, 7, NULL, '1500', NULL, '2020-09-12 15:51:19', '2020-09-12 15:51:19'),
-(52, 8, NULL, '2000', NULL, '2020-09-12 15:52:56', '2020-09-12 15:52:56'),
-(53, 15, NULL, '1125', NULL, '2020-09-12 15:56:18', '2020-09-12 15:56:18'),
-(54, 20, NULL, '500', NULL, '2020-09-15 15:18:27', '2020-09-15 15:18:27'),
-(55, 20, NULL, '500', NULL, '2020-09-15 15:18:28', '2020-09-15 15:18:28'),
-(56, 1, NULL, '10000', NULL, '2020-09-17 16:10:50', '2020-09-17 16:10:50'),
-(57, 2, NULL, '2500', NULL, '2020-09-18 16:28:29', '2020-09-18 16:28:29'),
-(58, 8, NULL, '3000', NULL, '2020-09-18 16:30:39', '2020-09-18 16:30:39'),
-(59, 9, NULL, '500', NULL, '2020-09-18 16:31:12', '2020-09-18 16:31:12'),
-(60, 3, NULL, '1000', NULL, '2020-09-18 16:33:32', '2020-09-18 16:33:32'),
-(61, 14, NULL, '500', NULL, '2020-09-18 16:34:49', '2020-09-18 16:34:49'),
-(62, 4, NULL, '2000', NULL, '2020-09-18 16:35:45', '2020-09-18 16:35:45'),
-(63, 19, NULL, '2000', NULL, '2020-09-18 16:37:38', '2020-09-18 16:37:38'),
-(64, 5, NULL, '1000', NULL, '2020-09-20 21:46:46', '2020-09-20 21:46:46'),
-(65, 7, NULL, '1000', NULL, '2020-09-20 21:49:30', '2020-09-20 21:49:30'),
-(66, 7, NULL, '1000', NULL, '2020-09-20 21:49:30', '2020-09-20 21:49:30'),
-(67, 5, NULL, '1000', NULL, '2020-09-22 20:46:10', '2020-09-22 20:46:10'),
-(68, 15, NULL, '500', NULL, '2020-09-23 01:43:24', '2020-09-23 01:43:24'),
-(69, 1, NULL, '9000', NULL, '2020-09-24 17:45:18', '2020-09-24 17:45:18'),
-(70, 6, NULL, '300', NULL, '2020-09-25 15:00:34', '2020-09-25 15:00:34'),
-(71, 4, NULL, '2000', NULL, '2020-09-25 15:02:43', '2020-09-25 15:02:43'),
-(72, 14, NULL, '500', NULL, '2020-09-25 15:19:56', '2020-09-25 15:19:56'),
-(73, 8, NULL, '2300', NULL, '2020-09-25 15:21:33', '2020-09-25 15:21:33'),
-(74, 3, NULL, '1500', NULL, '2020-09-27 13:25:38', '2020-09-27 13:25:38'),
-(75, 10, NULL, '2000', NULL, '2020-09-30 18:38:49', '2020-09-30 18:38:49'),
-(76, 8, NULL, '4000', NULL, '2020-09-30 20:56:04', '2020-09-30 20:56:04'),
-(77, 2, NULL, '2000', NULL, '2020-10-01 02:53:17', '2020-10-01 02:53:17'),
-(78, 6, NULL, '300', NULL, '2020-10-01 22:15:34', '2020-10-01 22:15:34'),
-(79, 5, NULL, '1000', NULL, '2020-10-02 13:17:19', '2020-10-02 13:17:19'),
-(80, 14, NULL, '300', NULL, '2020-10-02 13:18:52', '2020-10-02 13:18:52'),
-(81, 15, NULL, '300', NULL, '2020-10-02 13:19:31', '2020-10-02 13:19:31'),
-(82, 20, NULL, '500', NULL, '2020-10-02 13:23:34', '2020-10-02 13:23:34'),
-(83, 8, NULL, '3400', NULL, '2020-10-02 13:24:20', '2020-10-02 13:24:20'),
-(84, 1, NULL, '10000', NULL, '2020-10-02 13:28:56', '2020-10-02 13:28:56'),
-(85, 19, NULL, '3000', NULL, '2020-10-04 00:14:05', '2020-10-04 00:14:05'),
-(86, 7, NULL, '1500', NULL, '2020-10-04 15:19:35', '2020-10-04 15:19:35'),
-(87, 15, NULL, '300', NULL, '2020-10-06 17:50:34', '2020-10-06 17:50:34'),
-(88, 5, NULL, '1500', NULL, '2020-10-06 23:09:46', '2020-10-06 23:09:46'),
-(89, 3, NULL, '1000', NULL, '2020-10-06 23:11:22', '2020-10-06 23:11:22'),
-(90, 10, NULL, '3000', NULL, '2020-10-08 19:46:40', '2020-10-08 19:46:40'),
-(91, 1, NULL, '7000', NULL, '2020-10-09 22:31:09', '2020-10-09 22:31:09'),
-(92, 2, NULL, '3000', NULL, '2020-10-09 22:31:56', '2020-10-09 22:31:56'),
-(93, 4, NULL, '3000', NULL, '2020-10-09 22:32:36', '2020-10-09 22:32:36'),
-(94, 5, NULL, '2000', NULL, '2020-10-09 22:33:15', '2020-10-09 22:33:15'),
-(95, 6, NULL, '300', NULL, '2020-10-09 22:33:36', '2020-10-09 22:33:36'),
-(96, 8, NULL, '3400', NULL, '2020-10-09 22:34:42', '2020-10-09 22:34:42'),
-(97, 14, NULL, '500', NULL, '2020-10-09 22:43:34', '2020-10-09 22:43:34'),
-(98, 9, NULL, '500', NULL, '2020-10-11 17:33:35', '2020-10-11 17:33:35'),
-(99, 1, NULL, '3000', NULL, '2020-10-12 15:12:11', '2020-10-12 15:12:11'),
-(100, 5, NULL, '1000', NULL, '2020-10-12 15:13:28', '2020-10-12 15:13:28'),
-(101, 21, NULL, '2000', NULL, '2020-10-12 15:50:15', '2020-10-12 15:50:15'),
-(102, 21, NULL, '1100', NULL, '2020-10-13 19:17:43', '2020-10-13 19:17:43'),
-(103, 15, NULL, '500', NULL, '2020-10-13 23:08:01', '2020-10-13 23:08:01'),
-(104, 1, NULL, '10000', NULL, '2020-10-15 16:11:46', '2020-10-15 16:11:46'),
-(105, 2, NULL, '465', NULL, '2020-10-16 16:37:10', '2020-10-16 16:37:10'),
-(106, 2, NULL, '3500', NULL, '2020-10-16 16:37:33', '2020-10-16 16:37:33'),
-(107, 4, NULL, '2000', NULL, '2020-10-16 16:38:55', '2020-10-16 16:38:55'),
-(108, 6, NULL, '430', NULL, '2020-10-16 16:40:12', '2020-10-16 16:40:12'),
-(109, 8, NULL, '3000', NULL, '2020-10-16 16:40:45', '2020-10-16 16:40:45'),
-(110, 9, NULL, '500', NULL, '2020-10-16 16:41:22', '2020-10-16 16:41:22'),
-(111, 14, NULL, '500', NULL, '2020-10-16 16:41:48', '2020-10-16 16:41:48'),
-(112, 19, NULL, '500', NULL, '2020-10-16 16:42:17', '2020-10-16 16:42:17'),
-(113, 22, NULL, '1100', NULL, '2020-10-17 04:52:28', '2020-10-17 04:52:28'),
-(114, 7, NULL, '1000', NULL, '2020-10-17 15:22:19', '2020-10-17 15:22:19'),
-(115, 5, NULL, '1000', NULL, '2020-10-17 23:21:39', '2020-10-17 23:21:39'),
-(116, 3, NULL, '1000', NULL, '2020-10-19 19:07:31', '2020-10-19 19:07:31'),
-(117, 3, NULL, '1000', NULL, '2020-10-19 19:07:47', '2020-10-19 19:07:47'),
-(118, 22, NULL, '2000', NULL, '2020-10-19 19:59:24', '2020-10-19 19:59:24'),
-(119, 19, NULL, '3000', NULL, '2020-10-20 14:52:15', '2020-10-20 14:52:15'),
-(120, 19, NULL, '3000', NULL, '2020-10-20 14:52:39', '2020-10-20 14:52:39'),
-(121, 11, NULL, '13100', NULL, '2020-10-20 16:59:28', '2020-10-20 16:59:28'),
-(122, 1, NULL, '10000', NULL, '2020-10-23 20:50:02', '2020-10-23 20:50:02'),
-(123, 2, NULL, '2700', NULL, '2020-10-23 20:50:35', '2020-10-23 20:50:35'),
-(124, 4, NULL, '3000', NULL, '2020-10-23 20:51:07', '2020-10-23 20:51:07'),
-(125, 6, NULL, '4364', NULL, '2020-10-23 20:52:11', '2020-10-23 20:52:11'),
-(126, 6, NULL, '1000', NULL, '2020-10-23 20:55:15', '2020-10-23 20:55:15'),
-(127, 8, NULL, '5000', NULL, '2020-10-23 20:56:05', '2020-10-23 20:56:05'),
-(128, 15, NULL, '500', NULL, '2020-10-23 20:56:31', '2020-10-23 20:56:31'),
-(129, 14, NULL, '500', NULL, '2020-10-23 20:57:18', '2020-10-23 20:57:18'),
-(130, 19, NULL, '1500', NULL, '2020-10-23 21:01:04', '2020-10-23 21:01:04'),
-(131, 23, NULL, '3000', NULL, '2020-10-24 01:48:07', '2020-10-24 01:48:07'),
-(132, 23, NULL, '3000', NULL, '2020-10-26 04:00:03', '2020-10-26 04:00:03'),
-(133, 11, NULL, '20000', NULL, '2020-10-26 16:53:25', '2020-10-26 16:53:25'),
-(134, 5, NULL, '500', NULL, '2020-10-26 20:37:54', '2020-10-26 20:37:54'),
-(135, 5, NULL, '500', NULL, '2020-10-26 20:38:08', '2020-10-26 20:38:08'),
-(136, 5, NULL, '1000', NULL, '2020-10-26 20:47:58', '2020-10-26 20:47:58'),
-(137, 2, NULL, '2500', NULL, '2020-10-29 04:31:45', '2020-10-29 04:31:45'),
-(138, 10, NULL, '3000', NULL, '2020-10-29 23:48:36', '2020-10-29 23:48:36'),
-(139, 8, NULL, '4700', NULL, '2020-10-29 23:49:02', '2020-10-29 23:49:02'),
-(140, 6, NULL, '600', NULL, '2020-10-29 23:49:26', '2020-10-29 23:49:26'),
-(141, 1, NULL, '10000', NULL, '2020-10-29 23:49:48', '2020-10-29 23:49:48'),
-(142, 14, NULL, '500', NULL, '2020-10-29 23:54:09', '2020-10-29 23:54:09'),
-(143, 19, NULL, '3000', NULL, '2020-11-01 04:27:02', '2020-11-01 04:27:02'),
-(144, 15, NULL, '500', NULL, '2020-11-01 04:28:33', '2020-11-01 04:28:33'),
-(145, 15, NULL, '1000', NULL, '2020-11-01 04:33:06', '2020-11-01 04:33:06'),
-(146, 15, NULL, '50', NULL, '2020-11-01 04:33:18', '2020-11-01 04:33:18'),
-(147, 22, NULL, '110', NULL, '2020-11-01 04:46:29', '2020-11-01 04:46:29'),
-(148, 22, NULL, '990', NULL, '2020-11-01 04:47:02', '2020-11-01 04:47:02'),
-(149, 4, NULL, '3000', NULL, '2020-11-05 18:58:03', '2020-11-05 18:58:03'),
-(150, 4, NULL, '1000', NULL, '2020-11-05 18:59:58', '2020-11-05 18:59:58'),
-(151, 4, NULL, '3000', NULL, '2020-11-05 19:00:36', '2020-11-05 19:00:36'),
-(152, 1, NULL, '10000', NULL, '2020-11-06 04:22:28', '2020-11-06 04:22:28'),
-(153, 2, NULL, '2000', NULL, '2020-11-06 04:23:15', '2020-11-06 04:23:15'),
-(154, 5, NULL, '1000', NULL, '2020-11-06 04:23:47', '2020-11-06 04:23:47'),
-(155, 6, NULL, '300', NULL, '2020-11-06 04:24:21', '2020-11-06 04:24:21'),
-(156, 8, NULL, '4560', NULL, '2020-11-06 04:25:09', '2020-11-06 04:25:09'),
-(157, 9, NULL, '1000', NULL, '2020-11-06 04:25:37', '2020-11-06 04:25:37'),
-(158, 14, NULL, '500', NULL, '2020-11-06 04:26:07', '2020-11-06 04:26:07'),
-(159, 7, NULL, '1500', NULL, '2020-11-07 15:56:57', '2020-11-07 15:56:57'),
-(160, 7, NULL, '2000', NULL, '2020-11-07 15:57:19', '2020-11-07 15:57:19'),
-(161, 5, NULL, '1000', NULL, '2020-11-08 11:08:29', '2020-11-08 11:08:29'),
-(162, 15, NULL, '500', NULL, '2020-11-08 11:09:02', '2020-11-08 11:09:02'),
-(163, 1, NULL, '9000', NULL, '2020-11-16 00:43:47', '2020-11-16 00:43:47'),
-(164, 3, NULL, '2000', NULL, '2020-11-16 00:44:08', '2020-11-16 00:44:08'),
-(165, 4, NULL, '2000', NULL, '2020-11-16 00:44:28', '2020-11-16 00:44:28'),
-(166, 5, NULL, '1000', NULL, '2020-11-16 00:46:19', '2020-11-16 00:46:19'),
-(167, 6, NULL, '300', NULL, '2020-11-16 00:47:27', '2020-11-16 00:47:27'),
-(168, 8, NULL, '4000', NULL, '2020-11-16 00:48:03', '2020-11-16 00:48:03'),
-(169, 9, NULL, '500', NULL, '2020-11-16 00:48:28', '2020-11-16 00:48:28'),
-(170, 14, NULL, '750', NULL, '2020-11-16 00:49:04', '2020-11-16 00:49:04'),
-(171, 21, NULL, '1000', NULL, '2020-11-16 00:49:28', '2020-11-16 00:49:28'),
-(172, 15, NULL, '500', NULL, '2020-11-16 00:52:17', '2020-11-16 00:52:17'),
-(173, 19, NULL, '3000', NULL, '2020-11-16 00:53:27', '2020-11-16 00:53:27'),
-(174, 24, NULL, '1000', NULL, '2020-11-16 00:55:14', '2020-11-16 00:55:14'),
-(175, 5, NULL, '1000', NULL, '2020-11-17 16:20:33', '2020-11-17 16:20:33'),
-(176, 1, NULL, '10000', NULL, '2020-11-23 02:47:52', '2020-11-23 02:47:52'),
-(177, 2, NULL, '3000', NULL, '2020-11-23 02:48:29', '2020-11-23 02:48:29'),
-(178, 3, NULL, '2000', NULL, '2020-11-23 02:49:24', '2020-11-23 02:49:24'),
-(179, 5, NULL, '1000', NULL, '2020-11-23 02:50:10', '2020-11-23 02:50:10'),
-(180, 5, NULL, '500', NULL, '2020-11-23 02:50:22', '2020-11-23 02:50:22'),
-(181, 6, NULL, '300', NULL, '2020-11-23 02:50:57', '2020-11-23 02:50:57'),
-(182, 7, NULL, '1500', NULL, '2020-11-23 02:51:20', '2020-11-23 02:51:20'),
-(183, 8, NULL, '2800', NULL, '2020-11-23 02:51:48', '2020-11-23 02:51:48'),
-(184, 10, NULL, '3000', NULL, '2020-11-23 02:52:12', '2020-11-23 02:52:12'),
-(185, 14, NULL, '500', NULL, '2020-11-23 02:52:53', '2020-11-23 02:52:53'),
-(186, 15, NULL, '500', NULL, '2020-11-23 02:53:30', '2020-11-23 02:53:30'),
-(187, 23, NULL, '2000', NULL, '2020-11-23 02:54:41', '2020-11-23 02:54:41'),
-(188, 19, NULL, '3000', NULL, '2020-11-25 17:02:06', '2020-11-25 17:02:06'),
-(189, 3, NULL, '1500', NULL, '2020-11-25 17:02:51', '2020-11-25 17:02:51'),
-(190, 5, NULL, '1000', NULL, '2020-11-25 17:04:30', '2020-11-25 17:04:30'),
-(191, 4, NULL, '3000', NULL, '2020-11-26 22:45:51', '2020-11-26 22:45:51'),
-(192, 2, NULL, '1500', NULL, '2020-11-26 22:46:24', '2020-11-26 22:46:24'),
-(193, 6, NULL, '300', NULL, '2020-11-26 22:47:04', '2020-11-26 22:47:04'),
-(194, 8, NULL, '3500', NULL, '2020-11-26 22:48:08', '2020-11-26 22:48:08'),
-(195, 9, NULL, '500', NULL, '2020-11-26 22:48:33', '2020-11-26 22:48:33'),
-(196, 21, NULL, '1000', NULL, '2020-11-26 22:49:07', '2020-11-26 22:49:07'),
-(197, 14, NULL, '1000', NULL, '2020-11-26 22:50:14', '2020-11-26 22:50:14'),
-(198, 24, NULL, '1500', NULL, '2020-11-26 22:52:17', '2020-11-26 22:52:17'),
-(199, 24, NULL, '1000', NULL, '2020-11-26 22:52:27', '2020-11-26 22:52:27'),
-(200, 5, NULL, '500', NULL, '2020-12-01 03:39:21', '2020-12-01 03:39:21'),
-(201, 5, NULL, '500', NULL, '2020-12-01 03:39:34', '2020-12-01 03:39:34'),
-(202, 1, NULL, '10000', NULL, '2020-12-04 19:29:25', '2020-12-04 19:29:25'),
-(203, 2, NULL, '2000', NULL, '2020-12-04 19:32:59', '2020-12-04 19:32:59'),
-(204, 3, NULL, '1500', NULL, '2020-12-04 19:33:21', '2020-12-04 19:33:21'),
-(205, 4, NULL, '3000', NULL, '2020-12-04 19:34:05', '2020-12-04 19:34:05'),
-(206, 5, NULL, '500', NULL, '2020-12-04 19:35:09', '2020-12-04 19:35:09'),
-(207, 5, NULL, '500', NULL, '2020-12-04 19:35:30', '2020-12-04 19:35:30'),
-(208, 6, NULL, '300', NULL, '2020-12-04 19:36:22', '2020-12-04 19:36:22'),
-(209, 8, NULL, '3000', NULL, '2020-12-04 19:38:06', '2020-12-04 19:38:06'),
-(210, 8, NULL, '500', NULL, '2020-12-04 19:39:55', '2020-12-04 19:39:55'),
-(211, 14, NULL, '500', NULL, '2020-12-04 19:40:37', '2020-12-04 19:40:37'),
-(212, 15, NULL, '500', NULL, '2020-12-04 19:41:27', '2020-12-04 19:41:27'),
-(213, 9, NULL, '250', NULL, '2020-12-04 19:42:10', '2020-12-04 19:42:10'),
-(214, 19, NULL, '2000', NULL, '2020-12-04 19:42:44', '2020-12-04 19:42:44'),
-(215, 24, NULL, '1000', NULL, '2020-12-04 19:44:06', '2020-12-04 19:44:06'),
-(216, 1, NULL, '5000', NULL, '2020-12-13 13:56:25', '2020-12-13 13:56:25'),
-(217, 3, NULL, '1000', NULL, '2020-12-13 13:57:17', '2020-12-13 13:57:17'),
-(218, 4, NULL, '2000', NULL, '2020-12-13 13:57:46', '2020-12-13 13:57:46'),
-(219, 5, NULL, '500', NULL, '2020-12-13 13:58:14', '2020-12-13 13:58:14'),
-(220, 5, NULL, '500', NULL, '2020-12-13 13:58:25', '2020-12-13 13:58:25'),
-(221, 6, NULL, '300', NULL, '2020-12-13 13:59:04', '2020-12-13 13:59:04'),
-(222, 7, NULL, '1600', NULL, '2020-12-13 14:00:03', '2020-12-13 14:00:03'),
-(223, 14, NULL, '300', NULL, '2020-12-13 14:01:09', '2020-12-13 14:01:09'),
-(224, 15, NULL, '500', NULL, '2020-12-13 14:02:11', '2020-12-13 14:02:11'),
-(225, 19, NULL, '1500', NULL, '2020-12-13 14:03:40', '2020-12-13 14:03:40'),
-(226, 24, NULL, '1000', NULL, '2020-12-13 14:04:47', '2020-12-13 14:04:47'),
-(227, 2, NULL, '2000', NULL, '2020-12-17 00:40:25', '2020-12-17 00:40:25'),
-(228, 3, NULL, '1000', NULL, '2020-12-17 00:42:48', '2020-12-17 00:42:48'),
-(229, 5, NULL, '500', NULL, '2020-12-17 00:43:22', '2020-12-17 00:43:22'),
-(230, 19, NULL, '1500', NULL, '2020-12-17 00:44:03', '2020-12-17 00:44:03'),
-(231, 1, NULL, '11000', NULL, '2020-12-20 03:13:46', '2020-12-20 03:13:46'),
-(232, 2, NULL, '2000', NULL, '2020-12-20 03:14:08', '2020-12-20 03:14:08'),
-(233, 4, NULL, '2000', NULL, '2020-12-20 03:14:53', '2020-12-20 03:14:53'),
-(234, 6, NULL, '300', NULL, '2020-12-20 03:15:28', '2020-12-20 03:15:28'),
-(235, 5, NULL, '1000', NULL, '2020-12-22 01:46:11', '2020-12-22 01:46:11'),
-(236, 15, NULL, '500', NULL, '2020-12-22 01:49:10', '2020-12-22 01:49:10'),
-(237, 1, NULL, '5000', NULL, '2020-12-25 14:18:46', '2020-12-25 14:18:46'),
-(238, 2, NULL, '1400', NULL, '2020-12-25 14:19:48', '2020-12-25 14:19:48'),
-(239, 2, NULL, '1030', NULL, '2020-12-25 14:20:08', '2020-12-25 14:20:08'),
-(240, 4, NULL, '3000', NULL, '2020-12-25 14:20:55', '2020-12-25 14:20:55'),
-(241, 5, NULL, '500', NULL, '2020-12-25 14:21:40', '2020-12-25 14:21:40'),
-(242, 6, NULL, '300', NULL, '2020-12-25 14:22:02', '2020-12-25 14:22:02'),
-(243, 8, NULL, '1900', NULL, '2020-12-25 14:22:27', '2020-12-25 14:22:27'),
-(244, 19, NULL, '1500', NULL, '2020-12-25 14:23:19', '2020-12-25 14:23:19'),
-(245, 24, NULL, '500', NULL, '2020-12-25 14:24:02', '2020-12-25 14:24:02'),
-(246, 23, NULL, '1500', NULL, '2020-12-30 01:42:54', '2020-12-30 01:42:54'),
-(247, 1, NULL, '7000', NULL, '2020-12-31 21:01:03', '2020-12-31 21:01:03'),
-(248, 2, NULL, '700', NULL, '2020-12-31 21:01:50', '2020-12-31 21:01:50'),
-(249, 5, NULL, '500', NULL, '2020-12-31 21:02:15', '2020-12-31 21:02:15'),
-(250, 8, NULL, '3300', NULL, '2020-12-31 21:02:45', '2020-12-31 21:02:45'),
-(251, 6, NULL, '300', NULL, '2021-01-01 14:40:54', '2021-01-01 14:40:54'),
-(252, 14, NULL, '500', NULL, '2021-01-01 14:41:19', '2021-01-01 14:41:19'),
-(253, 24, NULL, '500', NULL, '2021-01-01 17:45:11', '2021-01-01 17:45:11'),
-(254, 1, NULL, '5000', NULL, '2021-01-08 02:53:35', '2021-01-08 02:53:35'),
-(255, 2, NULL, '2500', NULL, '2021-01-08 02:54:15', '2021-01-08 02:54:15'),
-(256, 3, NULL, '1000', NULL, '2021-01-08 02:55:51', '2021-01-08 02:55:51'),
-(257, 3, NULL, '1000', NULL, '2021-01-08 02:55:53', '2021-01-08 02:55:53'),
-(258, 4, NULL, '2000', NULL, '2021-01-08 02:56:39', '2021-01-08 02:56:39'),
-(259, 5, NULL, '1500', NULL, '2021-01-08 02:57:26', '2021-01-08 02:57:26'),
-(260, 8, NULL, '2500', NULL, '2021-01-08 03:00:15', '2021-01-08 03:00:15'),
-(261, 14, NULL, '500', NULL, '2021-01-08 03:01:11', '2021-01-08 03:01:11'),
-(262, 15, NULL, '500', NULL, '2021-01-08 03:01:59', '2021-01-08 03:01:59'),
-(263, 19, NULL, '1500', NULL, '2021-01-08 03:02:50', '2021-01-08 03:02:50'),
-(264, 24, NULL, '500', NULL, '2021-01-08 03:03:26', '2021-01-08 03:03:26'),
-(265, 7, NULL, '1500', NULL, '2021-01-10 19:06:44', '2021-01-10 19:06:44'),
-(266, 19, NULL, '1000', NULL, '2021-01-14 03:41:33', '2021-01-14 03:41:33'),
-(267, 1, NULL, '5000', NULL, '2021-01-15 14:28:30', '2021-01-15 14:28:30'),
-(268, 2, NULL, '3000', NULL, '2021-01-15 14:29:19', '2021-01-15 14:29:19'),
-(269, 6, NULL, '300', NULL, '2021-01-15 14:30:08', '2021-01-15 14:30:08'),
-(270, 8, NULL, '1500', NULL, '2021-01-15 14:31:58', '2021-01-15 14:31:58'),
-(271, 9, NULL, '500', NULL, '2021-01-15 14:33:19', '2021-01-15 14:33:19'),
-(272, 14, NULL, '400', NULL, '2021-01-15 14:37:41', '2021-01-15 14:37:41'),
-(273, 15, NULL, '500', NULL, '2021-01-19 00:07:12', '2021-01-19 00:07:12'),
-(274, 5, NULL, '500', NULL, '2021-01-24 04:24:11', '2021-01-24 04:24:11'),
-(275, 6, NULL, '300', NULL, '2021-01-24 04:24:57', '2021-01-24 04:24:57'),
-(276, 7, NULL, '1600', NULL, '2021-01-24 04:26:30', '2021-01-24 04:26:30'),
-(277, 8, NULL, '2500', NULL, '2021-01-24 04:28:24', '2021-01-24 04:28:24'),
-(278, 14, NULL, '500', NULL, '2021-01-24 04:30:35', '2021-01-24 04:30:35'),
-(279, 15, NULL, '500', NULL, '2021-01-24 04:31:19', '2021-01-24 04:31:19'),
-(280, 19, NULL, '1000', NULL, '2021-01-24 04:33:17', '2021-01-24 04:33:17'),
-(281, 3, NULL, '500', NULL, '2021-01-24 04:38:28', '2021-01-24 04:38:28'),
-(282, 2, NULL, '2000', NULL, '2021-01-31 20:26:22', '2021-01-31 20:26:22'),
-(283, 4, NULL, '2000', NULL, '2021-01-31 20:27:02', '2021-01-31 20:27:02'),
-(284, 6, NULL, '300', NULL, '2021-01-31 20:27:29', '2021-01-31 20:27:29'),
-(285, 8, NULL, '3000', NULL, '2021-01-31 20:28:02', '2021-01-31 20:28:02'),
-(286, 24, NULL, '500', NULL, '2021-01-31 20:28:50', '2021-01-31 20:28:50'),
-(287, 15, NULL, '500', NULL, '2021-01-31 20:29:14', '2021-01-31 20:29:14'),
-(288, 2, NULL, '1500', NULL, '2021-02-06 00:55:38', '2021-02-06 00:55:38'),
-(289, 4, NULL, '2000', NULL, '2021-02-06 00:56:45', '2021-02-06 00:56:45'),
-(290, 4, NULL, '2000', NULL, '2021-02-06 00:57:09', '2021-02-06 00:57:09'),
-(291, 5, NULL, '400', NULL, '2021-02-06 00:58:13', '2021-02-06 00:58:13'),
-(292, 8, NULL, '4060', NULL, '2021-02-06 00:59:35', '2021-02-06 00:59:35'),
-(293, 12, NULL, '1400', NULL, '2021-02-06 01:01:17', '2021-02-06 01:01:17'),
-(294, 14, NULL, '500', NULL, '2021-02-06 01:01:44', '2021-02-06 01:01:44'),
-(295, 22, NULL, '500', NULL, '2021-02-06 01:02:22', '2021-02-06 01:02:22'),
-(296, 23, NULL, '1500', NULL, '2021-02-06 01:04:24', '2021-02-06 01:04:24'),
-(297, 10, NULL, '2000', NULL, '2021-02-09 01:50:39', '2021-02-09 01:50:39'),
-(298, 6, NULL, '300', NULL, '2021-02-11 20:56:28', '2021-02-11 20:56:28'),
-(299, 2, NULL, '2000', NULL, '2021-02-14 23:21:26', '2021-02-14 23:21:26'),
-(300, 3, NULL, '1000', NULL, '2021-02-14 23:21:50', '2021-02-14 23:21:50'),
-(301, 5, NULL, '500', NULL, '2021-02-14 23:22:19', '2021-02-14 23:22:19'),
-(302, 5, NULL, '500', NULL, '2021-02-14 23:22:28', '2021-02-14 23:22:28'),
-(303, 5, NULL, '30000', NULL, '2021-02-14 23:22:42', '2021-02-14 23:22:42'),
-(304, 4, NULL, '2000', NULL, '2021-02-14 23:23:20', '2021-02-14 23:23:20'),
-(305, 8, NULL, '2900', NULL, '2021-02-14 23:24:30', '2021-02-14 23:24:30'),
-(306, 15, NULL, '500', NULL, '2021-02-14 23:25:08', '2021-02-14 23:25:08'),
-(307, 14, NULL, '400', NULL, '2021-02-14 23:25:44', '2021-02-14 23:25:44'),
-(308, 7, NULL, '1500', NULL, '2021-02-14 23:26:23', '2021-02-14 23:26:23'),
-(309, 19, NULL, '1500', NULL, '2021-02-14 23:26:52', '2021-02-14 23:26:52'),
-(310, 23, NULL, '1000', NULL, '2021-02-14 23:27:23', '2021-02-14 23:27:23'),
-(311, 6, NULL, '300', NULL, '2021-02-19 03:32:04', '2021-02-19 03:32:04'),
-(312, 24, NULL, '500', NULL, '2021-02-19 03:33:17', '2021-02-19 03:33:17'),
-(313, 8, NULL, '1900', NULL, '2021-02-19 03:34:19', '2021-02-19 03:34:19'),
-(314, 8, NULL, '20000', NULL, '2021-02-19 03:34:33', '2021-02-19 03:34:33'),
-(315, 2, NULL, '3000', NULL, '2021-02-26 14:33:43', '2021-02-26 14:33:43'),
-(316, 4, NULL, '2000', NULL, '2021-02-26 14:34:14', '2021-02-26 14:34:14'),
-(317, 6, NULL, '300', NULL, '2021-02-26 14:35:24', '2021-02-26 14:35:24'),
-(318, 8, NULL, '3500', NULL, '2021-02-26 14:36:00', '2021-02-26 14:36:00'),
-(319, 14, NULL, '500', NULL, '2021-02-26 14:37:08', '2021-02-26 14:37:08'),
-(320, 19, NULL, '5000', NULL, '2021-02-26 14:37:38', '2021-02-26 14:37:38'),
-(321, 5, NULL, '500', NULL, '2021-02-28 13:24:02', '2021-02-28 13:24:02'),
-(322, 15, NULL, '1000', NULL, '2021-02-28 13:24:43', '2021-02-28 13:24:43'),
-(323, 3, NULL, '500', NULL, '2021-03-03 13:16:20', '2021-03-03 13:16:20'),
-(324, 23, NULL, '2500', NULL, '2021-03-04 02:44:21', '2021-03-04 02:44:21'),
-(325, 1, NULL, '75465', NULL, '2021-03-05 16:37:19', '2021-03-05 16:37:19'),
-(326, 2, NULL, '5000', NULL, '2021-03-06 01:00:43', '2021-03-06 01:00:43'),
-(327, 3, NULL, '500', NULL, '2021-03-06 01:01:12', '2021-03-06 01:01:12'),
-(328, 4, NULL, '3000', NULL, '2021-03-06 01:01:34', '2021-03-06 01:01:34'),
-(329, 6, NULL, '300', NULL, '2021-03-06 01:02:07', '2021-03-06 01:02:07'),
-(330, 12, NULL, '1660', NULL, '2021-03-06 01:02:42', '2021-03-06 01:02:42'),
-(331, 7, NULL, '2000', NULL, '2021-03-06 14:52:26', '2021-03-06 14:52:26'),
-(332, 3, NULL, '500', NULL, '2021-03-11 23:01:12', '2021-03-11 23:01:12'),
-(333, 4, NULL, '3000', NULL, '2021-03-11 23:01:31', '2021-03-11 23:01:31'),
-(334, 5, NULL, '500', NULL, '2021-03-11 23:02:00', '2021-03-11 23:02:00'),
-(335, 6, NULL, '300', NULL, '2021-03-11 23:02:26', '2021-03-11 23:02:26'),
-(336, 23, NULL, '2000', NULL, '2021-03-13 13:52:41', '2021-03-13 13:52:41'),
-(337, 2, NULL, '3000', NULL, '2021-03-13 13:53:33', '2021-03-13 13:53:33'),
-(338, 8, NULL, '3000', NULL, '2021-03-13 13:54:02', '2021-03-13 13:54:02'),
-(339, 9, NULL, '350', NULL, '2021-03-13 13:54:49', '2021-03-13 13:54:49'),
-(340, 20, NULL, '830', NULL, '2021-03-13 13:55:34', '2021-03-13 13:55:34'),
-(341, 7, NULL, '1500', NULL, '2021-03-18 05:19:59', '2021-03-18 05:19:59'),
-(342, 2, NULL, '2500', NULL, '2021-03-20 03:27:11', '2021-03-20 03:27:11'),
-(343, 4, NULL, '2500', NULL, '2021-03-20 03:27:41', '2021-03-20 03:27:41'),
-(344, 5, NULL, '1000', NULL, '2021-03-20 03:28:18', '2021-03-20 03:28:18'),
-(345, 6, NULL, '400', NULL, '2021-03-20 03:29:50', '2021-03-20 03:29:50'),
-(346, 10, NULL, '10000', NULL, '2021-03-20 03:30:29', '2021-03-20 03:30:29'),
-(347, 10, NULL, '10000', NULL, '2021-03-20 03:31:04', '2021-03-20 03:31:04'),
-(348, 14, NULL, '500', NULL, '2021-03-20 03:31:51', '2021-03-20 03:31:51'),
-(349, 19, NULL, '6000', NULL, '2021-03-20 03:33:17', '2021-03-20 03:33:17'),
-(350, 23, NULL, '2000', NULL, '2021-03-20 03:36:51', '2021-03-20 03:36:51'),
-(351, 23, NULL, '160', NULL, '2021-03-20 03:37:07', '2021-03-20 03:37:07'),
-(352, 15, NULL, '1000', NULL, '2021-03-29 14:52:47', '2021-03-29 14:52:47'),
-(353, 2, NULL, '1500', NULL, '2021-03-29 14:53:18', '2021-03-29 14:53:18'),
-(354, 3, NULL, '1000', NULL, '2021-03-29 14:53:43', '2021-03-29 14:53:43'),
-(355, 7, NULL, '1500', NULL, '2021-03-29 14:54:21', '2021-03-29 14:54:21'),
-(356, 6, NULL, '500', NULL, '2021-03-29 14:55:00', '2021-03-29 14:55:00'),
-(357, 4, NULL, '1500', NULL, '2021-03-29 14:55:43', '2021-03-29 14:55:43'),
-(358, 5, NULL, '1000', NULL, '2021-03-29 14:56:00', '2021-03-29 14:56:00'),
-(359, 9, NULL, '500', NULL, '2021-03-29 14:56:43', '2021-03-29 14:56:43'),
-(360, 19, NULL, '2000', NULL, '2021-03-29 14:59:07', '2021-03-29 14:59:07'),
-(361, 2, NULL, '5000', NULL, '2021-04-13 04:59:30', '2021-04-13 04:59:30'),
-(362, 3, NULL, '500', NULL, '2021-04-14 10:04:00', '2021-04-14 10:04:00'),
-(363, 6, NULL, '1000', NULL, '2021-04-14 10:07:32', '2021-04-14 10:07:32'),
-(364, 14, NULL, '1000', NULL, '2021-04-14 10:11:29', '2021-04-14 10:11:29'),
-(365, 3, NULL, '500', NULL, '2021-04-14 22:51:19', '2021-04-14 22:51:19'),
-(366, 6, NULL, '1500', NULL, '2021-04-18 04:13:58', '2021-04-18 04:13:58'),
-(367, 4, NULL, '6000', NULL, '2021-04-18 04:14:42', '2021-04-18 04:14:42'),
-(368, 2, NULL, '3000', NULL, '2021-04-18 04:15:10', '2021-04-18 04:15:10'),
-(369, 3, NULL, '500', NULL, '2021-04-18 04:16:04', '2021-04-18 04:16:04'),
-(370, 19, NULL, '1500', NULL, '2021-04-18 04:16:46', '2021-04-18 04:16:46'),
-(371, 3, NULL, '500', NULL, '2021-04-22 19:06:54', '2021-04-22 19:06:54'),
-(372, 7, NULL, '1500', NULL, '2021-04-23 22:11:42', '2021-04-23 22:11:42'),
-(373, 3, NULL, '500', NULL, '2021-05-01 18:32:40', '2021-05-01 18:32:40'),
-(374, 3, NULL, '500', NULL, '2021-05-07 02:16:49', '2021-05-07 02:16:49'),
-(375, 6, NULL, '1000', NULL, '2021-05-07 02:21:21', '2021-05-07 02:21:21'),
-(376, 6, NULL, '1000', NULL, '2021-05-07 02:21:21', '2021-05-07 02:21:21'),
-(377, 4, NULL, '4000', NULL, '2021-05-07 02:22:13', '2021-05-07 02:22:13'),
-(378, 19, NULL, '2000', NULL, '2021-05-07 02:23:25', '2021-05-07 02:23:25'),
-(379, 19, NULL, '2000', NULL, '2021-05-07 02:23:50', '2021-05-07 02:23:50'),
-(380, 19, NULL, '2000', NULL, '2021-05-07 02:24:38', '2021-05-07 02:24:38'),
-(381, 20, NULL, '1000', NULL, '2021-05-07 02:26:15', '2021-05-07 02:26:15'),
-(382, 1, NULL, '50000', NULL, '2021-06-05 15:07:07', '2021-06-05 15:07:07'),
-(383, 1, NULL, '7000', NULL, '2021-06-05 15:07:22', '2021-06-05 15:07:22'),
-(384, 2, NULL, '5000', NULL, '2021-06-05 15:08:09', '2021-06-05 15:08:09'),
-(385, 2, NULL, '2000', NULL, '2021-06-05 15:08:22', '2021-06-05 15:08:22'),
-(386, 4, NULL, '10000', NULL, '2021-06-05 15:08:57', '2021-06-05 15:08:57'),
-(387, 4, NULL, '5000', NULL, '2021-06-05 15:09:10', '2021-06-05 15:09:10'),
-(388, 7, NULL, '5000', NULL, '2021-06-05 15:10:47', '2021-06-05 15:10:47'),
-(389, 7, NULL, '1500', NULL, '2021-06-05 15:11:02', '2021-06-05 15:11:02'),
-(390, 20, NULL, '2000', NULL, '2021-06-05 15:11:55', '2021-06-05 15:11:55'),
-(391, 20, NULL, '1000', NULL, '2021-06-05 15:12:03', '2021-06-05 15:12:03'),
-(392, 20, NULL, '500', NULL, '2021-06-05 15:12:15', '2021-06-05 15:12:15'),
-(393, 20, NULL, '500', NULL, '2021-06-05 15:12:34', '2021-06-05 15:12:34'),
-(394, 15, NULL, '1000', NULL, '2021-06-05 15:13:31', '2021-06-05 15:13:31'),
-(395, 19, NULL, '3000', NULL, '2021-06-05 15:14:49', '2021-06-05 15:14:49'),
-(396, 19, NULL, '2000', NULL, '2021-06-05 15:15:24', '2021-06-05 15:15:24'),
-(397, 19, NULL, '1500', NULL, '2021-06-05 15:15:48', '2021-06-05 15:15:48'),
-(398, 10, NULL, '5000', NULL, '2021-06-05 15:16:52', '2021-06-05 15:16:52'),
-(399, 10, NULL, '2000', NULL, '2021-06-05 15:17:03', '2021-06-05 15:17:03'),
-(400, 10, NULL, '6000', NULL, '2021-06-05 15:17:31', '2021-06-05 15:17:31'),
-(401, 33, NULL, '5000', NULL, '2021-06-05 15:18:11', '2021-06-05 15:18:11'),
-(402, 25, NULL, '5000', NULL, '2021-06-05 15:19:23', '2021-06-05 15:19:23'),
-(403, 25, NULL, '3500', NULL, '2021-06-05 15:19:39', '2021-06-05 15:19:39'),
-(404, 25, NULL, '3000', NULL, '2021-06-05 15:19:48', '2021-06-05 15:19:48'),
-(405, 14, NULL, '500', NULL, '2021-06-05 15:21:10', '2021-06-05 15:21:10'),
-(406, 14, NULL, '1000', NULL, '2021-06-05 15:22:05', '2021-06-05 15:22:05'),
-(407, 32, NULL, '2000', NULL, '2021-06-05 15:22:52', '2021-06-05 15:22:52'),
-(408, 32, NULL, '2000', NULL, '2021-06-05 15:23:04', '2021-06-05 15:23:04'),
-(409, 24, NULL, '500', NULL, '2021-06-05 15:24:35', '2021-06-05 15:24:35'),
-(410, 24, NULL, '1000', NULL, '2021-06-05 15:24:43', '2021-06-05 15:24:43'),
-(411, 6, NULL, '400', NULL, '2021-06-05 15:27:03', '2021-06-05 15:27:03'),
-(412, 31, NULL, '15000', NULL, '2021-06-05 15:27:53', '2021-06-05 15:27:53'),
-(413, 31, NULL, '1000', NULL, '2021-06-05 15:28:03', '2021-06-05 15:28:03'),
-(414, 31, NULL, '9000', NULL, '2021-06-05 15:28:15', '2021-06-05 15:28:15'),
-(415, 31, NULL, '10000', NULL, '2021-06-05 15:28:26', '2021-06-05 15:28:26'),
-(416, 28, NULL, '1000', NULL, '2021-06-05 15:29:43', '2021-06-05 15:29:43'),
-(417, 28, NULL, '1000', NULL, '2021-06-05 15:29:55', '2021-06-05 15:29:55'),
-(418, 28, NULL, '1000', NULL, '2021-06-05 15:30:03', '2021-06-05 15:30:03');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `postponed_order_clothes`
+-- Table structure for table `password_resets`
 --
 
-CREATE TABLE `postponed_order_clothes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `merchant_id` int(11) DEFAULT NULL,
-  `posponed_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  KEY `password_resets_email_index` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `postponed_suppliers`
+-- Table structure for table `products`
 --
 
-CREATE TABLE `postponed_suppliers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `supplier_id` int(11) DEFAULT NULL,
-  `posponed_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `postponed_suppliers`
---
-
-INSERT INTO `postponed_suppliers` (`id`, `supplier_id`, `posponed_value`, `created_at`, `updated_at`) VALUES
-(9, 1, '3857.28', '2020-09-07 15:08:16', '2020-09-07 15:08:16'),
-(10, 1, '7578.15', '2020-09-07 15:24:06', '2020-09-07 15:24:06'),
-(11, 1, '12584', '2020-09-11 12:59:43', '2020-09-11 12:59:43');
-
--- --------------------------------------------------------
-
---
--- بنية الجدول `products`
---
-
-CREATE TABLE `products` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name_product` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cloth_styles_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parcode` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name_product` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cloth_styles_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `count_piecies` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price_piecies` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `additional_taxs` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `full_price` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `products`
---
-
-INSERT INTO `products` (`id`, `name_product`, `cloth_styles_id`, `category_id`, `count_piecies`, `price_piecies`, `additional_taxs`, `full_price`, `created_at`, `updated_at`) VALUES
-(1, 'بواقي اطفال', NULL, 1, '46', '25', '0', '3650', '2020-09-04 19:04:23', '2020-10-17 04:47:55'),
-(2, 'ساده فلافيل', NULL, 2, '178', '88', '0', '49896', '2020-09-04 19:06:09', '2021-05-17 16:10:35'),
-(3, 'ساده خاص', NULL, 3, '16', '95', '0', '5130', '2020-09-04 19:07:30', '2020-11-01 04:44:26'),
-(4, 'كاروه خاص', NULL, 4, '27', '82', '0', '10824', '2020-09-04 19:09:10', '2020-12-01 13:36:34'),
-(5, 'كاروه مغسول مبرد', NULL, 5, '5', '83', '0', '6889', '2020-09-04 19:10:34', '2020-10-12 15:20:55'),
-(6, 'كتان بجبين', NULL, 6, '28', '90', '0', '4230', '2020-09-04 19:11:22', '2020-10-12 15:49:20'),
-(7, 'هواي جبردين مثلث', NULL, 7, '6', '87', '0', '10266', '2020-09-04 19:12:14', '2021-05-16 20:20:17'),
-(8, 'هواي مشكل', NULL, 9, '24', '85', '0', '25330', '2020-09-04 19:13:48', '2021-05-16 21:07:14'),
-(9, 'كتان ساده', NULL, 8, '207', '85', '0', '23035', '2020-09-04 19:14:35', '2020-10-18 19:40:30'),
-(10, 'ليكرا ساده', NULL, 11, '41', '80', '0', '4960', '2020-09-04 19:15:20', '2020-11-06 04:36:39'),
-(11, 'اكس فورد', NULL, 10, '10', '95', '0', '5605', '2020-09-04 19:16:00', '2020-11-06 04:38:07'),
-(12, 'اطفال محير', NULL, 12, '103', '55', '0', '8195', '2020-09-04 19:18:31', '2021-05-16 21:13:55'),
-(13, '52', NULL, 13, '52', '55', '0', '2860', '2020-09-04 19:19:13', '2020-09-04 19:19:13'),
-(14, 'مكسر قميص رجالي', NULL, 14, '102', '70', '0', '7350', '2020-09-04 19:19:53', '2020-10-17 04:50:43'),
-(15, 'مكسر اطفال', NULL, 15, '19', '50', '0', '950', '2020-09-04 19:20:48', '2020-09-04 19:20:48'),
-(16, 'بواقي اطفال فايز', NULL, 16, '87', '35', '0', '4445', '2020-09-06 22:17:19', '2020-10-17 04:46:23'),
-(17, 'كاروه مجهز', '1', 17, '0', '70.80', '24.20', '49400.00', '2020-09-07 14:44:38', '2020-09-07 14:46:26'),
-(18, 'كاروه مغسول خاص', '2', 19, '0', '57.76', '26.24', '12348.00', '2020-09-07 15:08:16', '2020-09-07 15:11:53'),
-(19, 'كاروه شبابي مبرد', '3', 20, '0', '46.41', '26.59', '20805.00', '2020-09-07 15:24:06', '2020-09-07 15:26:15'),
-(22, 'ملتون شبابي', NULL, 24, '29', '103.5', '0', '136620', '2020-10-26 03:56:57', '2020-11-07 04:15:44'),
-(23, 'بواقي شتوي', NULL, 25, '0', '30', '0', '30', '2020-10-26 18:42:14', '2020-10-26 18:48:47'),
-(25, 'دربي', NULL, 27, '0', '5', '0', '335', '2020-11-06 04:44:58', '2020-11-06 04:46:20'),
-(26, 'دربي2', NULL, 28, '0', '17', '0', '867', '2020-11-06 04:53:16', '2020-11-06 04:55:44'),
-(27, 'ترنج اطفال شتوي', NULL, 30, '0', '115', '0', '6900', '2020-11-07 04:19:25', '2020-11-07 04:20:10'),
-(28, 'دفايه رجالي', NULL, 31, '0', '170', '0', '5440', '2020-11-23 02:57:39', '2020-11-23 03:07:12'),
-(29, 'بجامه', NULL, 32, '0', '115', '0', '10695', '2020-11-23 03:08:45', '2020-11-23 03:12:45'),
-(30, 'بجامه2', NULL, 33, '0', '110', '0', '3630', '2020-11-23 03:14:18', '2020-11-23 03:15:07'),
-(34, 'كشمير اطفال', NULL, 37, '59', '78.50', '0', '34383', '2021-01-08 23:49:32', '2021-01-10 19:12:03'),
-(33, 'كشمير شبابي', NULL, 36, '24', '115', '0', '85100', '2021-01-08 21:53:57', '2021-01-08 23:11:37'),
-(35, 'بنطلون', NULL, 38, '23', '34.75', '0', '53202.25', '2021-03-05 16:25:20', '2021-03-06 14:58:07'),
-(36, 'تشيرت بيكا', NULL, 40, '147', '46', '0', '111090', '2021-05-01 19:31:29', '2021-05-01 20:43:50'),
-(37, 'ساده محير 315', NULL, 41, '0', '57', '0', '17955', '2021-05-01 21:09:18', '2021-05-01 23:24:10'),
-(38, 'كاروه الدهش', NULL, 42, '0', '47', '0', '41360', '2021-05-02 18:03:23', '2021-05-02 19:08:51'),
-(39, 'ساده محير 615', NULL, 43, '10', '57', '0', '35055', '2021-05-02 19:22:32', '2021-05-02 21:10:09'),
-(40, 'ليكرا', NULL, 44, '686', '102.5', '0', '70315', '2021-05-02 21:24:04', '2021-05-02 21:24:04'),
-(41, 'مبرد', NULL, 45, '11', '86', '0', '104490', '2021-05-02 21:29:53', '2021-05-02 22:21:49'),
-(42, 'كاروه ليكرا 1104', NULL, 46, '77', '72', '0', '79488', '2021-05-02 22:38:38', '2021-05-03 19:37:56'),
-(43, 'مغسول 1400', NULL, 47, '0', '77.5', '0', '108500', '2021-05-03 18:17:23', '2021-05-03 19:31:50'),
-(44, 'منجلين', NULL, 48, '3', '101', '0', '86456', '2021-05-03 19:51:34', '2021-05-03 20:02:03'),
-(45, 'ليكرا\\مبرد 686', NULL, 44, '13', '102.5', '0', '70315', '2021-05-04 21:39:01', '2021-05-04 21:59:14'),
-(46, 'اكس فورد962', NULL, 50, '50', '90', '0', '86580', '2021-05-04 22:04:10', '2021-05-15 16:50:48'),
-(47, 'جبردين بجيبين 390', NULL, 51, '100', '94', '0', '36660', '2021-05-04 23:02:28', '2021-05-15 16:45:37'),
-(49, 'هواي منقط 397', NULL, 52, '14', '84', '0', '33348', '2021-05-14 22:10:55', '2021-05-14 22:52:57'),
-(50, 'نص كم 484', NULL, 53, '5', '64', '0', '30976', '2021-05-14 23:18:49', '2021-05-15 06:32:34'),
-(51, 'هواي كم 396', NULL, 54, '4', '78', '0', '30888', '2021-05-15 06:45:21', '2021-05-15 07:24:47'),
-(52, 'اكس فورد310', NULL, 55, '0', '85', '0', '26350', '2021-05-15 07:44:01', '2021-05-15 16:49:29'),
-(53, 'هواي مستورد 770', NULL, 56, '22', '90', '0', '69300', '2021-05-15 16:54:49', '2021-05-15 17:59:13'),
-(54, 'جبردين مخطط212', NULL, 57, '1', '96', '0', '20352', '2021-05-15 17:42:19', '2021-05-15 18:38:28'),
-(55, 'جبردين بجيب 485', NULL, 58, '3', '91', '0', '44135', '2021-05-15 18:48:39', '2021-05-15 20:58:02'),
-(56, 'ساده ليكرا مصري 720', NULL, 59, '20', '78', '0', '56160', '2021-05-15 20:28:13', '2021-05-15 23:47:57'),
-(57, 'مبرد482', NULL, 60, '197', '98', '0', '47236', '2021-05-15 23:10:58', '2021-05-17 16:02:45'),
-(58, 'هواي محير 295', NULL, 61, '0', '60.5', '0', '17847.5', '2021-05-16 03:05:21', '2021-05-16 03:52:52'),
-(59, 'ساده 395', NULL, 62, '36', '60', '0', '23700', '2021-05-16 04:07:22', '2021-05-16 05:29:03'),
-(60, 'بيبي887', NULL, 63, '0', '45', '0', '39915', '2021-05-16 05:38:38', '2021-05-16 06:17:52'),
-(61, 'بيبي 1400', NULL, 64, '0', '45', '0', '43740', '2021-05-16 06:21:30', '2021-05-16 07:03:52'),
-(62, 'كاروه 480', NULL, 65, '0', '58', '0', '27840', '2021-05-16 15:15:51', '2021-05-16 15:55:21'),
-(63, 'مبرد 296', NULL, 66, '72', '86', '0', '25456', '2021-05-16 16:05:20', '2021-05-16 16:26:34'),
-(64, 'مقلم 480', NULL, 67, '280', '100', '0', '48000', '2021-05-16 16:55:00', '2021-05-16 16:57:11'),
-(65, 'هواي 544', NULL, 68, '372', '78', '0', '42432', '2021-05-16 17:17:01', '2021-05-16 17:22:57'),
-(66, 'هواي جبردين', NULL, 69, '439', '92', '0', '40388', '2021-05-16 17:33:02', '2021-05-16 17:33:02'),
-(67, 'هواي جبردين439', NULL, 69, '379', '92', '0', '40388', '2021-05-16 17:36:15', '2021-05-16 17:38:44'),
-(68, 'ساده مستورد 783', NULL, 70, '535', '90', '0', '70470', '2021-05-17 15:41:18', '2021-05-17 16:12:13'),
-(69, 'بنطلون2', NULL, 71, '3', '41', '0', '17630', '2021-05-17 17:14:39', '2021-05-17 17:30:59');
-
--- --------------------------------------------------------
-
---
--- بنية الجدول `reactionists`
---
-
-CREATE TABLE `reactionists` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `reactionist_price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'نقدى',
-  `order_count` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `count_piecies` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price_piecies` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `additional_taxs` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `full_price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `final_cost` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  PRIMARY KEY (`id`),
+  KEY `products_cloth_styles_id_foreign` (`cloth_styles_id`),
+  KEY `products_category_id_foreign` (`category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `reactionists`
---
-
-INSERT INTO `reactionists` (`id`, `client_id`, `product_id`, `order_id`, `reactionist_price`, `payment_type`, `order_count`, `created_at`, `updated_at`, `final_cost`) VALUES
-(1, 21, 6, 93, '93', 'دفعات', '1', '2020-10-12 15:49:20', '2020-10-12 15:49:20', '93'),
-(3, 24, 28, 172, '180', 'دفعات', '16', '2020-11-23 03:01:15', '2020-11-23 03:01:15', '2880'),
-(4, 7, 54, 482, '115', 'دفعات', '4', '2021-05-15 18:37:20', '2021-05-15 18:37:20', '460');
 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `suppliers`
+-- Table structure for table `profits`
 --
 
-CREATE TABLE `suppliers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `profits`;
+CREATE TABLE IF NOT EXISTS `profits` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `partner_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `profits_partner_id_foreign` (`partner_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reactionists`
+--
+
+DROP TABLE IF EXISTS `reactionists`;
+CREATE TABLE IF NOT EXISTS `reactionists` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `one_item_price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'نقدى',
+  `order_count` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `profit_order` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `final_cost` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `reactionists_order_id_foreign` (`order_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `setting` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `setting`, `value`, `created_at`, `updated_at`) VALUES
+(1, 'Capital', '0', '2021-06-26 07:56:19', '2021-06-26 07:56:19'),
+(2, 'Fiscal_Year', '2021-06-26 09:56:19', '2021-06-26 07:56:19', '2021-06-26 07:56:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppliers`
+--
+
+DROP TABLE IF EXISTS `suppliers`;
+CREATE TABLE IF NOT EXISTS `suppliers` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `supplier_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `supplier_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- إرجاع أو استيراد بيانات الجدول `suppliers`
+-- Dumping data for table `suppliers`
 --
 
 INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `created_at`, `updated_at`) VALUES
@@ -1517,10 +492,28 @@ INSERT INTO `suppliers` (`id`, `supplier_name`, `supplier_phone`, `created_at`, 
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `users`
+-- Table structure for table `supplier_payments`
 --
 
-CREATE TABLE `users` (
+DROP TABLE IF EXISTS `supplier_payments`;
+CREATE TABLE IF NOT EXISTS `supplier_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `supplier_id` int(11) DEFAULT NULL,
+  `value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `supplier_payments_supplier_id_foreign` (`supplier_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
@@ -1528,11 +521,12 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `id` bigint(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- إرجاع أو استيراد بيانات الجدول `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `id`) VALUES
@@ -1541,331 +535,20 @@ INSERT INTO `users` (`name`, `email`, `email_verified_at`, `password`, `remember
 -- --------------------------------------------------------
 
 --
--- بنية الجدول `withdraws`
+-- Table structure for table `withdraws`
 --
 
-CREATE TABLE `withdraws` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `withdraws`;
+CREATE TABLE IF NOT EXISTS `withdraws` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `partner_id` int(11) NOT NULL DEFAULT '0',
-  `withdraw_value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '0 => profits , 1 => Capital',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `profit_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type_withdraw` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  PRIMARY KEY (`id`),
+  KEY `withdraws_partner_id_foreign` (`partner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `withdraws`
---
-
-INSERT INTO `withdraws` (`id`, `partner_id`, `withdraw_value`, `created_at`, `updated_at`, `profit_value`, `type_withdraw`) VALUES
-(8, 27, '50000', '2021-01-10 19:17:13', '2021-01-10 19:17:13', '3433.5416666667', '2'),
-(9, 14, '100000', '2021-03-05 14:14:47', '2021-03-05 14:14:47', '8538.3470695971', '2'),
-(10, 15, '100000', '2021-03-05 14:15:08', '2021-03-05 14:15:08', '8538.3470695971', '2'),
-(11, 16, '180000', '2021-03-05 14:15:23', '2021-03-05 14:15:23', '15369.024725275', '2'),
-(12, 17, '75000', '2021-03-05 14:15:38', '2021-03-05 14:15:38', '6403.7603021978', '2'),
-(13, 18, '50000', '2021-03-05 14:15:50', '2021-03-05 14:15:50', '4269.1735347985', '2'),
-(14, 20, '50000', '2021-03-05 14:16:17', '2021-03-05 14:16:17', '4269.1735347985', '2'),
-(15, 26, '60000', '2021-03-05 14:16:38', '2021-03-05 14:16:38', '2552.5575375328', '2'),
-(16, 23, '135000', '2021-03-05 14:16:55', '2021-03-05 14:16:55', '5743.2544594489', '2'),
-(17, 25, '30000', '2021-03-05 14:17:23', '2021-03-05 14:17:23', '1276.2787687664', '2');
-
--- --------------------------------------------------------
-
---
--- بنية الجدول `withdraw_capitals`
---
-
-CREATE TABLE `withdraw_capitals` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `withdraw_capital` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `withdraw_profit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- إرجاع أو استيراد بيانات الجدول `withdraw_capitals`
---
-
-INSERT INTO `withdraw_capitals` (`id`, `withdraw_capital`, `created_at`, `updated_at`, `withdraw_profit`) VALUES
-(18, '130000', '2021-03-05 14:20:54', '2021-03-05 14:20:54', '20739.04'),
-(19, '130000', '2021-05-14 20:51:46', '2021-05-14 20:51:46', '13903.62');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bank_checks`
---
-ALTER TABLE `bank_checks`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `clients`
---
-ALTER TABLE `clients`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `cloth_styles`
---
-ALTER TABLE `cloth_styles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cloth_styles_order_clothes_id_foreign` (`order_clothes_id`(250)),
-  ADD KEY `cloth_styles_supplier_id_foreign` (`supplier_id`);
-
---
--- Indexes for table `debits`
---
-ALTER TABLE `debits`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `expances`
---
-ALTER TABLE `expances`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `merchants`
---
-ALTER TABLE `merchants`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `orders_client_id_foreign` (`client_id`),
-  ADD KEY `orders_product_id_foreign` (`product_id`);
-
---
--- Indexes for table `order_clothes`
---
-ALTER TABLE `order_clothes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `order_clothes_merchant_id_foreign` (`merchant_id`),
-  ADD KEY `order_clothes_category_id_foreign` (`category_id`);
-
---
--- Indexes for table `partners`
---
-ALTER TABLE `partners`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `postponeds`
---
-ALTER TABLE `postponeds`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `postponeds_order_id_foreign` (`client_id`);
-
---
--- Indexes for table `postponed_order_clothes`
---
-ALTER TABLE `postponed_order_clothes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `postponed_order_clothes_orderclothes_id_foreign` (`merchant_id`);
-
---
--- Indexes for table `postponed_suppliers`
---
-ALTER TABLE `postponed_suppliers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `postponed_suppliers_supplier_id_foreign` (`supplier_id`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `products_cloth_styles_id_foreign` (`cloth_styles_id`(250)),
-  ADD KEY `products_category_id_foreign` (`category_id`);
-
---
--- Indexes for table `reactionists`
---
-ALTER TABLE `reactionists`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `reactionists_client_id_foreign` (`client_id`),
-  ADD KEY `reactionists_product_id_foreign` (`product_id`),
-  ADD KEY `reactionists_order_id_foreign` (`order_id`);
-
---
--- Indexes for table `suppliers`
---
-ALTER TABLE `suppliers`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `withdraws`
---
-ALTER TABLE `withdraws`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `withdraws_partner_id_foreign` (`partner_id`);
-
---
--- Indexes for table `withdraw_capitals`
---
-ALTER TABLE `withdraw_capitals`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bank_checks`
---
-ALTER TABLE `bank_checks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
-
---
--- AUTO_INCREMENT for table `clients`
---
-ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
--- AUTO_INCREMENT for table `cloth_styles`
---
-ALTER TABLE `cloth_styles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `debits`
---
-ALTER TABLE `debits`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
-
---
--- AUTO_INCREMENT for table `expances`
---
-ALTER TABLE `expances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `merchants`
---
-ALTER TABLE `merchants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=619;
-
---
--- AUTO_INCREMENT for table `order_clothes`
---
-ALTER TABLE `order_clothes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `partners`
---
-ALTER TABLE `partners`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
-
---
--- AUTO_INCREMENT for table `postponeds`
---
-ALTER TABLE `postponeds`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=419;
-
---
--- AUTO_INCREMENT for table `postponed_order_clothes`
---
-ALTER TABLE `postponed_order_clothes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `postponed_suppliers`
---
-ALTER TABLE `postponed_suppliers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
-
---
--- AUTO_INCREMENT for table `reactionists`
---
-ALTER TABLE `reactionists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `suppliers`
---
-ALTER TABLE `suppliers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `withdraws`
---
-ALTER TABLE `withdraws`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `withdraw_capitals`
---
-ALTER TABLE `withdraw_capitals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
